@@ -1,64 +1,61 @@
-<!--
-=============================================================================
- exceldiff
-=============================================================================
- Date:       2026-10-16
- Author:     Heinz Ahrens <heinz.ahrens@web.de>
- License:    MIT License
+<!-----------------------------------------------------------------------------
 
- ---------------------------------------------------------------------------
- THIRD-PARTY COMPONENTS
- ---------------------------------------------------------------------------
- 1. read-excel-file (v9.x)
-    - File:    read-excel-file.min.js
-    - License: MIT License (c) 2018 gitlab.com/catamphetamine
-    - URL:     https://gitlab.com/catamphetamine/read-excel-file
+  exceldiff (2026-10-24)
+  - File:    exceldiff.html
+  - License: MIT License (c) 2026 Heinz Ahrens
+  - URLs:    https://github.com/ahrenstk/exceldiff
+  ===========================================================================
 
- 2. PapaParse (v5.4.1)
-    - File:    papaparse.min.js
-    - CDN:     https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js
-    - License: MIT License (c) 2015 Matthew Holt
-    - URL:     https://github.com/mholt/PapaParse
+  THIRD-PARTY COMPONENTS:
+  1. read-excel-file (v9.x)
+     - File:    read-excel-file.min.js
+     - CDN:     https://cdn.jsdelivr.net/npm/read-excel-file@9.x/bundle/read-excel-file.min.js
+     - License: MIT License (c) 2018 gitlab.com/catamphetamine
+     - URL:     https://gitlab.com/catamphetamine/read-excel-file
 
- 3. fflate (v0.8.3)
-    - File:    index.min.js
-    - CDN:     https://cdn.jsdelivr.net/npm/fflate@0.8.3/umd/index.min.js
-    - License: MIT License (c) 2020 Arjun Barrett
-    - URL:     https://github.com/101arrowz/fflate
+  2. PapaParse (v5.4.1)
+     - File:    papaparse.min.js
+     - CDN:     https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js
+     - License: MIT License (c) 2015 Matthew Holt
+     - URL:     https://github.com/mholt/PapaParse
 
+  3. fflate (v0.8.3)
+     - File:    index.min.js
+     - CDN:     https://cdn.jsdelivr.net/npm/fflate@0.8.3/umd/index.min.js
+     - License: MIT License (c) 2020 Arjun Barrett
+     - URL:     https://github.com/101arrowz/fflate
 
- 4. tXml (v6.0.0)
-    - File:    txml.min.js
-    - CDN:     https://cdn.jsdelivr.net/npm/txml@6.0.0/dist/txml.min.js
-    - License: MIT License (c) 2015 Tobias Nickel
-    - URL:     https://github.com/TobiasNickel/tXml
+  4. tXml (v6.0.0)
+     - File:    txml.min.js
+     - CDN:     https://cdn.jsdelivr.net/npm/txml@6.0.0/dist/txml.min.js
+     - License: MIT License (c) 2015 Tobias Nickel
+     - URL:     https://github.com/TobiasNickel/tXml
 
- ---------------------------------------------------------------------------
- LICENSE TERMS FOR exceldiff, read-excel-file, PapaParse, fflate & tXml (MIT)
- ---------------------------------------------------------------------------
- Permission is hereby granted, free of charge, to any person obtaining a copy
- of this software and associated documentation files (the "Software"), to deal
- in the Software without restriction, including without limitation the rights
- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the Software is
- furnished to do so, subject to the following conditions:
+  ===========================================================================
+  MIT LICENSE TERMS
+  ===========================================================================
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
 
- The above copyright notice and this permission notice shall be included in all
- copies or substantial portions of the Software.
+  The above copyright notice and this permission notice shall be included in all
+  copies or substantial portions of the Software.
 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- SOFTWARE.
-=============================================================================
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  SOFTWARE.
+  ===========================================================================
+  
+  // Set configuration in <style> :root and class App static Config //
 
-// Set configuration in <style> :root and class App static Config //
-
--->
-
+------------------------------------------------------------------------------>
 
 <!doctype html>
 <html lang="de">
@@ -83,8 +80,6 @@
 			    --search-highlight-color: #ffd700;
 			    accent-color: var(--color-first-action);
 			}
-			
-
             body {
                 font-family: Arial, sans-serif;
                 margin: 10px 20px 80px 20px;
@@ -134,39 +129,35 @@
                 max-width: 740px;
                 width: 100%;
             }
-
-		.file-drop-zone {
-		    flex: 1;
-		    border: 2px dashed var(--border-color);
-		    border-radius: 6px;
-		    padding: 4px 8px;
-		    text-align: center;
-		    background-color: var(--drop-zone-bg-color);
-		    cursor: pointer;
-		    transition:
-		        background-color 0.15s,
-		        border-color 0.15s;
-		    display: flex;
-		    flex-direction: column;
-		    align-items: center;
-		    justify-content: center;
-		    min-height: 36px;
-		    box-sizing: border-box;
-		}
-		.file-drop-zone:hover,
-		.file-drop-zone.drag-over {
-		    border-color: var(--drop-zone-drag-border-color);
-		    background-color: var(--drop-zone-drag-bg-color);
-		}
-
-		.file-drop-zone.zone-first {
-		    border-color: var(--zone-first-color);
-		}
-		
-		.file-drop-zone.zone-second {
-		    border-color: var(--zone-second-color);
-		}
-
+		    .file-drop-zone {
+		        flex: 1;
+		        border: 2px dashed var(--border-color);
+		        border-radius: 6px;
+		        padding: 4px 8px;
+		        text-align: center;
+		        background-color: var(--drop-zone-bg-color);
+		        cursor: pointer;
+		        transition:
+		            background-color 0.15s,
+		            border-color 0.15s;
+		        display: flex;
+		        flex-direction: column;
+		        align-items: center;
+		        justify-content: center;
+		        min-height: 36px;
+		        box-sizing: border-box;
+		    }
+		    .file-drop-zone:hover,
+        		.file-drop-zone.drag-over {
+		        border-color: var(--drop-zone-drag-border-color);
+		        background-color: var(--drop-zone-drag-bg-color);
+    		}
+	    	.file-drop-zone.zone-first {
+		        border-color: var(--zone-first-color);
+		    }
+		    .file-drop-zone.zone-second {
+		        border-color: var(--zone-second-color);
+		    }
             .drop-instruction {
                 font-size: 11px;
                 color: var(--text-color);
@@ -230,12 +221,10 @@
             .switch-checkbox:checked + .switch-label .switch-button {
                 transform: translateX(80px);
             }
-
             .switch-checkbox:not(:checked) + .switch-label .switch-text-left,
             .switch-checkbox:checked + .switch-label .switch-text-right {
                 color: #fff;
             }
-
             .switch-checkbox:disabled + .switch-label {
                 background-color: #e0e0e0;
                 border-color: var(--border-color);
@@ -287,7 +276,6 @@
             input[type="checkbox"] {
                 cursor: pointer;
             }
-
             .option-item input[type="checkbox"] {
                 margin: 0;
                 cursor: pointer;
@@ -342,15 +330,12 @@
                 background-color: #f2f2f2;
                 text-align: center;
             }
-
-
             th > div {
                 position: relative;
                 display: inline-block; 
                 padding-right: 20px,
                 box-sizing: border-box;
             }
-
             .col-move-btn {
                 font-weight: bold;
                 font-size: 16px;
@@ -359,7 +344,6 @@
                 line-height: 1;
                 user-select: none;
             }
-
             #reset-col-order-btn {
                 background: none;
                 border: none;
@@ -369,11 +353,9 @@
                 color: #999;
                 cursor: pointer;
             }
-
             .col-move-btn.disabled {
                 visibility: hidden;
             }
-
             .sort-trigger {
                 display: inline-flex;
                 align-items: center;
@@ -382,7 +364,6 @@
             .sort-icon {
                 line-height: 1;
             }
-
             .column-hidden {
                 opacity: 0.6;
             }
@@ -393,9 +374,6 @@
                 gap: 8px;
                 position: relative;
             }
-
-
-
             .custom-table th {
                 cursor: pointer;
             }
@@ -419,18 +397,15 @@
                 outline: none;
                 border-color: #0066cc;
             }
-
             .filter-active {
                 border: 2px solid var(--color-first-action) !important;
                 border-radius: 4px !important;
             }
-
             tr.table-filter-row select.table-filter-dropdown:focus {
                 outline: none;
                 border-color: var(--color-first-action);
                 box-shadow: 0 0 5px rgba(0, 86, 179, 0.4);
             }
-
             tr.table-filter-row select.table-filter-dropdown option:checked:not([value="select-all"]) {
                 background: var(--color-first-action) !important;
                 background-color: var(--color-first-action) !important;
@@ -439,7 +414,6 @@
                 color: #ffffff !important;
                 -webkit-text-fill-color: #ffffff !important;
             }
-
             tr.table-filter-row select.table-filter-dropdown option[value="select-all"] {
                 background: #ffffff !important;
                 background-color: #ffffff !important;
@@ -448,7 +422,6 @@
                 color: #222222 !important;
                 -webkit-text-fill-color: #222222 !important;
             }
-
             tr.table-filter-row select.table-filter-dropdown option[value="select-all"]:active {
                 background: var(--color-first-action) !important;
                 background-color: var(--color-first-action) !important;
@@ -471,7 +444,6 @@
                     border-color 0.2s,
                     box-shadow 0.2s;
             }
-
             .search-input:focus {
                 outline: none;
                 border-color: var(--color-first-action);
@@ -552,149 +524,138 @@
             }
         </style>
     </head>
-
-    <body>
-        <div class="main-container">
-            <h1>exceldiff - <span id="title_long"></span></h1>
-            <p class="disclaimer">
-                <em id="disclaimer"></em>
-            </p>
-
-            <div class="file-upload-group">
-                <div id="drop-zone-1" class="file-drop-zone zone-first">
-                    <input type="file" id="file1" accept=".xlsx, .ods, .csv, .txt" style="display: none" />
-                    <p class="drop-instruction">
-                        <strong><span id="file1_label"></span></strong>
-                        <br />
-                    </p>
-                    <span id="file1-name" class="file-name"></span>
-                </div>
-
-                <div id="drop-zone-2" class="file-drop-zone zone-second">
-                    <input type="file" id="file2" accept=".xlsx, .ods, .csv, .txt" style="display: none" />
-                    <p class="drop-instruction">
-                        <strong><span id="file2_label"></span></strong>
-                        <br />
-                    </p>
-                    <span id="file2-name" class="file-name"></span>
-                </div>
-
-                <div class="switch-container">
-                    <input type="checkbox" id="encoding-toggle" class="switch-checkbox" />
-                    <label for="encoding-toggle" class="switch-label">
-                        <span class="switch-text switch-text-left">UTF-8</span>
-                        <span class="switch-button"></span>
-                        <span class="switch-text switch-text-right">ANSI</span>
-                    </label>
-                </div>
-                <input type="hidden" id="encoding" value="UTF-8" />
-            </div>
-
-            <div class="options-wrapper">
-                <div
-                    id="key-column-container"
-                    class="checkbox-container hidden"
-                    style="display: flex; flex-direction: column; gap: 8px"
-                >
-                    <div id="key-section" style="display: inline-flex; align-items: flex-start; gap: 10px; width: 100%">
-                        <h3 id="key_columns_label" style="margin: 0; white-space: nowrap; line-height: 1.4"></h3>
-                        <div id="checkboxes"></div>
-                    </div>
-
-                    <div
-                        id="file1-checkbox-section"
-                        class="hidden"
-                        style="display: inline-flex; align-items: flex-start; gap: 10px; width: 100%"
-                    >
-                        <strong id="file1_column" style="white-space: nowrap; line-height: 1.4"></strong>
-                        <div id="checkboxes-file1"></div>
-                    </div>
-
-                    <div
-                        id="file2-checkbox-section"
-                        class="hidden"
-                        style="display: inline-flex; align-items: flex-start; gap: 10px; width: 100%"
-                    >
-                        <strong id="file2_column" style="white-space: nowrap; line-height: 1.4"></strong>
-                        <div id="checkboxes-file2"></div>
-                    </div>
-                </div>
-
-                <div
-                    id="output-options-container"
-                    class="output-options hidden"
-                    style="display: inline-flex; align-items: flex-start; gap: 10px; width: 100%"
-                >
-                    <strong id="options_label" style="white-space: nowrap; line-height: 1.4"></strong>
-                    <div style="display: flex; flex-wrap: wrap; gap: 8px 12px">
-                        <div id="as-table-container" class="hidden">
-                            <input type="checkbox" id="as-table" checked />
-                            <label for="as-table" id="show_as_table"></label>
-                        </div>
-
-                        <div>
-                            <input type="checkbox" id="activate-filter" checked />
-                            <label for="activate-filter" id="activate_filter"></label>
-                        </div>
-
-                        <div id="only-differences-container">
-                            <input type="checkbox" id="only-differences" />
-                            <label for="only-differences" id="show_differences_only"></label>
-                        </div>
-
-                        <div id="hide-identical-columns-container">
-                            <input type="checkbox" id="hide-identical-columns" disabled />
-                            <label for="hide-identical-columns" id="hide_identical_columns"></label>
-                        </div>
-
-                        <div id="replace-delimiter-container" class="hidden">
-                            <input type="checkbox" id="replace-delimiter-with-space" />
-                            <label for="replace-delimiter-with-space" id="replace_delimiter_with_space"></label>
-                        </div>
-
-                        <div>
-                            <input type="checkbox" id="include-empty-lines" />
-                            <label for="include-empty-lines" id="add_blank_lines"></label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="button-container">
-                    <button id="compare_files" class="button-green" data-action="compare"></button>
-                    <button id="save_as_html" class="button-blue" data-action="export-html"></button>
-                    <button id="save_as_csv" class="button-blue" data-action="export-csv"></button>
-                    <button id="show_file1" class="button-green" data-action="show-file1"></button>
-                    <button id="show_file2" class="button-green" data-action="show-file2"></button>
-                    <button id="consolidate_duplicates" class="button-green" data-action="remove-duplicates"></button>
-                    <button id="reset" class="button-blue" data-action="reset"></button>
-                </div>
-
-                <br />
-                <div id="warnings" style="margin-bottom: 20px"></div>
-
-                <div class="search-status-wrapper">
-                    <div id="search-container" class="hidden" style="margin-bottom: 5px">
-                        <div class="search-wrapper">
-                            <input type="text" id="search_placeholder" class="search-input" placeholder="" />
-                            <span id="search_clear" class="search-clear-btn">&times;</span>
-                        </div>
-                    </div>
-                    <div id="status"></div>
-                     <button id="reset-col-order-btn" class="hidden">← →</button>
-
-                </div>
-                </div>
-
-
-
-                <div class="output">
-                    <div id="output"></div>
-                </div>
-
-
-
-            </div>
-        </div>
+    
+	<body>
+	    <div class="main-container">
+	        <h1>exceldiff - <span id="title_long"></span></h1>
+	        <p class="disclaimer">
+	            <em id="disclaimer"></em>
+	        </p>
+	
+	        <div class="file-upload-group">
+	            <div id="drop-zone-1" class="file-drop-zone zone-first">
+	                <input type="file" id="file1" accept=".xlsx, .ods, .csv, .txt" style="display: none" />
+	                <p class="drop-instruction">
+	                    <strong><span id="file1_label"></span></strong>
+	                    <br />
+	                </p>
+	                <span id="file1-name" class="file-name"></span>
+	            </div>
+	
+	            <div id="drop-zone-2" class="file-drop-zone zone-second">
+	                <input type="file" id="file2" accept=".xlsx, .ods, .csv, .txt" style="display: none" />
+	                <p class="drop-instruction">
+	                    <strong><span id="file2_label"></span></strong>
+	                    <br />
+	                </p>
+	                <span id="file2-name" class="file-name"></span>
+	            </div>
+	
+	            <div class="switch-container">
+	                <input type="checkbox" id="encoding-toggle" class="switch-checkbox" />
+	                <label for="encoding-toggle" class="switch-label">
+	                    <span class="switch-text switch-text-left">UTF-8</span>
+	                    <span class="switch-button"></span>
+	                    <span class="switch-text switch-text-right">ANSI</span>
+	                </label>
+	            </div>
+	            <input type="hidden" id="encoding" value="UTF-8" />
+	        </div>
+	
+	        <div class="options-wrapper">
+	            <div
+	                id="key-column-container"
+	                class="checkbox-container hidden"
+	                style="display: flex; flex-direction: column; gap: 8px">
+	                <div id="key-section" style="display: inline-flex; align-items: flex-start; gap: 10px; width: 100%">
+	                    <h3 id="key_columns_label" style="margin: 0; white-space: nowrap; line-height: 1.4"></h3>
+	                    <div id="checkboxes"></div>
+	                </div>
+	
+	                <div
+	                    id="file1-checkbox-section"
+	                    class="hidden"
+	                    style="display: inline-flex; align-items: flex-start; gap: 10px; width: 100%">
+	                    <strong id="file1_column" style="white-space: nowrap; line-height: 1.4"></strong>
+	                    <div id="checkboxes-file1"></div>
+	                </div>
+	
+	                <div
+	                    id="file2-checkbox-section"
+	                    class="hidden"
+	                    style="display: inline-flex; align-items: flex-start; gap: 10px; width: 100%">
+	                    <strong id="file2_column" style="white-space: nowrap; line-height: 1.4"></strong>
+	                    <div id="checkboxes-file2"></div>
+	                </div>
+	            </div>
+	
+	            <div
+	                id="output-options-container"
+	                class="output-options hidden"
+	                style="display: inline-flex; align-items: flex-start; gap: 10px; width: 100%">
+	                <strong id="options_label" style="white-space: nowrap; line-height: 1.4"></strong>
+	                <div style="display: flex; flex-wrap: wrap; gap: 8px 12px">
+	                    <div id="as-table-container" class="hidden">
+	                        <input type="checkbox" id="as-table" checked />
+	                        <label for="as-table" id="show_as_table"></label>
+	                    </div>
+	
+	                    <div>
+	                        <input type="checkbox" id="activate-filter" checked />
+	                        <label for="activate-filter" id="activate_filter"></label>
+	                    </div>
+	
+	                    <div id="only-differences-container">
+	                        <input type="checkbox" id="only-differences" />
+	                        <label for="only-differences" id="show_differences_only"></label>
+	                    </div>
+	
+	                    <div id="hide-identical-columns-container">
+	                        <input type="checkbox" id="hide-identical-columns" disabled />
+	                        <label for="hide-identical-columns" id="hide_identical_columns"></label>
+	                    </div>
+	
+	                    <div id="replace-delimiter-container" class="hidden">
+	                        <input type="checkbox" id="replace-delimiter-with-space" />
+	                        <label for="replace-delimiter-with-space" id="replace_delimiter_with_space"></label>
+	                    </div>
+	
+	                    <div>
+	                        <input type="checkbox" id="include-empty-lines" />
+	                        <label for="include-empty-lines" id="add_blank_lines"></label>
+	                    </div>
+	                </div>
+	            </div>
+	
+	            <div class="button-container">
+	                <button id="compare_files" class="button-green" data-action="compare"></button>
+	                <button id="save_as_html" class="button-blue" data-action="export-html"></button>
+	                <button id="save_as_csv" class="button-blue" data-action="export-csv"></button>
+	                <button id="show_file1" class="button-green" data-action="show-file1"></button>
+	                <button id="show_file2" class="button-green" data-action="show-file2"></button>
+	                <button id="consolidate_duplicates" class="button-green" data-action="remove-duplicates"></button>
+	                <button id="reset" class="button-blue" data-action="reset"></button>
+	            </div>
+	
+	            <br />
+	            <div id="warnings" style="margin-bottom: 20px"></div>
+	
+	            <div class="search-status-wrapper">
+	                <div id="search-container" class="hidden" style="margin-bottom: 5px">
+	                    <div class="search-wrapper">
+	                        <input type="text" id="search_placeholder" class="search-input" placeholder="" />
+	                        <span id="search_clear" class="search-clear-btn">&times;</span>
+	                    </div>
+	                </div>
+	                <div id="status"></div>
+	                <button id="reset-col-order-btn" class="hidden">← →</button>
+	            </div>
+	
+	            <div class="output">
+	                <div id="output"></div>
+	            </div>
+	        </div>
+	    </div>
 
         <script>
 
@@ -1967,8 +1928,7 @@
 				                const day = match[1].padStart(2, '0');
 				                const month = match[2].padStart(2, '0');
 				                const year = match[3];
-				                const restOfString = match[4];
-				                return `${year}-${month}-${day}${restOfString}`;
+				                return `${year}-${month}-${day}`;
 				            }
 				
 				            match = cell.match(usRegex);
@@ -1976,10 +1936,9 @@
 				                const month = match[1].padStart(2, '0');
 				                const day = match[2].padStart(2, '0');
 				                const year = match[3];
-				                const restOfString = match[4];
-				                return `${year}-${month}-${day}${restOfString}`;
+				                return `${year}-${month}-${day}`;
 				            }
-				            
+
 				            return cell;
 				        });
 				    });
