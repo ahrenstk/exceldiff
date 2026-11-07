@@ -6,7 +6,7 @@
 
 ---
 
-![exceldiff-de](https://raw.githubusercontent.com/ahrenstk/exceldiff-de/main/exceldiff-de.jpg)
+![exceldiff](https://raw.githubusercontent.com/ahrenstk/exceldiff/main/exceldiff.jpg)
 
 ## ✨ Features
 
