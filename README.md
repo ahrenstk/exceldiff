@@ -1,49 +1,61 @@
 # exceldiff 📊
 
-> **Compare and analyze .xlsx, .ods & .csv files directly in your browser – fast, privacy-friendly, and with no installation required.**
+> **.xlsx, .ods & .csv easily compared – 100% in your browser. The comparison is provided without guarantee.**
 
-`exceldiff` is a lightweight, purely client-side web tool designed to compare spreadsheets and CSV files using customizable primary keys.
+`exceldiff` is a lightweight, pure frontend tool that runs completely in your browser. It allows you to easily compare two spreadsheets or CSV files directly based on definable primary keys.
+
+---
+
+![exceldiff-de](https://raw.githubusercontent.com/ahrenstk/exceldiff-de/main/exceldiff-de.jpg)
 
 ## ✨ Features
 
-* **Multi-Format Support:** Compare `.xlsx` (Excel), `.ods` (OpenDocument), `.csv`, and `.txt` files seamlessly.
+- **Multi-Format Support:** Compares `.xlsx` (Excel), `.ods` (OpenDocument), `.csv`, and `.txt` files.
 
-* **Primary Key Matching:** Define custom primary key columns to accurately align rows across files.
+- **Smart Key Detection:** Automatic detection of the best possible (including composite) primary key when loading files.
 
-* **Visual Diffing:** Highlight modified cells, added rows, and removed entries with clear visual indicators.
+- **Primary Key Matching:** Determine yourself which columns should serve as the unique key for row matching.
 
-* **Search & Filter:** Built-in live search and customizable column filters for large datasets.
+- **Visual Differentiation:** Changes, added rows, and deleted entries are clearly highlighted in color.
 
-* **Deduplication:** Integrated tools to identify and consolidate duplicate entries.
+- **Cell and Row Highlighting:** Double-click to highlight entire columns or rows in color for better orientation.
 
-* **Export Options:** Export comparison results to HTML or CSV.
+- **Interactive Column Handling:** Columns can be moved (← →), individually hidden or shown (− / +), or sorted directly in the browser.
 
-* **100% Client-Side:** Privacy first—your data never leaves your local machine.
+- **Filter and Search Functions:** Integrated live search and dynamic, searchable column dropdown filters for large datasets.
 
-## 🚀 Quick Start
+- **Date Standardization:** Optional automatic detection and unification of various date formats (e.g., DD.MM.YYYY, MM/DD/YYYY to YYYY-MM-DD).
 
-Since `exceldiff` is built as a self-contained single-file application, you can run it instantly without any server setup:
+- **Flexible Encoding & Delimiters:** Supports switching between UTF-8 and ANSI encoding, as well as handling custom column delimiters.
 
-1. Download the HTML file or clone this repository.
+- **Duplicate Cleaning:** A tool to consolidate duplicates in the first file with adjustable separators.
 
-2. Open the file in any modern web browser (Chrome, Firefox, Edge, Safari).
+- **Advanced Views:** Quick switching between comparison mode, showing only File 1 or File 2, and showing only changed rows.
 
-3. Drag and drop your target files into the designated drop zones.
+- **Interactive HTML Export:** Exported HTML results remain fully interactive – including search, sorting, column moving, and filtering directly within the exported file.
 
-4. Select the primary key column(s) and click **Compare Files**.
+- **CSV Export:** Fast export of the cleaned text or CSV data.
 
-## 📦 Libraries & Licenses
+- **100% in Browser:** Your data never leaves your computer at any time.
 
-This project relies on the following open-source libraries (distributed under the MIT License):
+- **External JavaScript Libraries:** Built directly into the code and are therefore not reloaded from CDNs (customizable).
 
-1. **read-excel-file** (v9.x) – Fast parsing for Excel spreadsheets.
+---
 
-2. **PapaParse** (v5.4.1) – Powerful CSV and delimiter text parser.
+## 📦 Used Libraries & Licenses
 
-3. **fflate** (v0.8.3) – High-performance decompression for `.ods` archives.
+This project uses the following open-source libraries (each under the MIT License):
 
-4. **tXml** (v6.0.0) – Lightweight XML parser for ODS document content.
+1. **read-excel-file** (v9.x) – For reading Excel spreadsheets.
+
+2. **PapaParse** (v5.4.1) – For fast parsing of CSV and text files.
+
+3. **fflate** (v0.8.3) – For unpacking `.ods` archives.
+
+4. **tXml** (v6.0.0) – For parsing XML content in ODS files.
+
+---
 
 ## 📄 License
 
-Distributed under the **MIT License**. See the source header for details.
+This project is licensed under the **MIT License**. Further details can be found in the source code.
