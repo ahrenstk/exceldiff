@@ -4,6 +4,9 @@
 
 `exceldiff` is a lightweight, pure frontend tool that runs completely in your browser. It allows you to easily compare two spreadsheets or CSV files directly based on definable primary keys.
 
+**German version:** [https://github.com/ahrenstk/exceldiff-de](https://github.com/ahrenstk/exceldiff-de)
+
+
 ---
 
 ![exceldiff](https://raw.githubusercontent.com/ahrenstk/exceldiff/main/exceldiff.jpg)
