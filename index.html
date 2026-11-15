@@ -1,6 +1,6 @@
 <!-----------------------------------------------------------------------------
 
-  exceldiff 2026-11-07 205
+  exceldiff 2026-11-10 293 ok
   - File:    exceldiff.html
   - License: MIT License (c) 2026 Heinz Ahrens
   - URLs:    https://github.com/ahrenstk/exceldiff (private)
@@ -128,6 +128,10 @@
             }
             input[type="checkbox"] {
                 cursor: pointer;
+            }
+            input[type="checkbox"]:disabled {
+                filter: grayscale(1) brightness(0.9);
+                accent-color: #888888;
             }
             p {
                 font-size: 14px;
@@ -407,6 +411,9 @@
 			    white-space: nowrap;
 			    line-height: 1.2;
 			}
+			.filter-option-meta_row_singular:hover {
+                background-color: #f0f4f8;
+            }
 			.filter-option-checkbox {
 			    appearance: none;
 			    width: 11px;
@@ -774,9 +781,10 @@
                 border-right: 1px solid var(--border-color) !important;
                 border-bottom: 1px solid var(--border-color) !important;
                 box-sizing: border-box !important;
+                color: transparent !important;
+                font-size: 0 !important;
+                line-height: 0 !important;
             }
-
-
             th.column-collapsed .header-content-wrapper {
                 display: none !important;
             }
@@ -794,8 +802,8 @@
         <div class="page-wrapper">
             <div class="top-container">
                 <div class="main-container">
-                    <h1>exceldiff - <span id="title_long"></span></h1>
-                    <div id="disclaimer" class="disclaimer"></div>
+                    <h1>exceldiff - <span id="meta_title"></span></h1>
+                    <div id="meta_disclaimer" class="meta_disclaimer"></div>
                     <div class="file-upload-group">
                         <div id="drop-zone-1" class="file-drop-zone zone-first">
                             <input type="file" id="file1" class="file-upload-input" accept=".xlsx, .ods, .csv, .txt">
@@ -819,16 +827,16 @@
                     <div class="options-wrapper">
                         <div id="key-column-container" class="checkbox-container checkbox-group-column hidden">
                             <div id="key-section" class="options-row">
-                                <h3 id="key_columns_label" class="options-label"></h3>
+                                <h3 id="key_label" class="options-label"></h3>
                                 <div id="checkboxes"></div>
                             </div>
                             <div id="file1-checkbox-section" class="options-row hidden">
-                                <strong id="file1_column" class="options-label"></strong>
+                                <strong id="file1_column_header" class="options-label"></strong>
                                 <div id="checkboxes-file1"></div>
                             </div>
 
                             <div id="file2-checkbox-section" class="options-row hidden">
-                                <strong id="file2_column" class="options-label"></strong>
+                                <strong id="file2_column_header" class="options-label"></strong>
                                 <div id="checkboxes-file2"></div>
                             </div>
                         </div>
@@ -837,47 +845,47 @@
                             <div class="checkbox-flex-grid">
                                 <div id="as-table-container" class="hidden">
                                     <input type="checkbox" id="as-table" checked>
-                                    <label for="as-table" id="show_as_table"></label>
+                                    <label for="as-table" id="view_show_as_table"></label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="activate-filter" checked>
-                                    <label for="activate-filter" id="activate_filter"></label>
+                                    <label for="activate-filter" id="filter_activate"></label>
                                 </div>
                                 <div id="only-differences-container">
                                     <input type="checkbox" id="only-differences">
-                                    <label for="only-differences" id="show_differences_only"></label>
+                                    <label for="only-differences" id="view_show_differences_only"></label>
                                 </div>
                                 <div id="hide-identical-columns-container">
                                     <input type="checkbox" id="hide-identical-columns" disabled>
-                                    <label for="hide-identical-columns" id="hide_identical_columns"></label>
+                                    <label for="hide-identical-columns" id="view_hide_identical_columns"></label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="standardize-date" checked>
-                                    <label for="standardize-date" id="standardize_date"></label>
+                                    <input type="checkbox" id="unify-dates" checked>
+                                    <label for="unify-dates" id="opt_unify_dates"></label>
                                 </div>
 
                                 <div id="replace-delimiter-container" class="hidden">
                                     <input type="checkbox" id="replace-delimiter-with-space">
-                                    <label for="replace-delimiter-with-space" id="replace_delimiter_with_space"></label>
+                                    <label for="replace-delimiter-with-space" id="opt_replace_delimiter"></label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="include-empty-lines">
-                                    <label for="include-empty-lines" id="add_blank_lines"></label>
+                                    <label for="include-empty-lines" id="opt_add_blank_lines"></label>
                                 </div>
                             </div>
                         </div>
                         <div class="button-container">
-                            <button id="compare_files" class="button-green" data-action="compare"></button>
-                            <button id="save_as_html" class="button-blue" data-action="export-html"></button>
-                            <button id="save_as_csv" class="button-blue" data-action="export-csv"></button>
-                            <button id="show_file1" class="button-green" data-action="show-file1"></button>
-                            <button id="show_file2" class="button-green" data-action="show-file2"></button>
+                            <button id="action_compare_files" class="button-green" data-action="compare"></button>
+                            <button id="action_save_html" class="button-blue" data-action="export-html"></button>
+                            <button id="action_save_csv" class="button-blue" data-action="export-csv"></button>
+                            <button id="file1_show" class="button-green" data-action="show-file1"></button>
+                            <button id="file2_show" class="button-green" data-action="show-file2"></button>
                             <button
-                                id="consolidate_duplicates"
+                                id="opt_merge_duplicates"
                                 class="button-green"
-                                data-action="remove-duplicates"
+                                data-action="merge-duplicates"
                             ></button>
-                            <button id="reset" class="button-blue" data-action="reset"></button>
+                            <button id="action_reset" class="button-blue" data-action="action_reset"></button>
                         </div>
                         <div id="warnings"></div>
                     </div>
@@ -888,7 +896,7 @@
                     <div class="search-status-inner">
                         <div id="search-container" class="hidden">
                             <div class="search-wrapper">
-                                <input type="text" id="search_placeholder" class="search-input" placeholder="">
+                                <input type="text" id="meta_search_placeholder" class="search-input" placeholder="">
                                 <span id="search_clear" class="search-clear-btn">&times;</span>
                             </div>
                         </div>
@@ -908,7 +916,7 @@
 
             class App {
                 static Config = Object.freeze({
-                    LANG: "en",
+                    LANG: "de",
                     COLUMN_DELIMITER: ";",
                     VALUE_DELIMITER: "~",
                     DUPLICATE_DELIMITER: "#",
@@ -917,115 +925,146 @@
 
                 static Translations = Object.freeze({
                     en: {
-                        activate_filter: "Activate filter",
-                        add_blank_lines: "Add blank lines",
-                        column_not_unique_in_file1: "The column is not unique in first file:",
-                        column_not_unique_in_file2: "The column is not unique in second file:",
-                        compare_files: "Compare files",
-                        consolidate_duplicates: "Consolidate duplicates in first file",
-                        delimiter_exists_in_file1: "In the first file, a delimiter is included.",
-                        delimiter_exists_in_file2: "In the second file, a delimiter is included.",
-                        disclaimer: "100% client-side. Comparison results are provided without warranty.",
-                        excel_prefix: "(Excel)",
-                        file_is_empty: "The file is empty and cannot be processed:",
-                        file_read_error: "Error reading file:",
-                        file1_column: "1. file:",
-                        file1_is_empty: "The first file is empty and cannot be processed.",
-                        file1_label: "1. file",
-                        file2_column: "2. file:",
-                        file2_is_empty: "The second file is empty and cannot be processed.",
-                        file2_label: "2. file",
+                        action_compare_files: "Compare files",
+                        action_reset: "Reset",
+                        action_save_csv: "Save as CSV",
+                        action_save_html: "Save as HTML",
+
+                        error_excel_prefix: "(Excel)",
+                        error_file1_parsing: "Error while parsing File 1.",
+                        error_file1_read: "Error reading File 1.",
+                        error_file1_unsupported_format: "Unsupported file format for File 1:",
+                        error_file2_empty_general: "File 2 is empty and cannot be processed.",
+                        error_file2_parsing: "Error while parsing File 2.",
+                        error_file2_read: "Error reading File 2.",
+                        error_file2_unsupported_format: "Unsupported file format for File 2:",
+                        error_library_missing: "Required library could not be loaded:",
+                        error_no_content_to_save: "There is no content to save.",
+                        error_no_csv_to_save: "There are no CSV lines to save.",
+                        error_ods_content_missing: "(ODS) content.xml is missing",
+                        error_ods_parser_missing: "(ODS) Parser is missing",
+
+
+                        file1_column_header: "File 1:",
+                        file1_label: "File 1",
+                        file1_show: "Show File 1",
+
+                        file2_column_header: "File 2:",
+                        file2_label: "File 2",
+                        file2_show: "Show File 2",                        
+                       
+                        file_none_selected: "No file selected",
+                        file_select_prompt: "Please select a file.",
+                        file_select_two_prompt: "Please select two files.",
+
+                        filter_activate: "Activate filter",
                         filter_all: "(all)",
                         filter_empty: "(empty)",
-                        first_file_has_empty_keys: "The first file contains empty primary keys.",
-                        first_file_record_not_unique: "The following entry is not unique in first file:",
-                        hide_identical_columns: "Changed Columns Only",
-                        key_columns_label: "Primary key:",
-                        key_not_found_in_file2: "Key from first file was not found in second file:",
-                        library_missing_error: "Required library is not loaded:",
-                        no_content_to_save: "There is no content to save.",
-                        no_file_selected: "No file selected",
-                        no_text_to_select_and_save: "There is no text to select and save.",
-                        ods_content_missing: "(ODS) content.xml is missing",
-                        ods_parser_missing: "(ODS) Parser is missing",
-                        of: "of",
-                        parsing_error: "Error while parsing the file:",
-                        replace_delimiter_with_space: "Replace delimiter with space",
-                        reset: "Reset",
-                        row: "entry",
-                        rows: "entries",
-                        save_as_csv: "Save as CSV",
-                        save_as_html: "Save as HTML",
-                        search_placeholder: "🔍",
-                        second_file_column_not_unique: "The following entry is not unique in second file:",
-                        second_file_has_empty_keys: "The second file contains empty primary keys.",
-                        select_a_file: "Please select a file.",
-                        select_one_column: "Please select at least one column to define the primary key.",
-                        select_two_files: "Please select two files.",
-                        show_as_table: "Table",
-                        show_differences_only: "Changed Rows",
-                        show_file1: "Show 1. file",
-                        show_file2: "Show 2. file",
-                        standardize_date: "Standardize date",
-                        title_long: ".xlsx, .ods & .csv comparison made easy",
-                        unknown: "Unknown",
-                        unsupported_format_error: "Unsupported file format:",
+
+                        key_label: "Primary key:",
+                        key_select_min_one_error: "Please select at least one column to define the primary key.",
+
+                        meta_disclaimer: "100% local in browser. Provided as-is, no data is sent to any server.",
+                        meta_of: "of",
+                        meta_row_plural: "entries",
+                        meta_row_singular: "entry",
+                        meta_search_placeholder: "🔍",
+                        meta_title: ".xlsx, .ods & .csv comparison made easy",
+                        meta_unknown: "Unknown",
+
+                        opt_add_blank_lines: "Add blank lines",
+                        opt_merge_duplicates: "Merge duplicates in File 1",
+                        opt_replace_delimiter: "Replace delimiters with spaces",
+                        opt_unify_dates: "Unify date formats",
+
+                        val_cross_key_not_found_in_file2: "The primary key from File 1 was not found in File 2:",
+                        val_file1_column_not_unique: "The column is not unique in File 1:",
+                        val_file1_delimiter_in_value: "A delimiter was found inside a field in File 1.",
+                        val_file1_empty: "File 1 is empty and cannot be processed.",
+                        val_file1_empty_keys: "File 1 contains empty primary keys.",
+                        val_file1_record_not_unique: "The following entry is not unique in File 1:",
+                        val_file1_too_many_columns: "In File 1 the following row has too many columns:",                        
+                        val_file2_column_not_unique: "The column is not unique in File 2:",
+                        val_file2_delimiter_in_value: "A delimiter was found inside a field in File 2.",
+                        val_file2_empty: "File 2 is empty and cannot be processed.",
+                        val_file2_empty_keys: "File 2 contains empty primary keys.",
+                        val_file2_record_not_unique: "The following entry is not unique in File 2:",
+                        val_file2_too_many_columns: "In File 2 the following row has too many columns:",    
+
+                        view_hide_identical_columns: "Changed Columns Only",
+                        view_show_as_table: "Table",
+                        view_show_differences_only: "Changed Rows",
                     },
                     de: {
-                        activate_filter: "Filter aktivieren",
-                        add_blank_lines: "Leerzeilen einfügen",
-                        column_not_unique_in_file1: "In der ersten Datei ist die Spalte nicht eindeutig:",
-                        column_not_unique_in_file2: "In der zweiten Datei ist die Spalte nicht eindeutig:",
-                        compare_files: "Dateien vergleichen",
-                        consolidate_duplicates: "Duplikate in 1. Datei konsolidieren",
-                        delimiter_exists_in_file1: "In der ersten Datei ist ein Trennzeichen enthalten.",
-                        delimiter_exists_in_file2: "In der zweiten Datei ist ein Trennzeichen enthalten.",
-                        disclaimer: "100% lokal im Browser. Der Vergleich erfolgt ohne Gewähr.",
-                        excel_prefix: "(Excel)",
-                        file_is_empty: "Die Datei ist leer und kann nicht verarbeitet werden:",
-                        file_read_error: "Fehler beim Einlesen der Datei:",
-                        file1_column: "1. Datei:",
-                        file1_is_empty: "Die erste Datei ist leer und kann nicht verarbeitet werden.",
+                        action_compare_files: "Dateien vergleichen",
+                        action_reset: "Zurücksetzen",
+                        action_save_csv: "Als CSV speichern",
+                        action_save_html: "Als HTML speichern",
+
+                        error_excel_prefix: "(Excel)",
+                        error_file1_parsing: "Fehler beim Parsen der 1. Datei.",                        
+                        error_file1_read: "Fehler beim Einlesen der 1. Datei.",
+                        error_file1_unsupported_format: "Nicht unterstütztes Dateiformat bei der 1. Datei:",
+                        error_file2_parsing: "Fehler beim Parsen der 2. Datei.",                        
+                        error_file2_read: "Fehler beim Einlesen der 2. Datei.",
+                        error_file2_unsupported_format: "Nicht unterstütztes Dateiformat bei der 2. Datei:",
+                        error_library_missing: "Benötigte Bibliothek konnte nicht geladen werden:",
+                        error_no_content_to_save: "Es gibt keinen Inhalt zum Speichern.",
+                        error_no_csv_to_save: "Es gibt keine CSV-Zeilen zum Speichern.",
+                        error_ods_content_missing: "(ODS) content.xml fehlt",
+                        error_ods_parser_missing: "(ODS) Parser fehlt",
+
+                        file1_column_header: "1. Datei:",
                         file1_label: "1. Datei",
-                        file2_column: "2. Datei:",
-                        file2_is_empty: "Die zweite Datei ist leer und kann nicht verarbeitet werden.",
+                        file1_show: "1. Datei anzeigen",
+
+                        file2_column_header: "2. Datei:",
                         file2_label: "2. Datei",
+                        file2_show: "2. Datei anzeigen",
+
+                        file_none_selected: "Keine Datei ausgewählt",
+                        file_select_prompt: "Bitte wähle eine Datei aus.",
+                        file_select_two_prompt: "Bitte wähle zwei Dateien aus.",
+
+                        filter_activate: "Filter aktivieren",
                         filter_all: "(alle)",
                         filter_empty: "(leer)",
-                        first_file_has_empty_keys: "In der ersten Datei gibt es leere Primärschlüssel.",
-                        first_file_record_not_unique: "In der ersten Datei ist folgender Eintrag nicht eindeutig:",
-                        hide_identical_columns: "Nur Schlüssel und geänderte Spalten",
-                        key_columns_label: "Primärschlüssel:",
-                        key_not_found_in_file2: "Schlüssel aus der ersten Datei wurde in der zweiten Datei nicht gefunden:",
-                        library_missing_error: "Benötigte Bibliothek wurde nicht geladen:",
-                        no_content_to_save: "Es gibt keinen Inhalt zum Speichern.",
-                        no_file_selected: "Keine Datei ausgewählt",
-                        no_text_to_select_and_save: "Es gibt keinen Text zum Markieren und Speichern.",
-                        ods_content_missing: "(ODS) content.xml fehlt",
-                        ods_parser_missing: "(ODS) Parser fehlt",
-                        of: "von",
-                        parsing_error: "Fehler beim Parsen der Datei:",
-                        replace_delimiter_with_space: "Trennzeichen durch Leerzeichen ersetzen",
-                        reset: "Zurücksetzen",
-                        row: "Eintrag",
-                        rows: "Einträgen",
-                        save_as_csv: "Als CSV speichern",
-                        save_as_html: "Als HTML speichern",
-                        search_placeholder: "🔍",
-                        second_file_column_not_unique: "In der zweiten Datei ist folgender Eintrag nicht eindeutig:",
-                        second_file_has_empty_keys: "In der zweiten Datei gibt es leere Primärschlüssel.",
-                        select_a_file: "Bitte wähle eine Datei aus.",
-                        select_one_column: "Bitte wähle mindestens eine Spalte aus, um den Primärschlüssel festzulegen.",
-                        select_two_files: "Bitte wähle zwei Dateien aus.",
-                        show_as_table: "Als Tabelle",
-                        show_differences_only: "Nur geänderte Zeilen",
-                        show_file1: "1. Datei anzeigen",
-                        show_file2: "2. Datei anzeigen",
-                        standardize_date: "Datum standardisieren",
-                        title_long: ".xlsx, .ods & .csv einfach vergleichen",
-                        unknown: "Unbekannt",
-                        unsupported_format_error: "Nicht unterstütztes Dateiformat:",
+
+                        key_label: "Primärschlüssel:",
+                        key_select_min_one_error: "Bitte wähle mindestens eine Spalte aus, um den Primärschlüssel festzulegen.",
+
+                        meta_disclaimer: "100% lokal im Browser. Der Vergleich erfolgt ohne Gewähr.",
+                        meta_of: "von",
+                        meta_row_plural: "Einträgen",
+                        meta_row_singular: "Eintrag",
+                        meta_search_placeholder: "🔍",
+                        meta_title: ".xlsx, .ods & .csv einfach vergleichen",
+                        meta_unknown: "Unbekannt",
+
+                        opt_add_blank_lines: "Leerzeilen einfügen",
+                        opt_merge_duplicates: "Duplikate in 1. Datei verschmelzen",
+                        opt_replace_delimiter: "Trennzeichen durch Leerzeichen ersetzen",
+                        opt_unify_dates: "Datumsangaben vereinheitlichen",
+
+                        val_cross_key_not_found_in_file2: "Der Primärschlüssel aus der 1. Datei wurde in der 2. Datei nicht gefunden:",
+                        val_file1_column_not_unique: "In der 1. Datei ist die Spalte nicht eindeutig:",
+                        val_file1_delimiter_in_value: "In der 1. Datei wurde ein Trennzeichen innerhalb eines Feldes gefunden.",
+                        val_file1_empty: "Die 1. Datei ist leer und kann nicht verarbeitet werden.",
+                        val_file1_empty_keys: "In der 1. Datei gibt es leere Primärschlüssel.",
+                        val_file1_record_not_unique: "In der 1. Datei ist folgender Eintrag nicht eindeutig:",
+                        val_file1_too_many_columns: "In der 1. Datei hat folgende Zeile zu viele Spalten:",                        
+                        val_file2_column_not_unique: "In der 2. Datei ist die Spalte nicht eindeutig:",
+                        val_file2_delimiter_in_value: "In der 2. Datei wurde ein Trennzeichen innerhalb eines Feldes gefunden.",
+                        val_file2_empty: "Die 2. Datei ist leer und kann nicht verarbeitet werden.",
+                        val_file2_empty_keys: "In der 2. Datei gibt es leere Primärschlüssel.",
+                        val_file2_record_not_unique: "In der 2. Datei ist folgender Eintrag nicht eindeutig:",
+                        val_file2_too_many_columns: "In der 2. Datei hat folgende Zeile zu viele Spalten:",
+                        
+                        view_hide_identical_columns: "Nur Schlüssel und geänderte Spalten",
+                        view_show_as_table: "Als Tabelle",
+                        view_show_differences_only: "Nur geänderte Zeilen",
                     },
+ 
                 });
 
 
@@ -1042,9 +1081,9 @@
                     this.valueDelimiter = App.Config.VALUE_DELIMITER || "~";
                     this.duplicateDelimiter = App.Config.DUPLICATE_DELIMITER || "#";
                     this.view = new View(this.lang, this.tr);
-                    this.tableManager = new TableManager(this.lang, this.tr);
-                    this.dataManager = new DataManager(this.config);
-                    this.comparer = new Comparer(this.lang, this.tr);
+					this.tableManager = new TableManager(this.lang, this.tr);
+					this.dataManager = new DataManager(this.config, this.lang, this.tr);
+					this.comparer = new Comparer(this.lang, this.tr);
                     this.exporter = new Exporter();
                     this.state = {
                         currentViewMode: "compare",
@@ -1178,6 +1217,15 @@
                                 this.#applyAllFilters();
                             }
                         });
+                        searchInput.addEventListener("keydown", (e) => {
+                            if (e.key === "Escape") {
+                                searchInput.value = "";
+                                if (searchClear) searchClear.style.display = "none";
+                                this.#applyAllFilters();
+                                searchInput.blur();
+                            }
+                        });
+                        
                     }
 
                     this.#setupDropZone(this.view.els.dropZone1, this.view.els.file1, "file1");
@@ -1194,16 +1242,15 @@
 
 					let ticking = false;
 
-                    window.addEventListener("scroll", () => {
-					    const triggerPoint = this.scrollTriggerPoint;
-					    if (this.isLockedAtBottom && window.scrollY < triggerPoint) {
-					        window.scrollTo(window.scrollX, triggerPoint);
-					    }
-					
+					window.addEventListener("scroll", () => {
 					    if (!ticking) {
 					        window.requestAnimationFrame(() => {
-					            const scrollX = window.scrollX;
+					            const triggerPoint = this.scrollTriggerPoint;
+					            if (this.isLockedAtBottom && window.scrollY < triggerPoint) {
+					                window.scrollTo(window.scrollX, triggerPoint);
+					            }
 					
+					            const scrollX = window.scrollX;
 					            const hasWarnings = this.view.els.warnings && 
 					                                this.view.els.warnings.style.display !== "none" && 
 					                                this.view.els.warnings.childNodes.length > 0;
@@ -1239,6 +1286,29 @@
 					        ticking = true;
 					    }
 					}, { passive: true });
+					
+					window.addEventListener("dragover", (e) => e.preventDefault(), false);
+					
+					window.addEventListener("dragenter", (e) => {
+					    e.preventDefault();
+					    this.view.els.dropZone1?.classList.add("drag-over");
+					    this.view.els.dropZone2?.classList.add("drag-over");
+					}, false);
+					
+					window.addEventListener("dragleave", (e) => {
+					    e.preventDefault();
+					    if (e.relatedTarget === null) {
+					        this.view.els.dropZone1?.classList.remove("drag-over");
+					        this.view.els.dropZone2?.classList.remove("drag-over");
+					    }
+					}, false);
+
+					window.addEventListener("drop", (e) => {
+					    e.preventDefault();
+					    this.view.els.dropZone1?.classList.remove("drag-over");
+					    this.view.els.dropZone2?.classList.remove("drag-over");
+					}, false);
+					
                 }
 
 
@@ -1280,31 +1350,31 @@
                     const file2 = this.view.els.file2?.files?.[0];
                     if (!file1 || !file2) return;
 
-                    this.#syncSelectionState();
-                    this.#syncOptionsState();
-
-                    const keyColumns = Array.from(this.state.selectedKeys);
-                    if (keyColumns.length === 0) {
-                        this.view.showWarning("file1", "select_one_column");
-                        this.tableManager.clearStatus();
-                        return;
-                    }
-
-                    const cols1 = Array.from(this.state.selectedCols1);
-                    const cols2 = Array.from(this.state.selectedCols2);
-                    const options = {
-                        ...this.state.options,
-                        keyColumns,
-                        cols1,
-                        cols2,
-                    };
-
                     try {
                         const encoding = this.#getCurrentEncoding();
                         if (!this.state.file1Data)
-                            this.state.file1Data = await this.dataManager.parseFile(file1, encoding);
+                            this.state.file1Data = await this.dataManager.parseFile(file1, encoding, 1);
                         if (!this.state.file2Data)
-                            this.state.file2Data = await this.dataManager.parseFile(file2, encoding);
+                            this.state.file2Data = await this.dataManager.parseFile(file2, encoding, 2);
+
+                        this.#syncSelectionState();
+                        this.#syncOptionsState();
+
+                        const keyColumns = Array.from(this.state.selectedKeys);
+                        if (keyColumns.length === 0) {
+                            this.view.showWarning("file1", "key_select_min_one_error");
+                            this.tableManager.clearStatus();
+                            return;
+                        }
+
+                        const cols1 = Array.from(this.state.selectedCols1);
+                        const cols2 = Array.from(this.state.selectedCols2);
+                        const options = {
+                            ...this.state.options,
+                            keyColumns,
+                            cols1,
+                            cols2,
+                        };
 
                         if (!options.replaceDelimiter && !options.asTable) {
                             const valDelim = this.valueDelimiter;
@@ -1321,12 +1391,12 @@
                                 );
                             };
                             if (hasDelimiter(this.state.file1Data)) {
-                                this.view.showWarning("file1", "delimiter_exists_in_file1");
+                                this.view.showWarning("file1", "val_file1_delimiter_in_value");
                                 this.tableManager.clearStatus();
                                 return;
                             }
                             if (hasDelimiter(this.state.file2Data)) {
-                                this.view.showWarning("file2", "delimiter_exists_in_file2");
+                                this.view.showWarning("file2", "val_file2_delimiter_in_value");
                                 this.tableManager.clearStatus();
                                 return;
                             }
@@ -1335,11 +1405,10 @@
                         const delimiters = [this.columnDelimiter, this.valueDelimiter];
 
                         let tempProcessed1 = Utility.replaceDelimiters(this.state.file1Data, delimiters, options);
-                        let data1 = Utility.formatDates(tempProcessed1, options.standardizeDate);
+                        let data1 = Utility.formatDates(tempProcessed1, options.unifyDates, this.lang);
 
                         let tempProcessed2 = Utility.replaceDelimiters(this.state.file2Data, delimiters, options);
-                        let data2 = Utility.formatDates(tempProcessed2, options.standardizeDate);
-
+                        let data2 = Utility.formatDates(tempProcessed2, options.unifyDates, this.lang);
 
                         const result = this.comparer.compareFiles(data1, data2, {
                             ...options,
@@ -1392,10 +1461,21 @@
 
                         this.#displayDifferences(result.differences, result.headers, options, result.stats);
                     } catch (error) {
-                        this.view.showWarning("file1", "parsing_error", error.message);
+                        if (typeof error === "object" && error.messageKey) {
+                            const errorContext = error.messageKey.includes("file2") ? "file2" : "file1";
+                            this.view.showWarning(errorContext, error.messageKey, error.details);
+                        } else {
+                            const hasFile1Loaded = !!this.state.file1Data;
+                            const errorContext = hasFile1Loaded ? "file2" : "file1";
+                            const errorKey = hasFile1Loaded ? "error_file2_parsing" : "error_file1_parsing";
+                            
+                            this.view.showWarning(errorContext, errorKey, error.message || String(error));
+                        }
                         this.tableManager.clearStatus();
                     }
+
                 }
+
 
 
                 #displayDifferences(differences, headers, formData, stats) {
@@ -1502,7 +1582,7 @@
 
 				    const activeFilters = this.tableManager.getActiveColumnFilters(headerCells, isColumnFilterActive);
 				
-				    const isSingleView = ["file1", "file2", "consolidate"].includes(this.state.currentViewMode);
+				    const isSingleView = ["file1", "file2", "merge"].includes(this.state.currentViewMode);
 				    const rtf = this.state.rowTypeFilters || { matching: true, onlyFile1: true, onlyFile2: true };
 				
 				    const rowMatchesAllFilters = (row, colIndexToIgnore = -1) => {
@@ -1612,7 +1692,7 @@
 
 
                 #handleAction(action) {
-                    const viewChangingActions = ["compare", "remove-duplicates", "reset", "show-file1", "show-file2"];
+                    const viewChangingActions = ["compare", "merge-duplicates", "action_reset", "show-file1", "show-file2"];
                     if (viewChangingActions.includes(action)) {
                         if (this.tableManager.els.globalSearch) this.tableManager.els.globalSearch.value = "";
                         if (this.tableManager.els.searchClear) this.tableManager.els.searchClear.style.display = "none";
@@ -1624,7 +1704,7 @@
                     const file2 = this.view.els.file2?.files?.[0];
 
                     switch (action) {
-                        case "reset":
+                        case "action_reset":
                             this.state.file1Data = null;
                             this.state.file2Data = null;
                             this.state.file1Headers = [];
@@ -1661,35 +1741,37 @@
 						        this.exporter.exportAsHTML(htmlContent);
 						    } else {
 						        this.tableManager.clearOutput();
-						        this.view.showWarning("file1", "no_content_to_save");
+						        this.view.showWarning("file1", "error_no_content_to_save");
 						    }
 						    break;
 						}
 						
-
-                        case "export-csv": {
-                            this.view.clearWarnings();
-                            if (this.view.els.asTable.checked) {
-                                this.view.showWarning("file1", "no_content_to_save");
-                            } else {
-                                const outputText = this.view.els.output?.innerText.trim();
-                                if (outputText) {
-                                    this.exporter.exportAsCSV(outputText);
-                                } else {
-                                    this.tableManager.clearOutput();
-                                    this.view.showWarning("file1", "no_text_to_select_and_save");
-                                }
-                            }
-                            break;
-                        }
-
+						case "export-csv": {
+						    this.view.clearWarnings();
+						    const hasTableInOutput = !!this.view.els.output?.querySelector("table");
+						    
+						    if (hasTableInOutput) {
+						        this.view.showWarning("file1", "error_no_content_to_save");
+						    } else {
+						        const outputText = this.view.els.output?.innerText.trim();
+						
+						        if (outputText) {
+						            this.exporter.exportAsCSV(outputText);
+						        } else {
+						            this.tableManager.clearOutput();
+						            this.view.showWarning("file1", "error_no_csv_to_save");
+						        }
+						    }
+						    break;
+						}
+						
                         case "compare":
                             if (file1 && file2) {
                                 this.state.currentViewMode = "compare";
                                 this.compareFiles();
                             } else {
                                 this.tableManager.clearOutput();
-                                this.view.showWarning("file1", "select_two_files");
+                                this.view.showWarning("file1", "file_select_two_prompt");
                             }
                             break;
 
@@ -1699,7 +1781,7 @@
                                 this.#showFile("file1");
                             } else {
                                 this.tableManager.clearOutput();
-                                this.view.showWarning("file1", "select_a_file");
+                                this.view.showWarning("file1", "file_select_prompt");
                             }
                             break;
 
@@ -1709,17 +1791,17 @@
                                 this.#showFile("file2");
                             } else {
                                 this.tableManager.clearOutput();
-                                this.view.showWarning("file2", "select_a_file");
+                                this.view.showWarning("file2", "file_select_prompt");
                             }
                             break;
 
-                        case "remove-duplicates":
+                        case "merge-duplicates":
                             if (file1) {
-                                this.state.currentViewMode = "consolidate";
-                                this.#removeDuplicates();
+                                this.state.currentViewMode = "merge";
+                                this.#mergeDuplicates();
                             } else {
                                 this.tableManager.clearOutput();
-                                this.view.showWarning("file1", "select_a_file");
+                                this.view.showWarning("file1", "file_select_prompt");
                             }
                             break;
                     }
@@ -1750,7 +1832,7 @@
                     }
 
                     if (file.size === 0) {
-                        const messageKey = fileInputId === "file1" ? "file1_is_empty" : "file2_is_empty";
+                        const messageKey = fileInputId === "file1" ? "val_file1_empty" : "val_file2_empty";
                         this.view.showWarning(fileInputId, messageKey);
                         this.state[`${fileInputId}Data`] = null;
                         this.state[`${fileInputId}Headers`] = [];
@@ -1765,7 +1847,7 @@
                     }
 
                     try {
-                        const data = await this.dataManager.parseFile(file, this.#getCurrentEncoding());
+                        const data = await this.dataManager.parseFile(file, this.#getCurrentEncoding(), fileInputId === "file2" ? 2 : 1);
                         const headers = data && data.length > 0 ? data[0] : [];
                         this.state[`${fileInputId}Data`] = data;
                         this.state[`${fileInputId}Headers`] = headers;
@@ -1783,9 +1865,11 @@
                         if (typeof error === "object" && error.messageKey) {
                             this.view.showWarning(fileInputId, error.messageKey, error.details);
                         } else {
-                            this.view.showWarning(fileInputId, "parsing_error", error.message);
+                            const errorKey = fileInputId === "file2" ? "error_file2_parsing" : "error_file1_parsing";
+                            this.view.showWarning(fileInputId, errorKey, error.message || String(error));
                         }
                     }
+
                 }
 
 
@@ -1827,7 +1911,7 @@
                                     const allRows = tbody ? Array.from(tbody.rows) : [];
 
                                     const rtf = this.state.rowTypeFilters || { matching: true, onlyFile1: true, onlyFile2: true };
-                                    const isSingleView = ["file1", "file2", "consolidate"].includes(this.state.currentViewMode);
+                                    const isSingleView = ["file1", "file2", "merge"].includes(this.state.currentViewMode);
 
                                     const rowMatchesAllFilters = (row, colIndexToIgnore = -1) => {
                                         if (!isSingleView) {
@@ -1899,7 +1983,7 @@
                         target === this.view.els.hideIdenticalColumns ||
                         target === this.view.els.includeEmptyLines ||
                         target === this.view.els.replaceDelimiterWithSpace ||
-                        target === this.view.els.standardizeDate
+                        target === this.view.els.unifyDates
                     ) {
                         this.#syncOptionsState();
                         this.#rerenderView();
@@ -1930,8 +2014,6 @@
 					    return;
 					}
 
-					
-					
 					const scrollTopBtn = this.view.els.scrollToTopBtn;
 					if (scrollTopBtn && scrollTopBtn.contains(e.target)) {
 					    this.isScrollingUp = true;
@@ -1964,9 +2046,8 @@
                         }
                         return;
                     }
-
-
                 }
+
 
 				handleGlobalDoubleClick(e) {
 				    const table = this.tableManager.currentTable;
@@ -1997,7 +2078,6 @@
 					
 
 				}
-
 
 
                 handleToggleAllInColumnSelection(target, container) {
@@ -2032,40 +2112,11 @@
                 }
 
 
-
                 #initializeApp() {
                     this.view.reset();
                     this.#toggleTableOptions();
                     this.#addEventListeners();
                     this.view.els.body.classList.add("is-ready");
-                }
-
-
-
-                #findStrictPrimaryKey(headers, data) {
-                    if (!data || data.length < 2) return -1;
-                    
-                    const numRows = data.length - 1;
-                    const colCount = headers.length;
-                    
-                    for (let c = 0; c < colCount; c++) {
-                        const values = new Set();
-                        let hasEmptyOrDuplicate = false;
-                        
-                        for (let r = 1; r < data.length; r++) {
-                            const val = String(data[r][c] ?? "").trim();
-                            if (val === "" || values.has(val)) {
-                                hasEmptyOrDuplicate = true;
-                                break;
-                            }
-                            values.add(val);
-                        }
-
-                        if (!hasEmptyOrDuplicate && values.size === numRows) {
-                            return c;
-                        }
-                    }
-                    return -1;
                 }
 
 
@@ -2115,38 +2166,35 @@
                     this.#toggleHideIdenticalColumns();
                 }
 
-                async #removeDuplicates() {
-                    this.state.currentViewMode = "consolidate";
+                async #mergeDuplicates() {
+                    this.state.currentViewMode = "merge";
                     this.tableManager.clearOutput();
                     this.view.clearWarnings();
                     this.tableManager.clearStatus();
-
-                    if (this.view.els.asTableContainer) {
-                        this.view.els.asTableContainer.classList.add("disabled-option");
-                    }
-
+                    this.view.els.asTable.checked = false;
                     this.#toggleTableOptions();
-
                     this.view.els.onlyDifferences.checked = false;
                     this.view.els.onlyDifferences.disabled = true;
                     this.view.els.hideIdenticalColumns.checked = false;
                     this.view.els.hideIdenticalColumns.disabled = true;
 
-                    this.#syncSelectionState();
-                    const keyColumns = Array.from(this.state.selectedKeys);
-                    if (keyColumns.length === 0) {
-                        this.view.showWarning("file1", "select_one_column");
-                        return;
-                    }
+					const file1 = this.view.els.file1.files[0];
+					if (!file1) return;
+					
+					try {
 
-                    const file1 = this.view.els.file1.files[0];
-                    if (!file1) return;
+					    if (!this.state.file1Data) {
+					        this.state.file1Data = await this.dataManager.parseFile(file1, this.#getCurrentEncoding(), 1);
+					    }
+					
+					    this.#syncSelectionState();
+					    const keyColumns = Array.from(this.state.selectedKeys);
+					    if (keyColumns.length === 0) {
+					        this.view.showWarning("file1", "key_select_min_one_error");
+					        return;
+					    }
 
-                    try {
-                        if (!this.state.file1Data) {
-                            this.state.file1Data = await this.dataManager.parseFile(file1, this.#getCurrentEncoding());
-                        }
-                        const originalData = this.state.file1Data;
+					    const originalData = this.state.file1Data;
                         if (!originalData || originalData.length < 2) return;
 
                         const originalHeaders = originalData[0] || [];
@@ -2154,10 +2202,8 @@
 
                         let dataStep1 = [...originalData];
 
-                        let dataStep2 = Utility.formatDates(dataStep1, this.state.options.standardizeDate);
+                        let dataStep2 = Utility.formatDates(dataStep1, this.state.options.unifyDates, this.lang);
                         let dataStep3 = Utility.removeEmptyColumns(dataStep2);
-
-
 
                         let dataStep4 = Utility.replaceDelimiters(
                             dataStep3,
@@ -2175,10 +2221,9 @@
                             }
                         );
 
-
                         if (!consolidationResult.success) {
                             if (consolidationResult.reason === "HAS_DUPLICATE_DELIMITER") {
-                                this.view.showWarning("file1", "delimiter_exists_in_file1");
+                                this.view.showWarning("file1", "val_file1_delimiter_in_value");
                                 this.tableManager.clearStatus();
                             }
                             return;
@@ -2186,9 +2231,9 @@
 
                         let processedRows = consolidationResult.data;
                         const newRowCount = processedRows.length;
-                        const unitLabel = originalRowCount === 1 ? this.tr[this.lang].row : this.tr[this.lang].rows;
+                        const unitLabel = originalRowCount === 1 ? this.tr[this.lang].meta_row_singular : this.tr[this.lang].meta_row_plural;
                         this.tableManager.setStatus(
-                            `${newRowCount} ${this.tr[this.lang].of} ${originalRowCount} ${unitLabel}`
+                            `${newRowCount} ${this.tr[this.lang].meta_of} ${originalRowCount} ${unitLabel}`
                         );
 
 
@@ -2215,14 +2260,16 @@
                             valueDelimiter: this.valueDelimiter,
                             duplicateDelimiter: this.duplicateDelimiter,
                         });
+                        
+					} catch (error) {
+					    if (typeof error === "object" && error.messageKey) {
+					        this.view.showWarning("file1", error.messageKey, error.details);
+					    } else {
+					        this.view.showWarning("file1", "error_file1_parsing", error.message || String(error));
+					    }
+					    this.tableManager.clearStatus();
+					}
 
-                        
-           
-                        
-                    } catch (error) {
-                        this.view.showWarning("file1", "parsing_error", error.message);
-                        this.tableManager.clearStatus();
-                    }
                 }
 
 
@@ -2237,8 +2284,8 @@
                         case "file2":
                             this.#showFile("file2");
                             break;
-                        case "consolidate":
-                            this.#removeDuplicates();
+                        case "merge":
+                            this.#mergeDuplicates();
                             break;
                     }
                 }
@@ -2288,20 +2335,20 @@
                     if (!file) return;
 
                     try {
-                        if (!this.state[`${fileKey}Data`]) {
-                            this.state[`${fileKey}Data`] = await this.dataManager.parseFile(
-                                file,
-                                this.#getCurrentEncoding()
-                            );
-                        }
+						if (!this.state[`${fileKey}Data`]) {
+						    this.state[`${fileKey}Data`] = await this.dataManager.parseFile(
+						        file,
+						        this.#getCurrentEncoding(),
+						        fileKey === "file2" ? 2 : 1
+						    );
+						}
                         let data = this.state[`${fileKey}Data`];
                         if (!data || data.length === 0) return;
 
                         const delimiters = [this.columnDelimiter, this.valueDelimiter];
 
                         let tempProcessed = Utility.replaceDelimiters(data, delimiters, this.state.options);
-                        let processedData = Utility.formatDates(tempProcessed, this.state.options.standardizeDate);
-
+                        let processedData = Utility.formatDates(tempProcessed, this.state.options.unifyDates, this.lang);
 
                         const selectedColsSet =
                             fileKey === "file1" ? this.state.selectedCols1 : this.state.selectedCols2;
@@ -2316,8 +2363,8 @@
                         }
 
                         
-                        const unitLabel = rows.length === 1 ? this.tr[this.lang].row : this.tr[this.lang].rows;
-                        this.tableManager.setStatus(`${rows.length} ${this.tr[this.lang].of} ${rows.length} ${unitLabel}`);
+                        const unitLabel = rows.length === 1 ? this.tr[this.lang].meta_row_singular : this.tr[this.lang].meta_row_plural;
+                        this.tableManager.setStatus(`${rows.length} ${this.tr[this.lang].meta_of} ${rows.length} ${unitLabel}`);
 
                         if (this.state.options.asTable) {
                             this.tableManager.renderTable(headers, rows, {
@@ -2342,40 +2389,49 @@
                         if (this.tableManager.els.globalSearch?.value.trim()) {
                             this.#applyAllFilters();
                         }
-                   
+                        this.#updateScrollTriggerPoint();
                     } catch (error) {
-                        this.view.showWarning(fileKey, "parsing_error", error.message);
+                        if (typeof error === "object" && error.messageKey) {
+                            this.view.showWarning(fileKey, error.messageKey, error.details);
+                        } else {
+                            const errorKey = fileKey === "file2" ? "error_file2_parsing" : "error_file1_parsing";
+                            this.view.showWarning(fileKey, errorKey, error.message || String(error));
+                        }
                         this.tableManager.clearStatus();
                     }
+
                 }
 
 
-                #syncKeyCheckboxes() {
-                    const checkedKeyNames = new Set(
-                        Array.from(this.view.els.checkboxes.querySelectorAll("input:checked"), (cb) =>
-                            cb.labels?.[0]?.textContent.trim().toLowerCase()
-                        ).filter(Boolean)
-                    );
-
-                    [this.view.els.checkboxesFile1, this.view.els.checkboxesFile2].forEach((container) => {
-                        if (!container) return;
-
-                        container.querySelectorAll("input[type='checkbox']").forEach((cb) => {
-                            if (cb.id.startsWith("toggle-all-")) return;
-
-                            const colName = cb.labels?.[0]?.textContent.trim().toLowerCase();
-                            const isKey = checkedKeyNames.has(colName);
-
-                            cb.checked = isKey || cb.checked;
-                            cb.disabled = isKey;
-                        });
-
-                        const firstCb = container.querySelector("input");
-                        if (firstCb) {
-                            this.handleToggleAllInColumnSelection(firstCb, container);
-                        }
-                    });
-                }
+				#syncKeyCheckboxes() {
+				    const checkedKeyNames = new Set(
+				        Array.from(this.view.els.checkboxes.querySelectorAll("input:checked"), (cb) => {
+				            const labelEl = cb.labels?.[0] || document.querySelector(`label[for="${cb.id}"]`);
+				            return labelEl ? labelEl.textContent.trim().toLowerCase() : "";
+				        }).filter(Boolean)
+				    );
+				
+				    [this.view.els.checkboxesFile1, this.view.els.checkboxesFile2].forEach((container) => {
+				        if (!container) return;
+				
+				        container.querySelectorAll("input[type='checkbox']").forEach((cb) => {
+				            if (cb.id.startsWith("toggle-all-")) return;
+				
+				            const labelEl = cb.labels?.[0] || document.querySelector(`label[for="${cb.id}"]`);
+				            const colName = labelEl ? labelEl.textContent.trim().toLowerCase() : "";
+				            const isKey = checkedKeyNames.has(colName);
+				
+				            cb.checked = isKey || cb.checked;
+				            cb.disabled = isKey;
+				        });
+				
+				        const firstCb = container.querySelector("input");
+				        if (firstCb) {
+				            this.handleToggleAllInColumnSelection(firstCb, container);
+				        }
+				    });
+				}
+				
 
 
                 #syncOptionsState() {
@@ -2386,7 +2442,7 @@
                         includeEmptyLines: this.view.els.includeEmptyLines.checked,
                         replaceDelimiter: this.view.els.replaceDelimiterWithSpace.checked,
                         activateFilter: this.view.els.activateFilter.checked,
-                        standardizeDate: this.view.els.standardizeDate.checked,
+                        unifyDates: this.view.els.unifyDates.checked,
                     };
                 }
 
@@ -2426,6 +2482,7 @@
                     const isTableChecked = els.asTable.checked;
                     els.activateFilter.disabled = !isTableChecked;
                     els.includeEmptyLines.disabled = isTableChecked;
+                    els.replaceDelimiterWithSpace.disabled = isTableChecked;
 
                     if (isTableChecked) {
                         els.activateFilter.checked = true;
@@ -2440,8 +2497,9 @@
 				#updateEncodingState() {
 				    const file1 = this.view.els.file1.files[0];
 				    const file2 = this.view.els.file2.files[0];
-				    const isExcel1 = file1 && ["xlsx", "xls"].includes(file1.name.split(".").pop().toLowerCase());
-				    const isExcel2 = file2 && ["xlsx", "xls"].includes(file2.name.split(".").pop().toLowerCase());
+                    const isExcel1 = file1 && file1.name.includes(".") && ["xlsx", "xls"].includes(file1.name.split(".").pop().toLowerCase());
+                    const isExcel2 = file2 && file2.name.includes(".") && ["xlsx", "xls"].includes(file2.name.split(".").pop().toLowerCase());
+
 				
 				    if (isExcel1 && isExcel2) {
 				        this.view.els.encodingToggle.checked = false;
@@ -2461,7 +2519,7 @@
                 #updateUIStatus(visibleCount, totalCount, stats = null) {
                     if (!this.tableManager.els.status) return;
 
-                    const isSingleView = ["file1", "file2", "consolidate"].includes(this.state.currentViewMode);
+                    const isSingleView = ["file1", "file2", "merge"].includes(this.state.currentViewMode);
                     const baseTotal =
                         !isSingleView && this.state.initialTotalRows !== undefined
                             ? this.state.initialTotalRows
@@ -2494,40 +2552,35 @@
                 }
 
 
-				static formatDates(data, standardize = true) {
+				static formatDates(data, unify = true, lang = "en") {
 				    if (!data || !Array.isArray(data)) return data;
-				
-                    const deRegex = /^\s*(\d{1,2})\.(\d{1,2})\.(\d{4})\s*$/;
-                    const usRegex = /^\s*(\d{1,2})\/(\d{1,2})\/(\d{4})\s*$/;
-
+				    const deRegex = /^\s*(\d{1,2})\.(\d{1,2})\.(\d{4})(?:\s+\d{1,2}:\d{2}(?::\d{2})?)?\s*$/;
+				    const usRegex = /^\s*(\d{1,2})\/(\d{1,2})\/(\d{4})(?:\s+\d{1,2}:\d{2}(?::\d{2})?)?\s*$/;
 				    return data.map(row => {
 				        if (!Array.isArray(row)) return row;
-				
 				        return row.map(cell => {
 				            if (cell instanceof Date) {
-				                if (!standardize) {
-				                    const day = cell.getDate().toString().padStart(2, '0');
-				                    const month = (cell.getMonth() + 1).toString().padStart(2, '0');
-				                    const year = cell.getFullYear();
-				                    const hours = cell.getHours().toString().padStart(2, '0');
-				                    const minutes = cell.getMinutes().toString().padStart(2, '0');
-				                    const seconds = cell.getSeconds().toString().padStart(2, '0');
-				                    return `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
+				                if (!unify) {
+				                    return cell.toLocaleString(lang, {
+				                        year: 'numeric',
+				                        month: '2-digit',
+				                        day: '2-digit',
+				                        hour: '2-digit',
+				                        minute: '2-digit',
+				                        second: '2-digit'
+				                    });
 				                }
 				                const year = cell.getFullYear();
 				                const month = (cell.getMonth() + 1).toString().padStart(2, '0');
 				                const day = cell.getDate().toString().padStart(2, '0');
 				                return `${year}-${month}-${day}`;
 				            }
-				
-				            if (!standardize) {
+				            if (!unify) {
 				                return cell;
 				            }
-
 				            if (typeof cell !== 'string' || !cell.trim()) {
 				                return cell;
 				            }
-
 				            let match = cell.match(deRegex);
 				            if (match) {
 				                const day = match[1].padStart(2, '0');
@@ -2535,7 +2588,6 @@
 				                const year = match[3];
 				                return `${year}-${month}-${day}`;
 				            }
-				
 				            match = cell.match(usRegex);
 				            if (match) {
 				                const month = match[1].padStart(2, '0');
@@ -2543,12 +2595,11 @@
 				                const year = match[3];
 				                return `${year}-${month}-${day}`;
 				            }
-
 				            return cell;
 				        });
 				    });
 				}
-
+				
 				
                 static getCellData(cellObj) {
                     if (cellObj == null) {
@@ -2576,11 +2627,16 @@
                 }
 
 
-                static getTimestamp() {
-                    const now = new Date();
-                    return `${now.toISOString().slice(0, 10)}-${now.toTimeString().slice(0, 5).replace(":", "")}`;
-                }
-
+				static getTimestamp() {
+				    const now = new Date();
+				    const year = now.getFullYear();
+				    const month = String(now.getMonth() + 1).padStart(2, "0");
+				    const day = String(now.getDate()).padStart(2, "0");
+				    const hours = String(now.getHours()).padStart(2, "0");
+				    const minutes = String(now.getMinutes()).padStart(2, "0");
+				    return `${year}-${month}-${day}-${hours}${minutes}`;
+				}
+				
 
                 static removeEmptyColumns(data) {
                     if (!data?.length) return [];
@@ -2611,20 +2667,66 @@
                 static removeHTMLTags(str) {
                     return typeof str === "string" ? str.replace(/<[^>]*>/g, "") : "";
                 }
+                
+
+                static getOptimalColumnWidth(headerText, maxDataLength) {
+
+                    const dataWidth = Math.max(maxDataLength, 8) * 8 + 20;
+                    const cleanHeader = Utility.removeHTMLTags(headerText || "");
+                    const words = cleanHeader.split(/\s+/).filter(Boolean);
+
+                    if (words.length <= 1) {
+                        return Math.max(dataWidth, cleanHeader.length * 8 + 30);
+                    }
+
+                    const longestWordLen = Math.max(...words.map(w => w.length));
+                    let limit = longestWordLen;
+                    for (; limit <= cleanHeader.length; limit++) {
+                        let linesCount = 0;
+                        let currentLen = 0;
+                        
+                        for (let i = 0; i < words.length; i++) {
+                            const word = words[i];
+                            const addedLen = word.length + (currentLen > 0 ? 1 : 0);
+                            if (currentLen + addedLen <= limit) {
+                                currentLen += addedLen;
+                            } else {
+                                linesCount++;
+                                currentLen = word.length;
+                            }
+                        }
+                        if (currentLen > 0) {
+                            linesCount++;
+                        }
+
+                        if (linesCount <= 3) {
+                            break;
+                        }
+                    }
+
+                    const minWordWidth = longestWordLen * 8 + 35;
+                    const headerWidth = limit * 8 + 35;
+
+                    return Math.max(dataWidth, headerWidth, minWordWidth);
+                }
+
             }
 
 
             class Exporter {
-                #downloadFile(content, mimeType, fileExtension) {
-                    const url = URL.createObjectURL(new Blob([content], { type: `${mimeType};charset=utf-8;` }));
-                    const link = Object.assign(document.createElement("a"), {
-                        href: url,
-                        download: `${Utility.getTimestamp()}.${fileExtension}`,
-                    });
-                    link.click();
-                    URL.revokeObjectURL(url);
-                }
 
+				#downloadFile(content, mimeType, fileExtension) {
+				    const url = URL.createObjectURL(new Blob([content], { type: `${mimeType};charset=utf-8;` }));
+				    const link = Object.assign(document.createElement("a"), {
+				        href: url,
+				        download: `${Utility.getTimestamp()}.${fileExtension}`,
+				    });
+				    document.body.appendChild(link);
+				    link.click();
+				    link.remove();
+				    URL.revokeObjectURL(url);
+				}
+				
 
                 exportAsCSV(selectedText) {
                     this.#downloadFile(`\uFEFF${selectedText}`, "text/csv", "csv");
@@ -2638,15 +2740,18 @@
 
 
             class DataManager {
-                constructor(config = {}) {
-                    this.config = config;
-                }
+
+				constructor(config = {}, lang = "de", tr = {}) {
+				        this.config = config;
+				        this.lang = lang;
+				        this.tr = tr;
+				    }
 
 
-                #normalizeRows(rows) {
+ 
+                #normalizeRows(rows, fileIndex = 1) {
                     if (!rows?.length) return [];
 
-                    let maxCols = -1;
                     const validRows = [];
 
                     for (let i = 0; i < rows.length; i++) {
@@ -2662,70 +2767,57 @@
                         }
 
                         if (lastNonEmptyIdx !== -1) {
-                            validRows.push(row);
-                            if (lastNonEmptyIdx > maxCols) {
-                                maxCols = lastNonEmptyIdx;
-                            }
-                        }
-                    }
-
-                    if (maxCols === -1) return [];
-
-                    const targetLength = maxCols + 1;
-                    const normalized = new Array(validRows.length);
-
-                    for (let i = 0; i < validRows.length; i++) {
-                        const row = validRows[i];
-                        const cleanRow = new Array(targetLength);
-
-                        for (let j = 0; j < targetLength; j++) {
-                            const val = row[j];
-                            if (val == null) {
-                                cleanRow[j] = "";
-                            } else if (val instanceof Date) {
-                                cleanRow[j] = val;
-                            } else {
-                                cleanRow[j] = String(val).replace(/\r/g, "").trim();
-                            }
-                        }
-
-                        normalized[i] = cleanRow;
-                    }
-
-                    return normalized;
-                }
-
-
-                async #parseCSV(file, encoding = "UTF-8") {
-                    const encodingParam = encoding.toUpperCase() === "ANSI" ? "windows-1252" : "utf-8";
-
-                    return new Promise((resolve, reject) => {
-                        if (window.Papa) {
-                            Papa.parse(file, {
-                                encoding: encodingParam,
-                                complete: (results) => resolve(this.#normalizeRows(results.data)),
-                                error: (err) => reject(err),
-                                skipEmptyLines: true,
+                            const sliced = row.slice(0, lastNonEmptyIdx + 1);
+                            const cleanRow = sliced.map(val => {
+                                if (val == null) return "";
+                                if (val instanceof Date) return val;
+                                return String(val).replace(/\r/g, "").trim();
                             });
-                        } else {
-                            const reader = new FileReader();
-                            reader.onload = (e) => {
-                                const text = e.target.result;
-                                const colDelimiter = this.config.COLUMN_DELIMITER || ";";
-                                const lines = text.split(/\r\n|\n/).map((line) => line.split(colDelimiter));
-                                resolve(this.#normalizeRows(lines));
-                            };
-                            reader.onerror = (err) => reject(err);
-                            reader.readAsText(file, encodingParam);
+                            validRows.push(cleanRow);
                         }
-                    });
+                    }
+
+                    return validRows;
                 }
 
 
-                async #parseExcel(file) {
+
+ 
+ 
+
+				async #parseCSV(file, encoding = "UTF-8", fileIndex = 1) {
+				    const encodingParam = encoding.toUpperCase() === "ANSI" ? "windows-1252" : "utf-8";
+				
+				    return new Promise((resolve, reject) => {
+				        if (window.Papa) {
+				            Papa.parse(file, {
+				                encoding: encodingParam,
+				                complete: (results) => {
+				                    try {
+				                        resolve(this.#normalizeRows(results.data, fileIndex));
+				                    } catch (err) {
+				                        reject(err);
+				                    }
+				                },
+				                error: (err) => reject(err),
+				                skipEmptyLines: true,
+				            });
+
+
+				        } else {
+				            reject({
+				                messageKey: "error_library_missing",
+				                details: "'PapaParse'"
+				            });
+				        }
+				    });
+				}
+				
+
+                async #parseExcel(file, fileIndex = 1) {
                     if (typeof readXlsxFile === "undefined" && typeof readSheet === "undefined") {
                         throw {
-                            messageKey: "library_missing_error",
+                            messageKey: "error_library_missing",
                             details: "'read-excel-file'",
                         };
                     }
@@ -2745,118 +2837,150 @@
                             return [];
                         }
 
-                        return this.#normalizeRows(rows);
+                        return this.#normalizeRows(rows, fileIndex);
                     } catch (err) {
                         throw {
-                            messageKey: "file_read_error",
-                            details: `${this.tr[this.lang]["excel_prefix"] || "(Excel)"} ${err.message}`
+                            messageKey: fileIndex === 1 ? "error_file1_read" : "error_file2_read",
+                            details: `${this.tr[this.lang]["error_excel_prefix"] || "(Excel)"} ${err.message}`
                         };
                     }
                 }
 
-                async parseFile(file, encoding = "UTF-8") {
-                    const extension = file.name.split(".").pop().toLowerCase();
-                    let parsedData;
 
+				async parseFile(file, encoding = "UTF-8", fileIndex = 1) {
+				    const extension = file.name.includes(".") ? file.name.split(".").pop().toLowerCase() : "";
+				    let parsedData;
+				
+				    switch (extension) {
+				        case "csv":
+				        case "txt":
+				            parsedData = await this.#parseCSV(file, encoding, fileIndex);
+				            break;
+				        case "ods":
+				            parsedData = await this.#parseODS(file, fileIndex);
+				            break;
+				        case "xlsx":
+				            parsedData = await this.#parseExcel(file, fileIndex);
+				            break;
+				        default:
+				            throw {
+				                messageKey: fileIndex === 1 ? "error_file1_unsupported_format" : "error_file2_unsupported_format",
+				                details: `.${extension}`,
+				            };
+				    }
+				
+				    if (!parsedData || parsedData.length === 0) {
+				        throw {
+				            messageKey: fileIndex === 1 ? "val_file1_empty" : "val_file2_empty"
+				        };
+				    }
+				
+				    if (parsedData.length < 2) {
+				        throw {
+				            messageKey: fileIndex === 1 ? "error_file1_parsing" : "error_file2_parsing"
+				        };
+				    }
+				
+				    const headers = parsedData[0];
+				    
+				    if (!headers || headers.length === 0 || headers.every(h => String(h || "").trim() === "")) {
+				        throw {
+				            messageKey: fileIndex === 1 ? "error_file1_parsing" : "error_file2_parsing"
+				        };
+				    }
+				
+				    const headerSet = new Set();
+				    const duplicateHeaders = new Set();
+				    
+				    for (let i = 0; i < headers.length; i++) {
+				        const hName = String(headers[i] || "").trim().toLowerCase();
+				        if (hName === "") continue;
+				        if (headerSet.has(hName)) {
+				            duplicateHeaders.add(`"${headers[i]}"`);
+				        } else {
+				            headerSet.add(hName);
+				        }
+				    }
+				    
+				    if (duplicateHeaders.size > 0) {
+				        throw {
+				            messageKey: fileIndex === 1 ? "val_file1_column_not_unique" : "val_file2_column_not_unique",
+				            details: Array.from(duplicateHeaders)
+				        };
+				    }
+				
+				    let mismatchedRowsCount = 0;
+				    const expectedColCount = headers.length;
+				    for (let r = 1; r < parsedData.length; r++) {
+				        if (parsedData[r].length !== expectedColCount) {
+				            mismatchedRowsCount++;
+				        }
+				    }
+				
+				    if ((mismatchedRowsCount / (parsedData.length - 1) > 0.2) || (expectedColCount === 1 && mismatchedRowsCount > 0)) {
+				        throw {
+                            messageKey: fileIndex === 1 ? "error_file1_parsing" : "error_file2_parsing"
+				        };
+				    }
+				
+				    const mismatchedRowsDetails = [];
+				    for (let r = 1; r < parsedData.length; r++) {
+				        if (parsedData[r].length > expectedColCount) {
+				            const rowPrefix = parsedData[r]
+				                .slice(0, 3)
+				                .map(cell => cell == null ? "" : String(cell).trim())
+				                .join("; ");
+				            mismatchedRowsDetails.push(`"${rowPrefix}"`);
+				        }
+				    }
+				
+				    if (mismatchedRowsDetails.length > 0) {
+				        throw {
+				            messageKey: fileIndex === 1 ? "val_file1_too_many_columns" : "val_file2_too_many_columns",
+				            details: mismatchedRowsDetails
+				        };
+				    }
+				
+				    const uniqueRows = new Set();
+				    let hasTotalDuplicates = false;
+				    for (let r = 1; r < parsedData.length; r++) {
+				        const rowString = parsedData[r].map(cell => String(cell ?? "").trim()).join("§§§");
+				        
+				        if (rowString.replace(/§§§/g, "") === "") continue;
+				        if (uniqueRows.has(rowString)) {
+				            hasTotalDuplicates = true;
+				            break; 
+				        }
+				        uniqueRows.add(rowString);
+				    }
+				
+				    if (hasTotalDuplicates) {
+				        throw {
+				            messageKey: fileIndex === 1 ? "error_file1_parsing" : "error_file2_parsing"
+				        };
+				    }
+				
+				    let maxCols = -1;
+				    for (let i = 0; i < parsedData.length; i++) {
+				        if (parsedData[i].length - 1 > maxCols) {
+				            maxCols = parsedData[i].length - 1;
+				        }
+				    }
+				    const targetLength = maxCols + 1;
+				    for (let i = 0; i < parsedData.length; i++) {
+				        const r = parsedData[i];
+				        while (r.length < targetLength) {
+				            r.push("");
+				        }
+				    }
+				
+				    return parsedData;
+				}
+				
 
-                    switch (extension) {
-                        case "csv":
-                        case "txt":
-                            parsedData = await this.#parseCSV(file, encoding);
-                            break;
-                        case "ods":
-                            parsedData = await this.#parseODS(file);
-                            break;
-                        case "xlsx":
-                            parsedData = await this.#parseExcel(file);
-                            break;
-                        default:
-                            throw {
-                                messageKey: "unsupported_format_error",
-                                details: `.${extension}`,
-                            };
-                    }
-
-
-                    if (!parsedData || parsedData.length === 0) {
-                        throw {
-                            messageKey: "file_is_empty"
-                        };
-                    }
-
-
-                    if (parsedData.length < 2) {
-                        throw {
-                            messageKey: "parsing_error"
-                        };
-                    }
-
-                    const headers = parsedData[0];
-                    
-
-                    if (!headers || headers.length === 0 || headers.every(h => String(h || "").trim() === "")) {
-                        throw {
-                            messageKey: "parsing_error"
-                        };
-                    }
-
-
-                    const headerSet = new Set();
-                    for (let i = 0; i < headers.length; i++) {
-                        const hName = String(headers[i] || "").trim().toLowerCase();
-                        if (hName === "") continue;
-                        if (headerSet.has(hName)) {
-                            throw {
-                                messageKey: "parsing_error"
-                            };
-                        }
-                        headerSet.add(hName);
-                    }
-
-
-                    let mismatchedRows = 0;
-                    const expectedColCount = headers.length;
-                    for (let r = 1; r < parsedData.length; r++) {
-                        if (parsedData[r].length !== expectedColCount) {
-                            mismatchedRows++;
-                        }
-                    }
-                    
-                    if (mismatchedRows / (parsedData.length - 1) > 0.2) {
-                        throw {
-                            messageKey: "parsing_error"
-                        };
-                    }
-
-                    const uniqueRows = new Set();
-                    let hasTotalDuplicates = false;
-
-                    for (let r = 1; r < parsedData.length; r++) {
-                        const rowString = parsedData[r].map(cell => String(cell ?? "").trim()).join("§§§");
-                        
-                        if (rowString.replace(/§§§/g, "") === "") continue;
-
-                        if (uniqueRows.has(rowString)) {
-                            hasTotalDuplicates = true;
-                            break; 
-                        }
-                        uniqueRows.add(rowString);
-                    }
-
-                    if (hasTotalDuplicates) {
-                        throw {
-                            messageKey: "parsing_error"
-                        };
-                    }
-
-                    return parsedData;
-                }
-
-
-
-                async #parseODS(file) {
+                 async #parseODS(file, fileIndex = 1) {
                     if (typeof fflate === "undefined") {
-                        throw { messageKey: "library_missing_error", details: "'fflate'" };
+                        throw { messageKey: "error_library_missing", details: "'fflate'" };
                     }
                     const tXmlInstance =
                         typeof tXml !== "undefined"
@@ -2865,19 +2989,22 @@
                               ? txml
                               : window?.tXml || window?.txml;
                     if (!tXmlInstance) {
-                        throw { messageKey: "library_missing_error", details: "'txml'" };
+                        throw { messageKey: "error_library_missing", details: "'txml'" };
                     }
                     const bytes = new Uint8Array(await file.arrayBuffer());
                     return new Promise((resolve, reject) => {
                         fflate.unzip(bytes, (err, unzipped) => {
+                        
+                            const errorKey = fileIndex === 1 ? "error_file1_read" : "error_file2_read";
+                            
                             if (err) {
-                                return reject({ messageKey: "file_read_error", details: `(ODS) ${err.message}` });
+                                return reject({ messageKey: errorKey, details: `(ODS) ${err.message}` });
                             }
                             const contentXmlData = unzipped["content.xml"];
                             if (!contentXmlData) {
                                 return reject({ 
-                                    messageKey: "file_read_error", 
-                                    details: this.tr[this.lang]["ods_content_missing"] || "(ODS) content.xml missing" 
+                                    messageKey: errorKey, 
+                                    details: this.tr[this.lang]["error_ods_content_missing"] || "(ODS) content.xml missing" 
                                 });
                             }
                             try {
@@ -2885,10 +3012,12 @@
                                 const parseFn = typeof tXmlInstance === "function" ? tXmlInstance : tXmlInstance.parse;
                                 if (!parseFn) {
                                     throw {
-                                        messageKey: "file_read_error",
-                                        details: this.tr[this.lang]["ods_parser_missing"]
+                                        messageKey: errorKey,
+                                        details: this.tr[this.lang]["error_ods_parser_missing"]
                                     };
                                 }
+                       
+
                                 const parsedXml = parseFn(xmlString);
 
                                 const getLocalName = (node) =>
@@ -2935,16 +3064,20 @@
                                         });
                                     })
                                     .filter((row) => row.length > 0 && row.some((cell) => cell.trim() !== ""));
-                                resolve(this.#normalizeRows(allRows));
+                                resolve(this.#normalizeRows(allRows, fileIndex));
                             } catch (parseErr) {
-                                reject({
-                                    messageKey: "file_read_error",
+                                    reject({
+                                    messageKey: errorKey,
                                     details: `(ODS) ${parseErr.messageKey ? parseErr.details : parseErr.message}`,
                                 });
                             }
                         });
                     });
                 }
+
+ 
+ 
+
             }
 
              class Comparer {
@@ -3122,13 +3255,13 @@
                         const idx2 = headerMap2.get(keyName);
 
                         if (idx1 === undefined || idx2 === undefined) {
-                            const missingKeyName = rawKeyName || (this.tr[this.lang]["unknown"]);
+                            const missingKeyName = rawKeyName || (this.tr[this.lang]["meta_unknown"]);
                             return {
                                 error: {
                                     warnings: [
                                         {
                                             context: "file2",
-                                            messageKey: "key_not_found_in_file2",
+                                            messageKey: "val_cross_key_not_found_in_file2",
                                             details: `"${missingKeyName}"`,
                                         },
                                     ],
@@ -3304,26 +3437,26 @@
                 }
 
 
-                processDuplicateConsolidation(data, selectedColumns, duplicateDelimiter, options = {}) {
-                    if (!data || data.length < 2) return { success: true, data: [] };
-
-                    const dataLen = data.length;
-                    for (let r = 1; r < dataLen; r++) {
-                        const row = data[r];
-                        if (!row) continue;
-                        const rowLen = row.length;
-                        for (let c = 0; c < rowLen; c++) {
-                            const cellValue = String(row[c] ?? "");
-                            if (duplicateDelimiter && cellValue.includes(duplicateDelimiter)) {
-                                return { success: false, reason: "HAS_DUPLICATE_DELIMITER", value: cellValue };
-                            }
-                        }
-                    }
-
-                    const map = new Map();
-                    const valDelimiter = options.valueDelimiter || "~";
-                    const textCollator = new Intl.Collator("en", { sensitivity: "base", numeric: true });
-                    const selColCount = selectedColumns.length;
+				processDuplicateConsolidation(data, selectedColumns, duplicateDelimiter, options = {}) {
+				    if (!data || data.length < 2) return { success: true, data: [] };
+				
+				    const dataLen = data.length;
+				    for (let r = 1; r < dataLen; r++) {
+				        const row = data[r];
+				        if (!row) continue;
+				        const rowLen = row.length;
+				        for (let c = 0; c < rowLen; c++) {
+				            const cellValue = String(row[c] ?? "");
+				            if (duplicateDelimiter && cellValue.includes(duplicateDelimiter)) {
+				                return { success: false, reason: "HAS_DUPLICATE_DELIMITER", value: cellValue };
+				            }
+				        }
+				    }
+				
+				    const map = new Map();
+				    const valDelimiter = options.valueDelimiter || "~";
+				    const textCollator = new Intl.Collator(this.lang || "en", { sensitivity: "base", numeric: true });
+				    const selColCount = selectedColumns.length;
 
                     for (let r = 1; r < dataLen; r++) {
                         const row = data[r];
@@ -3410,7 +3543,7 @@
                         }
 
                         const headerMsgKey =
-                            fileName === "file1" ? "column_not_unique_in_file1" : "column_not_unique_in_file2";
+                            fileName === "file1" ? "val_file1_column_not_unique" : "val_file2_column_not_unique";
                         for (const [header, count] of headerCount) {
                             if (count > 1) {
                                 hasCriticalError = true;
@@ -3424,7 +3557,7 @@
                     }
 
                     const isFile1 = fileName === "file1";
-                    const recordMsgKey = isFile1 ? "first_file_record_not_unique" : "second_file_column_not_unique";
+                    const recordMsgKey = isFile1 ? "val_file1_record_not_unique" : "val_file2_record_not_unique";
                     const keyColCount = keyColumns.length;
 
                     for (let i = 1; i < data.length; i++) {
@@ -3476,7 +3609,7 @@
                         hasCriticalError = true;
                         warnings.push({
                             context: fileName,
-                            messageKey: isFile1 ? "first_file_has_empty_keys" : "second_file_has_empty_keys",
+                            messageKey: isFile1 ? "val_file1_empty_keys" : "val_file2_empty_keys",
                         });
                     }
 
@@ -3486,6 +3619,7 @@
             
             
             class TableManager {
+                
                 constructor(lang, tr) {
                     this.lang = lang;
                     this.tr = tr;
@@ -3526,7 +3660,7 @@
 				        sortIcon.innerHTML = '';
 
 				        const mappedRows = rows.map((row) => ({
-				            row: row,
+				            meta_row_singular: row,
 				            origIndex: parseInt(row.dataset.origIndex || row.getAttribute("data-orig-index") || 0, 10)
 				        }));
 				        
@@ -3561,14 +3695,14 @@
 				            }
 				
 				            return {
-				                row: row,
+				                meta_row_singular: row,
 				                value: sortValue.trim()
 				            };
 				        });
 				
-				        mappedRows.sort((a, b) => {
-				            return a.value.localeCompare(b.value, undefined, { numeric: true, sensitivity: 'base' }) * modifier;
-				        });
+                        mappedRows.sort((a, b) => {
+                            return a.value.localeCompare(b.value, this.lang, { numeric: true, sensitivity: 'base' }) * modifier;
+                        });
 
 				        const sortedRows = mappedRows.map(item => item.row);
 				        tbody.append(...sortedRows);
@@ -3976,7 +4110,7 @@
 
                 #getElements() {
                     this.els.output = document.getElementById("output");
-                    this.els.globalSearch = document.getElementById("search_placeholder");
+                    this.els.globalSearch = document.getElementById("meta_search_placeholder");
                     this.els.searchClear = document.getElementById("search_clear");
                     if (this.els.searchClear) this.els.searchClear.style.display = "none";
                     this.els.searchContainer = document.getElementById("search-container");
@@ -4000,12 +4134,16 @@
 				}
               
               
-                resetColumnOrder() {
-                    if (!this.currentTable) return;
-                    
-                    this.#resetAllHighlights();
-
-                    const rows = this.currentTable.querySelectorAll('tr');
+				resetColumnOrder() {
+				    if (!this.currentTable) return;
+				    
+				    this.highlightedColumns.forEach(cell => {
+				        cell.classList.remove('highlighted-column');
+				    });
+				    this.highlightedColumns.clear();
+				
+				    const rows = this.currentTable.querySelectorAll('tr');
+				
                     rows.forEach(row => {
                         const cells = Array.from(row.children).sort((a, b) => 
                             parseInt(a.dataset.originalIndex, 10) - parseInt(b.dataset.originalIndex, 10)
@@ -4256,6 +4394,8 @@
                 reset() {
                     this.clearStatus();
                     this.clearOutput();
+                    this.highlightedColumns.clear();
+                    this.highlightedRows.clear();
                     if (this.els.globalSearch) {
                         this.els.globalSearch.value = "";
                     }
@@ -4299,11 +4439,37 @@
                     
 
                     const ths = table.querySelectorAll("thead tr:first-child th");
+
+                    const maxDataLens = new Array(colCount).fill(0);
+                    for (let r = 0; r < data.length; r++) {
+                        const row = data[r];
+                        for (let c = 0; c < colCount; c++) {
+                            const cellObj = row[c];
+                            const cellData = Utility.getCellData(cellObj);
+                            const valLen = Math.max(
+                                (cellData.value || "").length,
+                                (cellData.oldValue || "").length,
+                                (cellData.newValue || "").length
+                            );
+                            if (valLen > maxDataLens[c]) {
+                                maxDataLens[c] = valLen;
+                            }
+                        }
+                    }
+
+                    ths.forEach((th, i) => {
+                        const headerObj = headers[i];
+                        const headerText = typeof headerObj === "object" && headerObj !== null ? headerObj.name : headerObj;
+                        const optWidth = Utility.getOptimalColumnWidth(headerText, maxDataLens[i]);
+                        th.style.width = optWidth + "px";
+                        th.style.maxWidth = "250px";
+                    });
+
                     const widths = [];
                     let totalWidth = 0;
                     ths.forEach(th => {
-                        th.style.maxWidth = 'none';
-                        const w = th.offsetWidth;
+                        th.style.maxWidth = '250px';
+                        const w = Math.min(th.offsetWidth, 250);
                         widths.push(w);
                         totalWidth += w;
                     });
@@ -4316,12 +4482,15 @@
                     if (totalWidth < targetWidth && targetWidth > 0) {
                         const ratio = targetWidth / totalWidth;
                         ths.forEach((th, i) => {
+                            const finalWidth = widths[i] * ratio;
                             th.style.maxWidth = 'none';
-                            th.style.width = (widths[i] * ratio) + "px";
+                            th.style.width = finalWidth + "px";
                         });
                     } else {
                         ths.forEach((th, i) => {
-                            th.style.width = widths[i] + "px";
+                            const finalWidth = Math.min(widths[i], 250);
+                            th.style.maxWidth = '250px';
+                            th.style.width = finalWidth + "px";
                         });
                     }
 
@@ -4536,7 +4705,7 @@
                     }
 
                     this.els.status.replaceChildren();
-                    const unitLabel = data.totalCount === 1 ? this.tr[this.lang].row : this.tr[this.lang].rows;
+                    const unitLabel = data.totalCount === 1 ? this.tr[this.lang].meta_row_singular : this.tr[this.lang].meta_row_plural;
                     const elVis = document.createElement("span");
                     elVis.id = "status-visible-count";
                     elVis.textContent = data.visibleCount;
@@ -4545,7 +4714,7 @@
                     elTotal.id = "status-total-count";
                     elTotal.textContent = data.totalCount;
 
-                    const txtOf = ` ${this.tr[this.lang].of} `;
+                    const txtOf = ` ${this.tr[this.lang].meta_of} `;
                     const txtUnit = ` ${unitLabel}`;
                     this.els.status.appendChild(elVis);
 
@@ -4924,7 +5093,7 @@
 				            searchWrapper.append(searchInput, clearBtn);
 				            scrollContainer.appendChild(searchWrapper);
 
-				            const createExportOptionRow = (val, labelText, checked) => {
+				            const appendExportOptionRow = (val, labelText, checked) => {
 				                const rowDiv = document.createElement("div");
 				                rowDiv.className = "filter-option-row";
 				                const cb = document.createElement("input");
@@ -4936,22 +5105,17 @@
 				                labelSpan.className = "filter-option-label";
 				                labelSpan.textContent = labelText;
 				                rowDiv.append(cb, labelSpan);
-				                return rowDiv.outerHTML;
+				                scrollContainer.appendChild(rowDiv);
 				            };
 				
-				            let optionsHtml = [createExportOptionRow("select-all", txtAll, true)];
+				            appendExportOptionRow("select-all", txtAll, true);
 				            if (hasEmpty) {
-				                optionsHtml.push(createExportOptionRow("select-empty", txtEmpty, true));
+				                appendExportOptionRow("select-empty", txtEmpty, true);
 				            }
 				            sortedValues.forEach(val => {
-				                optionsHtml.push(createExportOptionRow(val, val, true));
+				                appendExportOptionRow(val, val, true);
 				            });
-								
-				            const optionsContainer = document.createElement("div");
-				            optionsContainer.innerHTML = optionsHtml.join("");
-				            while (optionsContainer.firstChild) {
-				                scrollContainer.appendChild(optionsContainer.firstChild);
-				            }
+
 				            td.innerHTML = "";
 				            td.appendChild(scrollContainer);
 
@@ -5102,32 +5266,35 @@
 						        const headerIsInFile1 = header.innerHTML.includes("highlight-first");
 						        const isAsc = nextSort === "asc";
 						        const modifier = isAsc ? 1 : -1;
-						        
-						        rows.sort((a, b) => {
-						            const cellA = a.children[columnIndex];
-						            const cellB = b.children[columnIndex];
-						            
-						            let valA = "";
-						            let valB = "";
-						
-						            if (cellA) {
-						                if (cellA.dataset.cachedOldVal !== undefined || cellA.dataset.cachedNewVal !== undefined) {
-						                    valA = headerIsInFile1 ? (cellA.dataset.cachedOldVal || cellA.dataset.cachedNewVal || "") : (cellA.dataset.cachedNewVal || cellA.dataset.cachedOldVal || "");
-						                } else {
-						                    valA = cellA.dataset.cachedVal ?? "";
-						                }
-						            }
-						            if (cellB) {
-						                if (cellB.dataset.cachedOldVal !== undefined || cellB.dataset.cachedNewVal !== undefined) {
-						                    valB = headerIsInFile1 ? (cellB.dataset.cachedOldVal || cellB.dataset.cachedNewVal || "") : (cellB.dataset.cachedNewVal || cellB.dataset.cachedOldVal || "");
-						                } else {
-						                    valB = cellB.dataset.cachedVal ?? "";
-						                }
-						           }
 
-						          return valA.trim().localeCompare(valB.trim(), undefined, { numeric: true, sensitivity: 'base' }) * modifier;
+								rows.sort((a, b) => {
+								    const cellA = a.children[columnIndex];
+								    const cellB = b.children[columnIndex];
+								    
+								    let valA = "";
+								    let valB = "";
+								
+								    if (cellA) {
+								        if (cellA.dataset.cachedOldVal !== undefined || cellA.dataset.cachedNewVal !== undefined) {
+								            valA = headerIsInFile1 ? (cellA.dataset.cachedOldVal || cellA.dataset.cachedNewVal || "") : (cellA.dataset.cachedNewVal || cellA.dataset.cachedOldVal || "");
+								        } else {
+								            valA = cellA.dataset.cachedVal ?? "";
+								        }
+								    }
+								    if (cellB) {
+								        if (cellB.dataset.cachedOldVal !== undefined || cellB.dataset.cachedNewVal !== undefined) {
+								            valB = headerIsInFile1 ? (cellB.dataset.cachedOldVal || cellB.dataset.cachedNewVal || "") : (cellB.dataset.cachedNewVal || cellB.dataset.cachedOldVal || "");
+								        } else {
+								            valB = cellB.dataset.cachedVal ?? "";
+								        }
+								   }
+								
+								  const exportLang = document.documentElement.lang || "en";
+								  return valA.trim().localeCompare(valB.trim(), exportLang, { numeric: true, sensitivity: 'base' }) * modifier;
+								
+								});
+														        
 
-						        });
 						    }
 						    
 						    rows.forEach(row => tbody.appendChild(row));
@@ -5499,6 +5666,24 @@
 							            exportfilterTable(table, null);
 							        }, 200);
 							    });
+
+      
+                                searchInput.addEventListener("keydown", e => {
+                                    if (e.key === "Escape") {
+                                        searchInput.value = "";
+                                        searchClear.style.display = "none";
+                                        currentSearchQuery = "";
+                                        table.querySelectorAll("tbody td").forEach(td => {
+                                            td.querySelectorAll(".search-highlight").forEach(span => {
+                                                span.replaceWith(document.createTextNode(span.textContent));
+                                            });
+                                            td.normalize();
+                                        });
+                                        exportfilterTable(table, null);
+                                        searchInput.blur();
+                                    }
+                                });
+
 							
 							searchClear.addEventListener("click", () => {
                                 searchInput.value = "";
@@ -5688,7 +5873,7 @@
                         `        .col-toggle-btn { position: absolute !important; right: 2px !important; top: 2px !important; cursor: pointer !important; font-size: 11px !important; font-weight: bold !important; color: #777 !important; background: #e5e5e5 !important; border-radius: 3px !important; padding: 1px 4px !important; line-height: 1 !important; user-select: none !important; z-index: 10 !important; border: 1px solid #ccc !important; display: inline-block !important; }`,
                         `        .col-toggle-btn:hover { color: #fff !important; background-color: var(--color-first-action) !important; border-color: var(--color-first-action) !important; }`,
                         `        th.column-collapsed { min-width: 10px !important; max-width: 10px !important; width: 10px !important; padding: 3px 0 !important; text-align: center !important; background-color: #e0e0e0 !important; border: 1px solid var(--border-color) !important; }`,
-                        `        th.column-collapsed .sort-trigger { display: none !important; }`,
+                        `        th.column-collapsed .header-content-wrapper { display: none !important; }`,
                         `        td.column-collapsed { min-width: 10px !important; max-width: 10px !important; width: 10px !important; padding: 3px 0 !important; overflow: hidden !important; white-space: nowrap !important; background-color: #f5f5f5 !important; }`,
                         `        td.column-collapsed { color: transparent !important; font-size: 0 !important; line-height: 0 !important; border-left: 1px solid var(--border-color) !important; border-right: 1px solid var(--border-color) !important; border-bottom: 1px solid var(--border-color) !important; box-sizing: border-box !important; }`,
                         `        td.column-collapsed * { display: none !important; }`,
@@ -5704,7 +5889,7 @@
 				    	`        .filter-active { border: 2px solid var(--color-first-action) !important; border-radius: 4px !important; }`,
                         `        .table-filter-scroll-container { width: 100%; height: 110px; overflow-y: auto; background: #fff; box-sizing: border-box; display: flex; flex-direction: column; padding: 0 6px 2px 2px; text-align: left; overscroll-behavior: contain; }`,
                         `        .filter-option-row { display: flex; align-items: center; padding: 0px 3px; cursor: pointer; user-select: none; white-space: nowrap; line-height: 1.0; }`,
-					    `        .filter-option-row:hover { background-color: #f0f4f8; }`,
+					    `        .filter-option-meta_row_singular:hover { background-color: #f0f4f8; }`,
                 		`        .filter-option-checkbox { appearance: none; width: 11px; height: 11px; box-sizing: border-box; border: 1px solid #999; border-radius: 2px; margin-right: 6px; flex-shrink: 0; cursor: pointer; position: relative; background-color: #fff; display: inline-grid; place-content: center; }`,
 					    `        .filter-option-checkbox:checked { background-color: var(--color-first-action); border-color: var(--color-first-action); }`,
                         `        .filter-option-checkbox:checked::before { content: ""; width: 6px; height: 3px; border-left: 1.5px solid #fff; border-bottom: 1.5px solid #fff; transform: rotate(-45deg) translate(0.5px, -0.5px); }`,
@@ -5715,7 +5900,7 @@
 					    `  <div style="width: 100%; min-width: max-content; display: block; box-sizing: border-box;">`,
 					    `    <div class="export-controls">`,
 					    `        <div class="search-wrapper">`,
-					    `            <input type="text" id="export-search-input" class="search-input" placeholder="${this.tr[this.lang]["search_placeholder"]}">`,
+					    `            <input type="text" id="export-search-input" class="search-input" placeholder="${this.tr[this.lang]["meta_search_placeholder"]}">`,
 					    `            <span id="export-search-clear" class="search-clear-btn">&times;</span>`,
 					    `        </div>`,
 					    `        <div id="export-status" style="font-size: 12px; display: inline-flex; align-items: center; gap: 6px;">`,
@@ -5734,7 +5919,7 @@
 					    `                <input type="checkbox" class="status-filter-checkbox" data-filter="matching" checked>`,
 					    `            </label>`,
 					    `            )`,
-					    `            ${this.tr[this.lang]["of"] || "of"} <span id="export-total-count">0</span> ${rows.length === 1 ? this.tr[this.lang]["row"] : this.tr[this.lang]["rows"]}`,
+					    `            ${this.tr[this.lang]["meta_of"] || "meta_of"} <span id="export-total-count">0</span> ${rows.length === 1 ? this.tr[this.lang]["meta_row_singular"] : this.tr[this.lang]["meta_row_plural"]}`,
 					    `        </div>`,
 					    `        <button id="export-reset-col-order-btn" class="hidden" style="background: none; border: none; color: #999; cursor: pointer; font-size: 14px; padding: 0; margin-left: 10px;">← →</button>`,
 					    `        <button id="export-expand-all-cols-btn" class="hidden" style="background: #e5e5e5; border: 1px solid #ccc; border-radius: 3px; color: #777; cursor: pointer; font-size: 11px; font-weight: bold; padding: 2px 6px; line-height: 1; margin-left: 10px; user-select: none; display: inline-block;">+</button>`,
@@ -5768,24 +5953,37 @@
                 clearWarnings() {
                     this.els.warnings.replaceChildren();
                     this.els.warnings.style.display = "none";
+                    this.els.output.classList.remove("hidden");
+                    this.els.output.classList.remove("hidden");
+                    if (this.els.searchStatusWrapper) {
+                        this.els.searchStatusWrapper.classList.remove("hidden");
+                    }
                 }
 
 
-                showWarning(context, messageKey, details = "") {
-                    const colorClass = context === "file1" ? "highlight-first" : "highlight-second";
-                    const message = this.tr[this.lang][messageKey] ?? messageKey;
-                    const fullMessage = `${message} ${details}`.trim();
+				showWarning(context, messageKey, details = "") {
+				    const colorClass = context === "file1" ? "highlight-first" : "highlight-second";
+				    const message = this.tr[this.lang][messageKey] ?? messageKey;
+				    const detailList = Array.isArray(details) ? details : [details];
+				    detailList.forEach(detail => {
+				        const fullMessage = `${message} ${detail}`.trim();
+				        if (this.els.warnings.hasChildNodes()) {
+				            this.els.warnings.append(document.createElement("br"));
+				        }
+				        const span = document.createElement("span");
+				        span.className = colorClass;
+				        span.textContent = fullMessage;
+				        this.els.warnings.append(span);
+				    });
+				
+				    this.els.warnings.style.display = "block";
 
-                    if (this.els.warnings.hasChildNodes()) {
-                        this.els.warnings.append(document.createElement("br"));
-                    }
-
-                    const span = document.createElement("span");
-                    span.className = colorClass;
-                    span.textContent = fullMessage;
-
-                    this.els.warnings.append(span);
-                    this.els.warnings.style.display = "block";
+					if (messageKey === "error_no_content_to_save" || messageKey === "error_no_csv_to_save") {
+					    this.els.output.classList.add("hidden");
+					    if (this.els.searchStatusWrapper) {
+					        this.els.searchStatusWrapper.classList.add("hidden");
+					    }
+					}
                 }
 
 
@@ -5840,7 +6038,6 @@
 						        } else if (namePrefix === "column") {
 						            checkbox.disabled = true;
 						            label.className = "highlight-first";
-						            label.style.opacity = "0.5";
 						        }
 						    }
 						}
@@ -5895,7 +6092,7 @@
                     this.els.hideIdenticalColumnsContainer = document.getElementById("hide-identical-columns-container");
                     this.els.includeEmptyLines = document.getElementById("include-empty-lines");
                     this.els.replaceDelimiterWithSpace = document.getElementById("replace-delimiter-with-space");
-                    this.els.standardizeDate = document.getElementById("standardize-date");
+                    this.els.unifyDates = document.getElementById("unify-dates");
                     this.els.asTable = document.getElementById("as-table");
                     this.els.activateFilter = document.getElementById("activate-filter");
                     this.els.outputOptionsContainer = document.getElementById("output-options-container");
@@ -5908,7 +6105,7 @@
                     this.els.scrollToTopBtn = document.getElementById("scroll-to-top-btn");
                     this.els.searchStatusWrapper = document.querySelector(".search-status-wrapper");
                     this.els.bottomContainer = document.querySelector(".bottom-container");
-                    this.els.globalSearch = document.getElementById("search_placeholder");
+                    this.els.globalSearch = document.getElementById("meta_search_placeholder");
                     this.els.i18n = {};
                     Object.keys(this.tr[this.lang]).forEach(
                         (key) => (this.els.i18n[key] = document.getElementById(key))
@@ -5920,8 +6117,8 @@
                     if (!isSoftReset) {
                         this.els.file1.value = "";
                         this.els.file2.value = "";
-                        this.els.file1Name.textContent = this.tr[this.lang].no_file_selected;
-                        this.els.file2Name.textContent = this.tr[this.lang].no_file_selected;
+                        this.els.file1Name.textContent = this.tr[this.lang].file_none_selected;
+                        this.els.file2Name.textContent = this.tr[this.lang].file_none_selected;
                         this.els.checkboxes.replaceChildren();
                         this.els.keyColumnContainer.classList.add("hidden");
                         this.els.encodingToggle.disabled = false;
@@ -5942,7 +6139,7 @@
                     this.els.includeEmptyLines.checked = false;
                     this.els.includeEmptyLines.disabled = true;
                     this.els.replaceDelimiterWithSpace.checked = false;
-                    this.els.standardizeDate.checked = true;
+                    this.els.unifyDates.checked = true;
                     if (!isSoftReset) {
                         this.els.outputOptionsContainer.classList.add("hidden");
                     }
@@ -5953,7 +6150,7 @@
                 updateFileName(fileInputId, fileName) {
                     const span = this.els[`${fileInputId}Name`];
                     if (span) {
-                        span.textContent = fileName || this.tr[this.lang].no_file_selected;
+                        span.textContent = fileName || this.tr[this.lang].file_none_selected;
                     }
                 }
 
