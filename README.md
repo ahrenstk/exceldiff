@@ -18,8 +18,8 @@ You can change translation at `class App static Config`. Feel free to add new tr
 
 Since this tool does not require any backend server, you can launch it locally on your computer in a matter of seconds:
 
-1. Click the green **Code** button at the top right of this page and select **Download ZIP** (or clone the repository via Git). Also you can **direct download** `exceldiff.html`.
-2. Open the `exceldiff.html` file by **double-clicking** it in your preferred web browser (Chrome, Firefox, Edge, Safari).
+1. **Download ZIP**, **clone repository** or **direct download** `exceldiff.html`.
+2. Open `exceldiff.html` file in your preferred web browser (Chrome, Firefox, Edge, Safari).
 3. **That's it!** You can now use the tool entirely offline without any internet connection.
 
 ---
