@@ -4,11 +4,10 @@
 
 `exceldiff` is a lightweight, pure frontend tool that runs entirely in your web browser. It allows you to quickly and easily compare two spreadsheets or CSV files based on custom primary keys.
 
-**English translation:** `exceldiff.html`
+**English Version:** `exceldiff.html`  
+**German Version:** `exceldiff-de.html`  
 
-**German translation:** `exceldiff-de.html`
-
-You can change translation at `class App static Config`. Feel free to add new translations at `class App static Translations`. 
+*You can change the active language inside the code at `class App static Config`. Feel free to contribute new language translations by adding them to `class App static Translations`.*
 
 ---
 
@@ -18,9 +17,9 @@ You can change translation at `class App static Config`. Feel free to add new tr
 
 Since this tool does not require any backend server, you can launch it locally on your computer in a matter of seconds:
 
-1. **Download ZIP**, **clone repository** or **direct download** `exceldiff.html`.
-2. Open `exceldiff.html` file in your preferred web browser (Chrome, Firefox, Edge, Safari).
-3. **That's it!** You can now use the tool entirely offline without any internet connection.
+1. **Download the ZIP**, **clone the repository**, or **directly download** `exceldiff.html`.
+2. Open the `exceldiff.html` file in your preferred web browser (Chrome, Firefox, Edge, Safari).
+3. **That's it!** You can now use the tool entirely offline without any active internet connection.
 
 ---
 
@@ -52,7 +51,7 @@ Since this tool does not require any backend server, you can launch it locally o
 
 ## 📦 Bundled Libraries & Licenses
 
-This project uses the following open-source libraries (each under the MIT license), which are integrated directly at the end of the source code:
+This project uses the following open-source libraries (each under an MIT License), which are integrated directly at the end of the source code:
 
 1. **read-excel-file** (v9.x) – For reading Excel spreadsheets.
 2. **PapaParse** (v5.4.1) – For fast parsing of CSV and text files.
@@ -63,4 +62,4 @@ This project uses the following open-source libraries (each under the MIT licens
 
 ## 📄 License
 
-This project is licensed under the **MIT License**. For more details, please refer directly to the source code.
+This project is licensed under the **MIT License**.
