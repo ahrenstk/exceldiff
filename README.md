@@ -53,10 +53,11 @@ Since this tool does not require any backend server, you can launch it locally o
 
 This project uses the following open-source libraries (each under an MIT License), which are integrated directly at the end of the source code:
 
-1. **read-excel-file** (v9.x) – For reading Excel spreadsheets.
-2. **PapaParse** (v5.4.1) – For fast parsing of CSV and text files.
-3. **fflate** (v0.8.3) – For decompressing `.ods` archives.
-4. **tXml** (v6.0.0) – For parsing XML contents within ODS files.
+1. **read-excel-file** (v9.x) – For reading Excel spreadsheets - [https://gitlab.com/catamphetamine/read-excel-file](https://gitlab.com/catamphetamine/read-excel-file)
+2. **PapaParse** (v5.4.1) – For fast parsing of CSV and text files - [https://github.com/mholt/PapaParse](https://github.com/mholt/PapaParse)
+3. **fflate** (v0.8.3) – For decompressing `.ods` archives - [https://github.com/101arrowz/fflate](https://github.com/101arrowz/fflate)
+4. **tXml** (v6.0.0) – For parsing XML contents within ODS files - 
+
 
 ---
 
