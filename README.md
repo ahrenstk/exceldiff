@@ -48,7 +48,7 @@ Since this tool does not require any backend server, you can launch it locally o
 
 ## 📦 Bundled Libraries & Licenses
 
-This project utilizes the following open-source libraries (all licensed under the MIT License), which are directly integrated into the source code:
+This project uses the following open-source libraries (each under the MIT license), which are integrated directly at the end of the source code:
 
 1. **read-excel-file** (v9.x) – For reading Excel spreadsheets.
 2. **PapaParse** (v5.4.1) – For fast parsing of CSV and text files.
