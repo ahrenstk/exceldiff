@@ -5,6 +5,7 @@
 `exceldiff` is a lightweight, pure frontend tool that runs entirely in your web browser. It allows you to quickly and easily compare two spreadsheets or CSV files based on custom primary keys.
 
 **English translation:** `exceldiff.html`
+
 **German translation:** `exceldiff-de.html`
 
 You can change translation at `class App static Config`. Feel free to add new translations at `class App static Translations`. 
