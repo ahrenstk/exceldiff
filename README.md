@@ -1,64 +1,62 @@
 # exceldiff 📊
 
-> **.xlsx, .ods & .csv easily compared – 100% in your browser. The comparison is provided without guarantee.**
+> **Easily compare .xlsx, .ods & .csv files – 100% locally in your browser. This tool is provided as-is without warranty.**
 
-`exceldiff` is a lightweight, pure frontend tool that runs completely in your browser. It allows you to easily compare two spreadsheets or CSV files directly based on definable primary keys.
+`exceldiff` is a lightweight, pure frontend tool that runs entirely in your web browser. It allows you to quickly and easily compare two spreadsheets or CSV files based on custom primary keys.
 
 **German version:** [https://github.com/ahrenstk/exceldiff-de](https://github.com/ahrenstk/exceldiff-de)
-
 
 ---
 
 ![exceldiff](https://raw.githubusercontent.com/ahrenstk/exceldiff/main/exceldiff.jpg)
 
-## ✨ Features
+## 🚀 Quick Start & Offline Use
 
-- **Multi-Format Support:** Compares `.xlsx` (Excel), `.ods` (OpenDocument), `.csv`, and `.txt` files.
+Since this tool does not require any backend server, you can launch it locally on your computer in a matter of seconds:
 
-- **Smart Key Detection:** Automatic detection of the best possible (including composite) primary key when loading files.
-
-- **Primary Key Matching:** Determine yourself which columns should serve as the unique key for row matching.
-
-- **Visual Differentiation:** Changes, added rows, and deleted entries are clearly highlighted in color.
-
-- **Cell and Row Highlighting:** Double-click to highlight entire columns or rows in color for better orientation.
-
-- **Interactive Column Handling:** Columns can be moved (← →), individually hidden or shown (− / +), or sorted directly in the browser.
-
-- **Filter and Search Functions:** Integrated live search and dynamic, searchable column dropdown filters for large datasets.
-
-- **Date Standardization:** Optional automatic detection and unification of various date formats (e.g., DD.MM.YYYY, MM/DD/YYYY to YYYY-MM-DD).
-
-- **Flexible Encoding & Delimiters:** Supports switching between UTF-8 and ANSI encoding, as well as handling custom column delimiters.
-
-- **Duplicate Cleaning:** A tool to consolidate duplicates in the first file with adjustable separators.
-
-- **Advanced Views:** Quick switching between comparison mode, showing only File 1 or File 2, and showing only changed rows.
-
-- **Interactive HTML Export:** Exported HTML results remain fully interactive – including search, sorting, column moving, and filtering directly within the exported file.
-
-- **CSV Export:** Fast export of the cleaned text or CSV data.
-
-- **100% in Browser:** Your data never leaves your computer at any time.
-
-- **External JavaScript Libraries:** Built directly into the code and are therefore not reloaded from CDNs (customizable).
+1. Click the green **Code** button at the top right of this page and select **Download ZIP** (or clone the repository via Git). Also you can **direct download** `exceldiff.html`.
+2. Open the `exceldiff.html` file by **double-clicking** it in your preferred web browser (Chrome, Firefox, Edge, Safari).
+3. **That's it!** You can now use the tool entirely offline without any internet connection.
 
 ---
 
-## 📦 Used Libraries & Licenses
+## 🔒 100% Privacy & Security
 
-This project uses the following open-source libraries (each under the MIT License):
+* **No Server Uploads:** Your sensitive spreadsheet data never leaves your computer. All calculations and comparison processes are executed purely within your browser's local memory.
+* **No Third-Party CDNs:** All required JavaScript libraries are bundled directly within the source code. No scripts or resources are loaded from external servers (like jsDelivr or Google) when opening the tool.
+* **No Cookies & No Tracking:** The tool does not store cookies or local storage tracking data, and no web analytics are performed.
+
+---
+
+## ✨ Features
+
+- **Multi-Format Support:** Compare `.xlsx` (Excel), `.ods` (OpenDocument), `.csv`, and `.txt` files.
+- **Smart Key Detection:** Automatically detects the best possible primary key (including composite keys) upon loading your files.
+- **Custom Primary Keys:** Define which columns should serve as the unique key for matching rows.
+- **Visual Differences:** Modifications, added rows, and deleted entries are clearly highlighted using intuitive color schemes.
+- **Row & Column Highlighting:** Double-click any row or column to highlight it for better visual guidance.
+- **Interactive Column Handling:** Move columns on the fly (← →), toggle their visibility (− / +), or sort them directly in the browser.
+- **Filtering & Search:** Built-in live search and dynamic, searchable column dropdown filters to handle large datasets easily.
+- **Date Standardization:** Optionally auto-detect and unify various date formats (e.g., `DD.MM.YYYY` or `MM/DD/YYYY` into `YYYY-MM-DD`).
+- **Flexible Encoding & Delimiters:** Swap between UTF-8 and ANSI encoding, and handle custom column delimiters.
+- **Duplicate Clean-up:** Consolidate duplicates in your first file using adjustable delimiter symbols.
+- **Advanced Views:** Toggle instantly between standard comparison view, File 1 only, File 2 only, or only showing modified rows.
+- **Interactive HTML Export:** Exported comparison results remain fully interactive—including search, sorting, column rearranging, and filtering directly within the exported file.
+- **CSV Export:** Fast and clean export of your cleaned text or CSV data.
+
+---
+
+## 📦 Bundled Libraries & Licenses
+
+This project utilizes the following open-source libraries (all licensed under the MIT License), which are directly integrated into the source code:
 
 1. **read-excel-file** (v9.x) – For reading Excel spreadsheets.
-
 2. **PapaParse** (v5.4.1) – For fast parsing of CSV and text files.
-
-3. **fflate** (v0.8.3) – For unpacking `.ods` archives.
-
-4. **tXml** (v6.0.0) – For parsing XML content in ODS files.
+3. **fflate** (v0.8.3) – For decompressing `.ods` archives.
+4. **tXml** (v6.0.0) – For parsing XML contents within ODS files.
 
 ---
 
 ## 📄 License
 
-This project is licensed under the **MIT License**. Further details can be found in the source code.
+This project is licensed under the **MIT License**. For more details, please refer directly to the source code.
