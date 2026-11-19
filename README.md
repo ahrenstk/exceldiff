@@ -2,7 +2,7 @@
 
 > **Easily compare .xlsx, .ods & .csv files – 100% locally in your browser. This tool is provided as-is without warranty.**
 
-`exceldiff` is a lightweight, pure frontend tool that runs entirely in your web browser. It allows you to quickly and easily compare two spreadsheets or CSV files based on custom primary keys.
+`exceldiff` is a lightweight, pure frontend tool that runs entirely in your web browser. It allows you to quickly and easily compare two spreadsheets or CSV files based on primary keys.
 
 **English Version:** `exceldiff.html`  
 **German Version:** `exceldiff-de.html`  
