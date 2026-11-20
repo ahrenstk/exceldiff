@@ -1,6 +1,6 @@
 <!-----------------------------------------------------------------------------
 
-  exceldiff 2026-11-18
+  exceldiff 2026-11-20
   - File:    exceldiff.html
   - License: MIT License (c) 2026 Heinz Ahrens
   - URLs:    https://github.com/ahrenstk/exceldiff (private)
@@ -920,6 +920,10 @@
                     COLUMN_DELIMITER: ";",
                     VALUE_DELIMITER: "~",
                     DUPLICATE_DELIMITER: "#",
+                    MAX_KEY_SEARCH_SIZE: 4,
+                    MISMATCHED_ROWS_THRESHOLD: 0.2,
+                    MAX_COLUMN_WIDTH: 250,
+                    ANSI_ENCODING_MAP: "windows-1252",
                 });
 
 
@@ -1071,51 +1075,18 @@
                 constructor() {
                     this.config = App.Config;
                     this.tr = App.Translations;
+
                     this.isLockedAtBottom = false;
                     this.isScrollingUp = false;
-                    const requestedLang = App.Config.LANG;
-                    const fallbackLang = "en";
-                    this.lang = App.Translations[requestedLang] ? requestedLang : fallbackLang;
-                    document.documentElement.lang = this.lang;
-                    this.columnDelimiter = App.Config.COLUMN_DELIMITER || ";";
-                    this.valueDelimiter = App.Config.VALUE_DELIMITER || "~";
-                    this.duplicateDelimiter = App.Config.DUPLICATE_DELIMITER || "#";
-                    this.view = new View(this.lang, this.tr);
-				
-					this.tableManager = new TableManager(this.lang, this.tr);
-					this.tableManager.rowMatchesFiltersCallback = (row, colIndexToIgnore) => {
-					    const isSingleView = ["file1", "file2", "merge"].includes(this.state.currentViewMode);
-					    const rtf = this.state.rowTypeFilters || { matching: true, onlyFile1: true, onlyFile2: true };
-					    if (!isSingleView) {
-					        const rowType = row.dataset.rowType || "matching";
-					        if ((rowType === "onlyFile1" && !rtf.onlyFile1) || (rowType === "onlyFile2" && !rtf.onlyFile2) || (rowType === "matching" && !rtf.matching)) {
-					            return false;
-					        }
-					    }
-					    const searchInput = this.tableManager.els.globalSearch;
-					    const searchTerm = searchInput ? searchInput.value.trim().toLowerCase() : "";
-					    if (searchTerm && !row._cachedSearchText.includes(searchTerm)) return false;
 
-					    const isColumnFilterActive = Boolean(this.view.els.activateFilter && this.view.els.activateFilter.checked);
-					    const table = this.tableManager.currentTable;
-					    if (!table) return true;
-					    const headerCells = isColumnFilterActive ? Array.from(table.tHead?.querySelectorAll("tr:nth-child(2) td") || []) : [];
-					    const activeFilters = this.tableManager.getActiveColumnFilters(headerCells, isColumnFilterActive);
+                    const configLang = this.config?.LANG;
+                    this.lang = (this.tr && configLang && (configLang in this.tr)) ? configLang : "en";
 
-					    for (const filter of activeFilters) {
-					        if (filter.colIndex === colIndexToIgnore) continue;
-					        const cell = row.children[filter.colIndex];
-					        if (!cell || !this.tableManager.doesCellMatchFilter(cell, filter.selectedValues)) {
-					            return false;
-					        }
-					    }
-					    return true;
-					};
-			
-
-					this.dataManager = new DataManager(this.config, this.lang, this.tr);
-					this.comparer = new Comparer(this.lang, this.tr);
+                    this.comparer = new Comparer(this.config);
+                    this.dataManager = new DataManager(this.config);
                     this.exporter = new Exporter();
+                    this.view = new View(this.config, this.tr);
+
                     this.state = {
                         currentViewMode: "compare",
                         file1Data: null,
@@ -1141,19 +1112,23 @@
                         comparisonStats: null,
                     };
 
+                    this.tableManager = new TableManager(this.config, this.tr);
+                    this.tableManager.rowMatchesFiltersCallback = this.#rowMatchesFilters.bind(this);
+
+
                     this.#initializeApp();
                 }
+
 
                 #findBestCompositeKey(headers1, headers2, data1, data2) {
                     if (!data1 || data1.length < 2 || !data2 || data2.length < 2) return [];
 
-
-                    const h2Set = new Set(headers2.map(h => String(h || "").trim().toLowerCase()));
+                    const headers2Set = new Set(headers2.map(h => String(h || "").trim()));
                     const commonCols = [];
                     
                     headers1.forEach((h, idx) => {
-                        const cleanName = String(h || "").trim().toLowerCase();
-                        if (h2Set.has(cleanName)) {
+                        const cleanName = String(h || "").trim();
+                        if (headers2Set.has(cleanName)) {
                             commonCols.push({ index: idx, name: cleanName });
                         }
                     });
@@ -1164,30 +1139,34 @@
                     const numRows2 = data2.length - 1;
 
 
-                    const isCombinationUnique = (colIndices) => {
-
-                        const set1 = new Set();
-                        for (let r = 1; r < data1.length; r++) {
-                            const key = colIndices.map(idx => String(data1[r][idx] ?? "").trim()).join("~");
-                            if (key.replace(/~/g, "") === "") continue;
-                            set1.add(key);
-                        }
-                        if (set1.size !== numRows1) return false;
-
-
-                        const colIndicesIn2 = colIndices.map(idx1 => {
-                            const name = String(headers1[idx1] || "").trim().toLowerCase();
-                            return headers2.findIndex(h => String(h || "").trim().toLowerCase() === name);
-                        });
-
-                        const set2 = new Set();
-                        for (let r = 1; r < data2.length; r++) {
-                            const key = colIndicesIn2.map(idx => String(data2[r][idx] ?? "").trim()).join("~");
-                            if (key.replace(/~/g, "") === "") continue;
-                            set2.add(key);
-                        }
-                        return set2.size === numRows2;
-                    };
+					const isCombinationUnique = (colIndices) => {
+					    const delimRegex = new RegExp(Utility.escapeRegExp(this.config.VALUE_DELIMITER), "g");
+					
+					    const set1 = new Set();
+					    for (let r = 1; r < data1.length; r++) {
+					        const key = colIndices.map(idx => String(data1[r][idx] ?? "").trim()).join(this.config.VALUE_DELIMITER);
+					        if (key.replace(delimRegex, "") === "") continue;
+					        set1.add(key);
+					    }
+					
+					    if (set1.size !== numRows1) return false;
+					
+					    const colIndicesIn2 = colIndices.map(idx1 => {
+					        const name = String(headers1[idx1] || "").trim();
+					        return headers2.findIndex(h => String(h || "").trim() === name);
+					    });
+					
+					    const set2 = new Set();
+					    for (let r = 1; r < data2.length; r++) {
+					        const key = colIndicesIn2.map(idx => String(data2[r][idx] ?? "").trim()).join(this.config.VALUE_DELIMITER);
+					        if (key.replace(delimRegex, "") === "") continue;
+					        set2.add(key);
+					    }
+					
+					    return set2.size === numRows2;
+					};
+					
+					
 
                     const findComboOfSize = (startIdx, currentCombo, k) => {
                         if (currentCombo.length === k) {
@@ -1206,8 +1185,7 @@
                         return null;
                     };
 
-
-                    const maxSearchSize = Math.min(commonCols.length, 5);
+                    const maxSearchSize = Math.min(commonCols.length, this.config.MAX_KEY_SEARCH_SIZE ?? 5);
                     for (let size = 1; size <= maxSearchSize; size++) {
                         const foundCombo = findComboOfSize(0, [], size);
                         if (foundCombo) {
@@ -1343,11 +1321,10 @@
 
 				#applyAllFilters(activeDropdown = null) {
 				    const outputEl = this.tableManager.els.output;
-				    const searchInput = this.tableManager.els.globalSearch;
-				    const originalSearchTerm = searchInput ? searchInput.value.trim() : "";
+				    const originalSearchTerm = this.tableManager.getOriginalSearchTerm();
 				    const searchTerm = originalSearchTerm.toLowerCase();
 				    const table = this.tableManager.currentTable;
-				
+
 				    if (!table) {
 				        this.#filterTextOutput(outputEl, searchTerm, originalSearchTerm);
 				    } else {
@@ -1406,8 +1383,8 @@
                         };
 
                         if (!options.replaceDelimiter && !options.asTable) {
-                            const valDelim = this.valueDelimiter;
-                            const colDelim = this.columnDelimiter;
+                            const valDelim = this.config.VALUE_DELIMITER;
+                            const colDelim = this.config.COLUMN_DELIMITER;
                             const hasDelimiter = (data) => {
                                 if (!data) return false;
                                 return data.some(
@@ -1431,7 +1408,7 @@
                             }
                         }
 
-                        const delimiters = [this.columnDelimiter, this.valueDelimiter];
+                        const delimiters = [this.config.COLUMN_DELIMITER, this.config.VALUE_DELIMITER];
 
                         let tempProcessed1 = Utility.replaceDelimiters(this.state.file1Data, delimiters, options);
                         let data1 = Utility.formatDates(tempProcessed1, options.unifyDates, this.lang);
@@ -1441,8 +1418,8 @@
 
                         const result = this.comparer.compareFiles(data1, data2, {
                             ...options,
-                            valueDelimiter: this.valueDelimiter,
-                            columnDelimiter: this.columnDelimiter,
+                            valueDelimiter: this.config.VALUE_DELIMITER,
+                            columnDelimiter: this.config.COLUMN_DELIMITER,
                         });
 
 
@@ -1575,8 +1552,8 @@
                     } else {
                         this.tableManager.renderText(filteredHeaders, finalDifferences, {
                             includeEmptyLines: formData.includeEmptyLines,
-                            columnDelimiter: this.columnDelimiter,
-                            valueDelimiter: this.valueDelimiter,
+                            columnDelimiter: this.config.COLUMN_DELIMITER,
+                            valueDelimiter: this.config.VALUE_DELIMITER,
                         });
                     }
 
@@ -1586,7 +1563,7 @@
                         this.state.comparisonStats
                     );
 
-                    if (this.tableManager.els.globalSearch?.value.trim()) {
+                    if (this.tableManager.getSearchTerm()) {
                         this.#applyAllFilters();
                     }
                     this.#updateScrollTriggerPoint();
@@ -1600,17 +1577,10 @@
 				    }
 
 				    this.tableManager.resetTableHighlights(tbody);
-
-				    const activateFilterEl = this.view.els.activateFilter;
-				    const isColumnFilterActive = Boolean(activateFilterEl && activateFilterEl.checked);
-				    
+				    const isColumnFilterActive = this.view.isColumnFilterActive();
 				    const allRows = Array.from(tbody.rows);
-
 				    const headerCells = isColumnFilterActive ? (this.tableManager.filterCells || []) : [];
-				    
-
 				    const activeFilters = this.tableManager.getActiveColumnFilters(headerCells, isColumnFilterActive);
-				
 				    const isSingleView = ["file1", "file2", "merge"].includes(this.state.currentViewMode);
 				    const rtf = this.state.rowTypeFilters || { matching: true, onlyFile1: true, onlyFile2: true };
 				
@@ -1723,12 +1693,10 @@
                 #handleAction(action) {
                     const viewChangingActions = ["compare", "merge-duplicates", "action_reset", "show-file1", "show-file2"];
                     if (viewChangingActions.includes(action)) {
-                        if (this.tableManager.els.globalSearch) this.tableManager.els.globalSearch.value = "";
-                        if (this.tableManager.els.searchClear) this.tableManager.els.searchClear.style.display = "none";
+                        this.tableManager.clearSearch();
                         this.tableManager.clearStatus();
                         this.view.clearWarnings();
                     }
-
                     const file1 = this.view.els.file1?.files?.[0];
                     const file2 = this.view.els.file2?.files?.[0];
 
@@ -1924,7 +1892,7 @@
                                 const table = this.tableManager.currentTable;
                                 if (table) {
                                     const tbody = table.tBodies[0];
-                                    const isColumnFilterActive = Boolean(this.view.els.activateFilter && this.view.els.activateFilter.checked);
+                                    const isColumnFilterActive = this.view.isColumnFilterActive();
                                     const headerCells = isColumnFilterActive ? Array.from(table.tHead?.querySelectorAll("tr:nth-child(2) td") || []) : [];
                                     const activeFilters = this.tableManager.getActiveColumnFilters(headerCells, isColumnFilterActive);
                                     const allRows = tbody ? Array.from(tbody.rows) : [];
@@ -2226,17 +2194,16 @@
 
                         let dataStep4 = Utility.replaceDelimiters(
                             dataStep3,
-                            [this.duplicateDelimiter],
+                            [this.config.DUPLICATE_DELIMITER, this.config.COLUMN_DELIMITER],
                             this.state.options
                         );
-
 
                         const consolidationResult = this.comparer.processDuplicateConsolidation(
                             dataStep4,
                             keyColumns,
-                            this.duplicateDelimiter,
+                            this.config.DUPLICATE_DELIMITER,
                             {
-                                valueDelimiter: this.valueDelimiter,
+                                valueDelimiter: this.config.VALUE_DELIMITER,
                             }
                         );
 
@@ -2275,9 +2242,9 @@
 
                         this.tableManager.renderText(finalHeaders, renderedRows, {
                             includeEmptyLines: this.state.options.includeEmptyLines,
-                            columnDelimiter: this.columnDelimiter,
-                            valueDelimiter: this.valueDelimiter,
-                            duplicateDelimiter: this.duplicateDelimiter,
+                            columnDelimiter: this.config.COLUMN_DELIMITER,
+                            valueDelimiter: this.config.VALUE_DELIMITER,
+                            duplicateDelimiter: this.config.DUPLICATE_DELIMITER,
                         });
                         
 					} catch (error) {
@@ -2308,6 +2275,46 @@
                             break;
                     }
                 }
+
+
+				#rowMatchesFilters(row, colIndexToIgnore) {
+				    const isSingleView = ["file1", "file2", "merge"].includes(this.state.currentViewMode);
+				    const rtf = this.state.rowTypeFilters;
+				
+				    if (!isSingleView) {
+				        const rowType = row.dataset.rowType || "matching";
+				        if (!rtf[rowType]) {
+				            return false;
+				        }
+				    }
+
+				    const searchTerm = this.tableManager.getSearchTerm();
+				    if (searchTerm && !row._cachedSearchText?.includes(searchTerm)) {
+				        return false;
+				    }
+			
+				    const isColumnFilterActive = this.view.isColumnFilterActive();
+				    const table = this.tableManager.currentTable;
+				    if (!table) return true;
+
+				
+				    const headerCells = isColumnFilterActive
+				        ? Array.from(table.tHead?.querySelectorAll("tr:nth-child(2) td") || [])
+				        : [];
+				
+				    const activeFilters = this.tableManager.getActiveColumnFilters(headerCells, isColumnFilterActive);
+				
+				    for (const filter of activeFilters) {
+				        if (filter.colIndex === colIndexToIgnore) continue;
+				
+				        const cell = row.children[filter.colIndex];
+				        if (!cell || !this.tableManager.doesCellMatchFilter(cell, filter.selectedValues)) {
+				            return false;
+				        }
+				    }
+				
+				    return true;
+				}
 
 
 				#setupDropZone(zone, input, fileInputId) {
@@ -2364,7 +2371,7 @@
                         let data = this.state[`${fileKey}Data`];
                         if (!data || data.length === 0) return;
 
-                        const delimiters = [this.columnDelimiter, this.valueDelimiter];
+                        const delimiters = [this.config.COLUMN_DELIMITER, this.config.VALUE_DELIMITER];
 
                         let tempProcessed = Utility.replaceDelimiters(data, delimiters, this.state.options);
                         let processedData = Utility.formatDates(tempProcessed, this.state.options.unifyDates, this.lang);
@@ -2399,13 +2406,13 @@
                                 ),
                                 {
                                     includeEmptyLines: this.state.options.includeEmptyLines,
-                                    columnDelimiter: this.columnDelimiter,
-                                    valueDelimiter: this.valueDelimiter,
+                                    columnDelimiter: this.config.COLUMN_DELIMITER,
+                                    valueDelimiter: this.config.VALUE_DELIMITER,
                                 }
                             );
                         }
 
-                        if (this.tableManager.els.globalSearch?.value.trim()) {
+                        if (this.tableManager.getSearchTerm()) {
                             this.#applyAllFilters();
                         }
                         this.#updateScrollTriggerPoint();
@@ -2452,7 +2459,6 @@
 				}
 				
 
-
                 #syncOptionsState() {
                     this.state.options = {
                         asTable: this.view.els.asTable.checked,
@@ -2460,7 +2466,7 @@
                         hideIdenticalColumns: this.view.els.hideIdenticalColumns.checked,
                         includeEmptyLines: this.view.els.includeEmptyLines.checked,
                         replaceDelimiter: this.view.els.replaceDelimiterWithSpace.checked,
-                        activateFilter: this.view.els.activateFilter.checked,
+                        activateFilter: this.view.isColumnFilterActive(),
                         unifyDates: this.view.els.unifyDates.checked,
                     };
                 }
@@ -2485,7 +2491,7 @@
 
 
                 #toggleFilterActivation() {
-                    this.tableManager.setFilterRowVisibility(this.view.els.activateFilter.checked);
+                    this.tableManager.setFilterRowVisibility(this.view.isColumnFilterActive());
                 }
 
 
@@ -2767,14 +2773,12 @@
 
             class DataManager {
 
-				constructor(config = {}, lang = "de", tr = {}) {
+				constructor(config = {}, tr = {}) {
 				        this.config = config;
-				        this.lang = lang;
-				        this.tr = tr;
-				    }
+				        this.lang = this.config.LANG ?? "en";
+				}
 
 
- 
                 #normalizeRows(rows) {
                     if (!rows?.length) return [];
 
@@ -2807,12 +2811,9 @@
                 }
 
 
- 
- 
-
 				async #parseCSV(file, encoding = "UTF-8", fileIndex = 1) {
-				    const encodingParam = encoding.toUpperCase() === "ANSI" ? "windows-1252" : "utf-8";
-				
+				    const encodingParam = encoding.toUpperCase() === "ANSI" ? (this.config.ANSI_ENCODING_MAP ?? "ISO-8859-1") : "utf-8";
+
 				    return new Promise((resolve, reject) => {
 				        if (window.Papa) {
 				            Papa.parse(file, {
@@ -2839,37 +2840,34 @@
 				}
 				
 
-                async #parseExcel(file, fileIndex = 1) {
-                    if (typeof readXlsxFile === "undefined" && typeof readSheet === "undefined") {
-                        throw {
-                            messageKey: "error_library_missing",
-                            details: "'read-excel-file'",
-                        };
-                    }
-
-                    try {
-                        let rows;
-                        if (typeof readSheet === "function") {
-                            rows = await readSheet(file);
-                        } else if (typeof readXlsxFile?.readSheet === "function") {
-                            rows = await readXlsxFile.readSheet(file);
-                        } else {
-                            const result = await readXlsxFile(file);
-                            rows = result?.[0]?.data ?? result;
-                        }
-
-                        if (!rows || !rows.length) {
-                            return [];
-                        }
-
-                        return this.#normalizeRows(rows);
-                    } catch (err) {
-                        throw {
-                            messageKey: fileIndex === 1 ? "error_file1_read" : "error_file2_read",
-                            details: `${this.tr[this.lang]["error_excel_prefix"] || "(Excel)"} ${err.message}`
-                        };
-                    }
-                }
+			    async #parseExcel(file, fileIndex = 1) {
+				    if (typeof readXlsxFile === "undefined" && typeof readSheet === "undefined") {
+				        throw {
+				            messageKey: "error_library_missing",
+				            details: "'read-excel-file'",
+				        };
+				    }
+				    try {
+				        let rows;
+				        if (typeof readSheet === "function") {
+				            rows = await readSheet(file);
+				        } else if (typeof readXlsxFile?.readSheet === "function") {
+				            rows = await readXlsxFile.readSheet(file);
+				        } else {
+				            const result = await readXlsxFile(file);
+				            rows = result?.[0]?.data ?? result;
+				        }
+				        if (!rows || !rows.length) {
+				            return [];
+				        }
+				        return this.#normalizeRows(rows);
+				    } catch (err) {
+				        throw {
+				            messageKey: fileIndex === 1 ? "error_file1_read" : "error_file2_read",
+				            details: `(Excel) ${err.message}`
+				        };
+				    }
+				}
 
 
 				async parseFile(file, encoding = "UTF-8", fileIndex = 1) {
@@ -2951,8 +2949,8 @@
 				            }
 				        }
 				    }
-				
-				    if ((mismatchedRowsCount / (parsedData.length - 1) > 0.2) || (expectedColCount === 1 && mismatchedRowsCount > 0)) {
+
+				    if ((mismatchedRowsCount / (parsedData.length - 1) > this.config.MISMATCHED_ROWS_THRESHOLD) || (expectedColCount === 1 && mismatchedRowsCount > 0)) {
 				        throw {
                             messageKey: fileIndex === 1 ? "error_file1_parsing" : "error_file2_parsing"
 				        };
@@ -3012,103 +3010,100 @@
 				    return parsedData;
 				}
 				
-
-                 async #parseODS(file, fileIndex = 1) {
-                    if (typeof fflate === "undefined") {
-                        throw { messageKey: "error_library_missing", details: "'fflate'" };
-                    }
-                    const tXmlInstance =
-                        typeof tXml !== "undefined"
-                            ? tXml
-                            : typeof txml !== "undefined"
-                              ? txml
-                              : window?.tXml || window?.txml;
-                    if (!tXmlInstance) {
-                        throw { messageKey: "error_library_missing", details: "'txml'" };
-                    }
-                    const bytes = new Uint8Array(await file.arrayBuffer());
-                    return new Promise((resolve, reject) => {
-                        fflate.unzip(bytes, (err, unzipped) => {
-                        
-                            const errorKey = fileIndex === 1 ? "error_file1_read" : "error_file2_read";
-                            
-                            if (err) {
-                                return reject({ messageKey: errorKey, details: `(ODS) ${err.message}` });
-                            }
-                            const contentXmlData = unzipped["content.xml"];
-                            if (!contentXmlData) {
-                                return reject({ 
-                                    messageKey: errorKey, 
-                                    details: this.tr[this.lang]["error_ods_content_missing"] || "(ODS) content.xml missing" 
-                                });
-                            }
-                            try {
-                                const xmlString = new TextDecoder("utf-8").decode(contentXmlData);
-                                const parseFn = typeof tXmlInstance === "function" ? tXmlInstance : tXmlInstance.parse;
-                                if (!parseFn) {
-                                    throw {
-                                        messageKey: errorKey,
-                                        details: this.tr[this.lang]["error_ods_parser_missing"]
-                                    };
-                                }
-                       
-
-                                const parsedXml = parseFn(xmlString);
-
-                                const getLocalName = (node) =>
-                                    typeof node === "object" && node?.tagName ? node.tagName.split(":").pop() : "";
-                                const extractText = (children) => {
-                                    if (!children) return "";
-                                    if (typeof children === "string") return children;
-                                    if (!Array.isArray(children)) return "";
-                                    return children
-                                        .map((c) => (typeof c === "string" ? c : extractText(c.children)))
-                                        .join("");
-                                };
-                                const findRows = (nodes) => {
-                                    if (!Array.isArray(nodes)) return [];
-                                    const rows = [];
-                                    const stack = [...nodes];
-                                    while (stack.length > 0) {
-                                        const node = stack.pop();
-                                        if (typeof node !== "object" || !node) continue;
-                                        if (getLocalName(node) === "table-row") {
-                                            rows.push(node);
-                                        } else if (Array.isArray(node.children)) {
-                                            stack.push(...node.children);
-                                        }
-                                    }
-                                    return rows.reverse();
-                                };
-                                const allRows = findRows(parsedXml)
-                                    .map((row) => {
-                                        const cells = (row.children || []).filter(
-                                            (c) => getLocalName(c) === "table-cell"
-                                        );
-                                        return cells.flatMap((cell) => {
-                                            const repeatedAttr =
-                                                cell.attributes?.["table:number-columns-repeated"] ||
-                                                cell.attributes?.["number-columns-repeated"];
-                                            const repeatedColumns = repeatedAttr ? parseInt(repeatedAttr, 10) : 1;
-                                            const pNodes = (cell.children || []).filter((c) => getLocalName(c) === "p");
-                                            const cellValue = pNodes
-                                                .map((p) => extractText(p.children))
-                                                .join("\\n")
-                                                .trim();
-                                            return Array(repeatedColumns).fill(cellValue);
-                                        });
-                                    })
-                                    .filter((row) => row.length > 0 && row.some((cell) => cell.trim() !== ""));
-                                resolve(this.#normalizeRows(allRows));
-                            } catch (parseErr) {
-                                    reject({
-                                    messageKey: errorKey,
-                                    details: `(ODS) ${parseErr.messageKey ? parseErr.details : parseErr.message}`,
-                                });
-                            }
-                        });
-                    });
-                }
+				
+			    async #parseODS(file, fileIndex = 1) {
+				    if (typeof fflate === "undefined") {
+				        throw { messageKey: "error_library_missing", details: "'fflate'" };
+				    }
+				    const tXmlInstance =
+				        typeof tXml !== "undefined"
+				            ? tXml
+				            : typeof txml !== "undefined"
+				              ? txml
+				              : window?.tXml || window?.txml;
+				    if (!tXmlInstance) {
+				        throw { messageKey: "error_library_missing", details: "'txml'" };
+				    }
+				    const bytes = new Uint8Array(await file.arrayBuffer());
+				    return new Promise((resolve, reject) => {
+				        fflate.unzip(bytes, (err, unzipped) => {
+				            const errorKey = fileIndex === 1 ? "error_file1_read" : "error_file2_read";
+				            
+				            if (err) {
+				                return reject({ messageKey: errorKey, details: `(ODS) ${err.message}` });
+				            }
+				            const contentXmlData = unzipped["content.xml"];
+				            if (!contentXmlData) {
+				                return reject({ 
+				                    messageKey: errorKey, 
+				                    details: "(ODS) content.xml missing" 
+				                });
+				            }
+				            try {
+				                const xmlString = new TextDecoder("utf-8").decode(contentXmlData);
+				                const parseFn = typeof tXmlInstance === "function" ? tXmlInstance : tXmlInstance.parse;
+				                if (!parseFn) {
+				                    throw {
+				                        messageKey: errorKey,
+				                        details: "(ODS) Parser missing"
+				                    };
+				                }
+				       
+				                const parsedXml = parseFn(xmlString);
+				                const getLocalName = (node) =>
+				                    typeof node === "object" && node?.tagName ? node.tagName.split(":").pop() : "";
+				                const extractText = (children) => {
+				                    if (!children) return "";
+				                    if (typeof children === "string") return children;
+				                    if (!Array.isArray(children)) return "";
+				                    return children
+				                        .map((c) => (typeof c === "string" ? c : extractText(c.children)))
+				                        .join("");
+				                };
+				                const findRows = (nodes) => {
+				                    if (!Array.isArray(nodes)) return [];
+				                    const rows = [];
+				                    const stack = [...nodes];
+				                    while (stack.length > 0) {
+				                        const node = stack.pop();
+				                        if (typeof node !== "object" || !node) continue;
+				                        if (getLocalName(node) === "table-row") {
+				                            rows.push(node);
+				                        } else if (Array.isArray(node.children)) {
+				                            stack.push(...node.children);
+				                        }
+				                    }
+				                    return rows.reverse();
+				                };
+				                const allRows = findRows(parsedXml)
+				                    .map((row) => {
+				                        const cells = (row.children || []).filter(
+				                            (c) => getLocalName(c) === "table-cell"
+				                        );
+				                        return cells.flatMap((cell) => {
+				                            const repeatedAttr =
+				                                cell.attributes?.["table:number-columns-repeated"] ||
+				                                cell.attributes?.["number-columns-repeated"];
+				                            const repeatedColumns = repeatedAttr ? parseInt(repeatedAttr, 10) : 1;
+				                            const pNodes = (cell.children || []).filter((c) => getLocalName(c) === "p");
+				                            const cellValue = pNodes
+				                                .map((p) => extractText(p.children))
+				                                .join("\\n")
+				                                .trim();
+				                            return Array(repeatedColumns).fill(cellValue);
+				                        });
+				                    })
+				                    .filter((row) => row.length > 0 && row.some((cell) => cell.trim() !== ""));
+				                resolve(this.#normalizeRows(allRows));
+				            } catch (parseErr) {
+				                reject({
+				                    messageKey: errorKey,
+				                    details: `(ODS) ${parseErr.messageKey ? parseErr.details : parseErr.message}`,
+				                });
+				            }
+				        });
+				    });
+				}
 
             }
 
@@ -3127,9 +3122,9 @@
                     ADDED: "added",
                 });
 
-                constructor(lang, tr) {
-                    this.lang = lang;
-                    this.tr = tr;
+                constructor(config = {}, tr= {}) {
+                    this.config = config;
+                    this.lang = this.config.LANG ?? "en";
                 }
 
 
@@ -3285,7 +3280,7 @@
                         const idx2 = headerMap2.get(keyName);
 
                         if (idx1 === undefined || idx2 === undefined) {
-                            const missingKeyName = rawKeyName || (this.tr[this.lang]["meta_unknown"]);
+                            const missingKeyName = rawKeyName || "?";
                             return {
                                 error: {
                                     warnings: [
@@ -3467,8 +3462,9 @@
                 }
 
 
-				processDuplicateConsolidation(data, selectedColumns, duplicateDelimiter, options = {}) {
-				    if (!data || data.length < 2) return { success: true, data: [] };
+                processDuplicateConsolidation(data, selectedColumns, duplicateDelimiter, options = {}) {
+                    duplicateDelimiter = duplicateDelimiter || this.config.DUPLICATE_DELIMITER;
+                    if (!data || data.length < 2) return { success: true, data: [] };
 				
 				    const dataLen = data.length;
 				    for (let r = 1; r < dataLen; r++) {
@@ -3484,7 +3480,7 @@
 				    }
 				
 				    const map = new Map();
-				    const valDelimiter = options.valueDelimiter || "~";
+				    const valDelimiter = options.valueDelimiter || this.config.VALUE_DELIMITER;
 				    const textCollator = new Intl.Collator(this.lang || "en", { sensitivity: "base", numeric: true });
 				    const selColCount = selectedColumns.length;
 
@@ -3561,8 +3557,8 @@
                     let hasCriticalError = false;
                     let foundEmptyKey = false;
 
-                    const valDelimiter = delimiters.valueDelimiter ?? "~";
-                    const colDelimiter = delimiters.columnDelimiter ?? ";";
+                    const valDelimiter = delimiters.valueDelimiter ?? this.config.VALUE_DELIMITER;
+                    const colDelimiter = delimiters.columnDelimiter ?? this.config.COLUMN_DELIMITER;
 
                     const headers = data[0];
                     if (headers) {
@@ -3650,9 +3646,11 @@
             
             class TableManager {
                 
-                constructor(lang, tr) {
-                    this.lang = lang;
+                constructor(config = {}, tr = {}) {
+                    this.config = config;
                     this.tr = tr;
+                    this.lang = this.config.LANG ?? "en";
+                    this.headerFilterHeight = 150;
                     this.els = {};
                     this.currentTable = null;
                     this.currentFilterRow = null;
@@ -3748,8 +3746,6 @@
 				}
 				
 
-
-
 			    clearOutput() {
 			        this.els.output.style.minHeight = "";
 			        this.els.output.replaceChildren();
@@ -3763,6 +3759,16 @@
 			    }
 
 
+                clearSearch() {
+                    if (this.els.globalSearch) {
+                        this.els.globalSearch.value = "";
+                    }
+                    if (this.els.searchClear) {
+                        this.els.searchClear.style.display = "none";
+                    }
+                }
+
+
                 clearStatus() {
                     if (!this.els.status) return;
                     this.els.status.replaceChildren();
@@ -3770,8 +3776,8 @@
                 }
 
 
-				#createTableHeader(headers, uniqueValuesMap, hasEmptyArray, options) {
-				    const textCollator = new Intl.Collator("en", { sensitivity: "base", numeric: true });
+                #createTableHeader(headers, uniqueValuesMap, hasEmptyArray, options) {
+                    const textCollator = new Intl.Collator(this.lang, { sensitivity: "base", numeric: true });
 				    const thead = document.createElement("thead");
 				    const headerTr = document.createElement("tr");
 				    const filterTr = document.createElement("tr");
@@ -4144,6 +4150,15 @@
                     this.els.expandAllColsBtn = document.getElementById("expand-all-cols-btn");
                 }
 
+                getSearchTerm() {
+                    const searchInput = this.els.globalSearch;
+                    return searchInput ? searchInput.value.trim().toLowerCase() : "";
+                }
+                
+                getOriginalSearchTerm() {
+                    return this.els.globalSearch ? this.els.globalSearch.value.trim() : "";
+                }
+
 
 				handleHeaderClick(header, eventTarget) {
 				    const colIndex = header.cellIndex;
@@ -4460,22 +4475,26 @@
                         }
                     }
 
-                    ths.forEach((th, i) => {
-                        const headerObj = headers[i];
-                        const headerText = typeof headerObj === "object" && headerObj !== null ? headerObj.name : headerObj;
-                        const optWidth = Utility.getOptimalColumnWidth(headerText, maxDataLens[i]);
-                        th.style.width = optWidth + "px";
-                        th.style.maxWidth = "250px";
-                    });
-
-                    const widths = [];
-                    let totalWidth = 0;
-                    ths.forEach(th => {
-                        th.style.maxWidth = '250px';
-                        const w = Math.min(th.offsetWidth, 250);
-                        widths.push(w);
-                        totalWidth += w;
-                    });
+					const maxColWidth = this.config.MAX_COLUMN_WIDTH || 250;
+					
+					ths.forEach((th, i) => {
+					    const headerObj = headers[i];
+					    const headerText = typeof headerObj === "object" && headerObj !== null ? headerObj.name : headerObj;
+					    const optWidth = Utility.getOptimalColumnWidth(headerText, maxDataLens[i]);
+					    th.style.width = optWidth + "px";
+					    th.style.maxWidth = maxColWidth + "px";
+					});
+					
+					
+					
+					const widths = [];
+					let totalWidth = 0;
+					ths.forEach(th => {
+					    th.style.maxWidth = maxColWidth + 'px';
+					    const w = Math.min(th.offsetWidth, maxColWidth);
+					    widths.push(w);
+					    totalWidth += w;
+					});
                     
                     const containerWidth = this.els.output.clientWidth;
                     const wrapperWidth = this.els.output.parentElement ? this.els.output.parentElement.clientWidth : containerWidth;
@@ -4491,20 +4510,20 @@
                         });
                     } else {
                         ths.forEach((th, i) => {
-                            const finalWidth = Math.min(widths[i], 250);
-                            th.style.maxWidth = '250px';
+                            const finalWidth = Math.min(widths[i], maxColWidth);
+                            th.style.maxWidth = maxColWidth + 'px';
                             th.style.width = finalWidth + "px";
                         });
                     }
-
                     
                     if (filterTr) {
                         filterTr.style.display = originalFilterDisplay;
                     }
                     table.style.width = originalTableWidth;
 
-                    const viewportMin = window.innerHeight - 150;
+                    const viewportMin = window.innerHeight - this.headerFilterHeight;
                     this.els.output.style.minHeight = `${viewportMin}px`;
+
 
                     if (this.els.searchContainer) {
                         this.els.searchContainer.classList.remove("hidden");
@@ -4607,8 +4626,8 @@
 				        fragment.append(...lineElements);
 				    }
 				    this.textLines = lineElements;
-				    const viewportMin = window.innerHeight - 150;
-				    this.els.output.style.minHeight = `${viewportMin}px`;
+				    const viewportMin = window.innerHeight - this.headerFilterHeight;
+                    this.els.output.style.minHeight = `${viewportMin}px`;
 				    this.els.output.appendChild(fragment);
 				    this.els.searchContainer?.classList.remove("hidden");
 				}
@@ -4779,9 +4798,8 @@
 
  
                 renderTableOutput(tbody, rows, rowMatchesFilters, originalSearchTerm) {
-                    const viewportMin = window.innerHeight - 150;
+                    const viewportMin = window.innerHeight - this.headerFilterHeight;
                     this.els.output.style.minHeight = `${viewportMin}px`;
-
                     let visibleCount = 0;
                     let visibleOnlyFile1 = 0;
                     let visibleOnlyFile2 = 0;
@@ -4938,6 +4956,7 @@
 				    }
 				    const zoneFirstColor = getComputedStyle(document.documentElement).getPropertyValue("--zone-first-color").trim() || "red";
 				    const zoneSecondColor = getComputedStyle(document.documentElement).getPropertyValue("--zone-second-color").trim() || "blue";
+				    const appHighlightColor = getComputedStyle(document.documentElement).getPropertyValue("--highlight-color").trim();
 	                    const txtAll = this.tr[this.lang]["filter_all"];
 	                    const txtEmpty = this.tr[this.lang]["filter_empty"];
 				    const scriptTagStart = "<scr" + "ipt>";
@@ -4952,14 +4971,16 @@
                         `    <title>${Utility.escapeHTML(customTitle)}</title>`,
 				        `    <link rel="icon" href="data:,">`,
 				        `    <style>`,
-				        `        :root {`,
-				        `            --zone-first-color: ${zoneFirstColor};`,
-				        `            --zone-second-color: ${zoneSecondColor};`,
-				        `            --color-first-action: #0056b3;`,
-				        `            --border-color: #d9d9d9;`,
-				        `            --text-color: #2c3e50;`,
-				        `            accent-color: var(--color-first-action);`,
-				        `        }`,
+						`        :root {`,
+						`            --zone-first-color: ${zoneFirstColor};`,
+						`            --zone-second-color: ${zoneSecondColor};`,
+						`            --highlight-color: ${appHighlightColor};`,
+						`            --color-first-action: #0056b3;`,
+						`            --border-color: #d9d9d9;`,
+						`            --text-color: #2c3e50;`,
+						`            --header-height: ${this.headerFilterHeight}px;`,						
+						`            accent-color: var(--color-first-action);`,
+						`        }`,
 				        `        body { font-family: Arial, sans-serif; margin: 0; padding: 10px 20px 20px 20px; min-height: 100vh; box-sizing: border-box; color: var(--text-color); font-size: 12px; word-break: break-all; background-color: #fff; }`,
 				        `        .filter-active { border: 1px solid var(--color-first-action) !important; border-radius: 4px !important; }`,
 				        `        .highlight-first { font-weight: normal; color: var(--zone-first-color); }`,
@@ -5041,7 +5062,7 @@
 				                const numB = parseFloat(b.replace(",", "."));
 				                return !isNaN(numA) && !isNaN(numB)
 				                    ? numA - numB
-				                    : a.localeCompare(b, "de", { sensitivity: "base", numeric: true });
+				                    : a.localeCompare(b, this.lang, { sensitivity: "base", numeric: true });
 				            });
 				
 				            const scrollContainer = document.createElement("div");
@@ -5136,8 +5157,7 @@
 				    const interactiveScript = `
 
                         function exporthandleRowHighlighting(row) {
-                            const highlightColor = "rgba(0, 86, 179, 0.08)";
-                            row.style.backgroundColor = (row.style.backgroundColor === highlightColor) ? "" : highlightColor;
+                            row.classList.toggle("highlighted-row");
                         }
 
                         function exporttoggleColumnCollapse(th, table) {
@@ -5496,15 +5516,22 @@
 				            let countMatching = 0;
 				            let countOnly1 = 0;
 				            let countOnly2 = 0;
-				
+
 				            rows.forEach(row => {
 				                let isVisible = true;
 				                const rowType = row.dataset.rowType || "matching";
-				
+
 				                if ((rowType === "onlyFile1" && !rtf.onlyFile1) ||
 				                    (rowType === "onlyFile2" && !rtf.onlyFile2) ||
 				                    (rowType === "matching" && !rtf.matching)) {
 				                    isVisible = false;
+				                }
+				
+				                if (isVisible && currentSearchQuery) {
+				                    const rowText = row.textContent.toLowerCase();
+				                    if (!rowText.includes(currentSearchQuery)) {
+				                        isVisible = false;
+				                    }
 				                }
 				
 				                if (isVisible) {
@@ -5516,15 +5543,8 @@
 				                    }
 				                }
 				
-				                if (isVisible && currentSearchQuery) {
-				                    const rowText = row.textContent.toLowerCase();
-				                    if (!rowText.includes(currentSearchQuery)) {
-				                        isVisible = false;
-				                    }
-				                }
-				
 				                row.style.display = isVisible ? "" : "none";
-				
+								
 				                if (isVisible) {
 				                    visibleCount++;
 				                    if (rowType === "onlyFile1") countOnly1++;
@@ -5853,13 +5873,14 @@
 					    `        #output { min-height: calc(100vh - 150px); box-sizing: border-box; padding-right: 20px !important; }`,
                         `        table { border-collapse: separate; border-spacing: 0; width: max-content; min-width: auto; table-layout: fixed; }`,
 					    `        thead { position: sticky; top: 50px; z-index: 99; background-color: #fff; }`,
-                        `        th, td { border: 1px solid var(--border-color); padding: 3px 4px !important; text-align: left; vertical-align: middle; min-width: 20px; max-width: 250px; white-space: normal; background-clip: padding-box; }`,
+                        `        th, td { border: 1px solid var(--border-color); padding: 3px 4px !important; text-align: left; vertical-align: middle; min-width: 20px; max-width: ${(this.config.MAX_COLUMN_WIDTH) || 250}px; white-space: normal; background-clip: padding-box; }`,
 					    `        td:has(.highlight-first):not(:has(.highlight-second)) { vertical-align: top; }`,
 					    `        td:has(.highlight-second):not(:has(.highlight-first)) { vertical-align: bottom; }`,
                         `        th { word-break: normal; overflow-wrap: normal; background-color: #f8f9fa; text-align: center; cursor: pointer; position: relative !important; padding-right: 10px !important; }`,
                         `        th > div { box-sizing: border-box; display: inline-flex; justify-content: center; padding-right: 0 !important; position: relative; width: 100%; }`,
 					    `        td { word-break: break-word; }`,
-                        `        .highlighted-column { background-color: rgba(0, 86, 179, 0.08) !important; }`,
+                        `        .highlighted-column { background-color: var(--highlight-color) !important; }`,
+                        `        .highlighted-row { background-color: var(--highlight-color) !important; }`,
 					    `        .highlight-first { font-weight: normal; color: var(--zone-first-color); }`,
 					    `        .highlight-second { font-weight: normal; color: var(--zone-second-color); }`,
 					    `        td .highlight-first, td .highlight-second { display: block; }`,
@@ -5943,9 +5964,11 @@
             }
 
             class View {
-                constructor(lang, tr) {
-                    this.lang = lang;
+                
+                constructor(config = {}, tr = {}) {
+                    this.config = config;
                     this.tr = tr;
+                    this.lang = this.config.LANG ?? "en";
                     this.els = {};
                     this.#getElements();
                     Object.freeze(this.els);
@@ -6075,72 +6098,75 @@
 
 
                 #getElements() {
-                    this.els.body = document.body;
-                    this.els.mainContainer = document.querySelector(".main-container") || document.body;
-                    this.els.output = document.getElementById("output");
-                    this.els.warnings = document.getElementById("warnings");
-                    this.els.file1 = document.getElementById("file1");
-                    this.els.file2 = document.getElementById("file2");
-                    this.els.file1Name = document.getElementById("file1-name");
-                    this.els.file2Name = document.getElementById("file2-name");
-                    this.els.dropZone1 = document.getElementById("drop-zone-1");
-                    this.els.dropZone2 = document.getElementById("drop-zone-2");
-                    this.els.encodingToggle = document.getElementById("encoding-toggle");
-                    this.els.file1CheckboxSection = document.getElementById("file1-checkbox-section");
-                    this.els.file2CheckboxSection = document.getElementById("file2-checkbox-section");
-                    this.els.onlyDifferences = document.getElementById("only-differences");
-                    this.els.onlyDifferencesContainer = document.getElementById("only-differences-container");
-                    this.els.hideIdenticalColumns = document.getElementById("hide-identical-columns");
-                    this.els.hideIdenticalColumnsContainer = document.getElementById("hide-identical-columns-container");
-                    this.els.includeEmptyLines = document.getElementById("include-empty-lines");
-                    this.els.replaceDelimiterWithSpace = document.getElementById("replace-delimiter-with-space");
-                    this.els.unifyDates = document.getElementById("unify-dates");
-                    this.els.asTable = document.getElementById("as-table");
                     this.els.activateFilter = document.getElementById("activate-filter");
-                    this.els.outputOptionsContainer = document.getElementById("output-options-container");
-                    this.els.keyColumnContainer = document.getElementById("key-column-container");
+                    this.els.asTable = document.getElementById("as-table");
                     this.els.asTableContainer = document.getElementById("as-table-container");
-                    this.els.replaceDelimiterContainer = document.getElementById("replace-delimiter-container");
+                    this.els.body = document.body;
+                    this.els.bottomContainer = document.querySelector(".bottom-container");
                     this.els.checkboxes = document.getElementById("checkboxes");
                     this.els.checkboxesFile1 = document.getElementById("checkboxes-file1");
                     this.els.checkboxesFile2 = document.getElementById("checkboxes-file2");
+                    this.els.dropZone1 = document.getElementById("drop-zone-1");
+                    this.els.dropZone2 = document.getElementById("drop-zone-2");
+                    this.els.encodingToggle = document.getElementById("encoding-toggle");
+                    this.els.file1 = document.getElementById("file1");
+                    this.els.file1CheckboxSection = document.getElementById("file1-checkbox-section");
+                    this.els.file1Name = document.getElementById("file1-name");
+                    this.els.file2 = document.getElementById("file2");
+                    this.els.file2CheckboxSection = document.getElementById("file2-checkbox-section");
+                    this.els.file2Name = document.getElementById("file2-name");
+                    this.els.globalSearch = document.getElementById("meta_search_placeholder");
+                    this.els.hideIdenticalColumns = document.getElementById("hide-identical-columns");
+                    this.els.hideIdenticalColumnsContainer = document.getElementById("hide-identical-columns-container");
+                    this.els.includeEmptyLines = document.getElementById("include-empty-lines");
+                    this.els.i18n = {};
+                    this.els.keyColumnContainer = document.getElementById("key-column-container");
+                    this.els.mainContainer = document.querySelector(".main-container") || document.body;
+                    this.els.onlyDifferences = document.getElementById("only-differences");
+                    this.els.onlyDifferencesContainer = document.getElementById("only-differences-container");
+                    this.els.output = document.getElementById("output");
+                    this.els.outputOptionsContainer = document.getElementById("output-options-container");
+                    this.els.replaceDelimiterContainer = document.getElementById("replace-delimiter-container");
+                    this.els.replaceDelimiterWithSpace = document.getElementById("replace-delimiter-with-space");
                     this.els.scrollToTopBtn = document.getElementById("scroll-to-top-btn");
                     this.els.searchStatusWrapper = document.querySelector(".search-status-wrapper");
-                    this.els.bottomContainer = document.querySelector(".bottom-container");
-                    this.els.globalSearch = document.getElementById("meta_search_placeholder");
-                    this.els.i18n = {};
+                    this.els.unifyDates = document.getElementById("unify-dates");
+                    this.els.warnings = document.getElementById("warnings");
                     Object.keys(this.tr[this.lang]).forEach(
                         (key) => (this.els.i18n[key] = document.getElementById(key))
                     );
                 }
 
+                isColumnFilterActive() {
+                    return Boolean(this.els.activateFilter?.checked);
+                }
 
                 reset(isSoftReset = false) {
                     if (!isSoftReset) {
-                        this.els.file1.value = "";
-                        this.els.file2.value = "";
-                        this.els.file1Name.textContent = this.tr[this.lang].file_none_selected;
-                        this.els.file2Name.textContent = this.tr[this.lang].file_none_selected;
                         this.els.checkboxes.replaceChildren();
-                        this.els.encodingToggle.disabled = false;
                         this.els.encodingToggle.checked = false;
+                        this.els.encodingToggle.disabled = false;
+                        this.els.file1.value = "";
+                        this.els.file1Name.textContent = this.tr[this.lang].file_none_selected;
+                        this.els.file2.value = "";
+                        this.els.file2Name.textContent = this.tr[this.lang].file_none_selected;
                     }
-                    this.clearWarnings();
-                    this.els.checkboxesFile1.replaceChildren();
-                    this.els.checkboxesFile2.replaceChildren();
-                    this.els.keyColumnContainer.classList.add("hidden");
-                    this.els.file1CheckboxSection.classList.add("hidden");
-                    this.els.file2CheckboxSection.classList.add("hidden");
-                    this.els.outputOptionsContainer.classList.add("hidden");                    
-                    
-                    this.els.asTable.checked = true;
-                    this.els.activateFilter.checked = true;
-                    this.els.onlyDifferences.checked = false;
-                    this.els.hideIdenticalColumns.checked = false;
-                    this.els.includeEmptyLines.checked = false;
-                    this.els.includeEmptyLines.disabled = true;
-                    this.els.replaceDelimiterWithSpace.checked = false;
-                    this.els.unifyDates.checked = true;
+					this.clearWarnings();
+					this.els.activateFilter.checked = true;
+					this.els.asTable.checked = true;
+					this.els.checkboxesFile1.replaceChildren();
+					this.els.checkboxesFile2.replaceChildren();
+					this.els.file1CheckboxSection.classList.add("hidden");
+					this.els.file2CheckboxSection.classList.add("hidden");
+					this.els.hideIdenticalColumns.checked = false;
+					this.els.includeEmptyLines.checked = false;
+					this.els.includeEmptyLines.disabled = true;
+					this.els.keyColumnContainer.classList.add("hidden");
+					this.els.onlyDifferences.checked = false;
+					this.els.outputOptionsContainer.classList.add("hidden");                    
+					this.els.replaceDelimiterWithSpace.checked = false;
+					this.els.unifyDates.checked = true;
+					
                 }
 
 
@@ -6172,7 +6198,6 @@
             });
 
         </script>
-
 
        
 <script>
