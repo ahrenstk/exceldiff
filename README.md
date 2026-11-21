@@ -36,6 +36,7 @@ Since this tool does not require any backend server, you can launch it locally o
 - **Multi-Format Support:** Compare `.xlsx` (Excel), `.ods` (OpenDocument), `.csv`, and `.txt` files.
 - **Smart Key Detection:** Automatically detects the best possible primary key (including composite keys) upon loading your files.
 - **Custom Primary Keys:** Define which columns should serve as the unique key for matching rows.
+- **High-Performance Virtual Scrolling:** Smoothly handle and scroll through huge datasets by rendering only visible elements in the browser.
 - **Visual Differences:** Modifications, added rows, and deleted entries are clearly highlighted using intuitive color schemes.
 - **Row & Column Highlighting:** Double-click any row or column to highlight it for better visual guidance.
 - **Interactive Column Handling:** Move columns on the fly (← →), toggle their visibility (− / +), or sort them directly in the browser.
