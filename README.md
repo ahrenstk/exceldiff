@@ -4,7 +4,8 @@
 
 `exceldiff` runs entirely on the client side to quickly compare two `.xlsx`, `.ods`, `.csv`, or `.txt` files based on primary keys. No server, no installation, maximum privacy.
 
-🌐 **Available Versions:** [English (`exceldiff.html`)](exceldiff.html) | [Deutsch (`exceldiff-de.html`)](exceldiff-de.html)
+🌐 **Available Versions:** [`exceldiff.html` (English)](exceldiff.html) | [`exceldiff-de.html` (Deutsch)](exceldiff-de.html)
+
 
 
 
