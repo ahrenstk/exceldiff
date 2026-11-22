@@ -65,7 +65,7 @@ This project uses the following open-source libraries (each under an MIT License
 
 ### 🌐 Switching to CDN (Optional)
 
-If you prefer to load these libraries via a Content Delivery Network (CDN) instead of keeping them bundled inline (for example, to reduce the file size of the HTML template), you can simply uncomment the CDN script tags near the bottom of the HTML file and remove the inline-bundled library code:
+If you prefer to use a Content Delivery Network (CDN), you can simply replace the inline-bundled library code near the bottom of the HTML file with these script tags:
 
 ```html
 <!-- Alternative: Load libraries via jsDelivr CDN -->
