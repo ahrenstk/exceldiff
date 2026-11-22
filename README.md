@@ -27,13 +27,6 @@ Because `exceldiff` is a single, self-contained HTML file, it requires no instal
 * **No Cookies or Tracking:** No tracking scripts, no cookies, and absolutely no web analytics.
 
 
-
-## 🔒 100% Privacy & Security
-
-* **No Server Uploads:** Your sensitive spreadsheet data never leaves your computer. All calculations and comparison processes are executed purely within your browser's local memory.
-* **No Third-Party CDNs:** All required JavaScript libraries are bundled directly within the source code. No scripts or resources are loaded from external servers (like jsDelivr or Google) when opening the tool.
-* **No Cookies & No Tracking:** The tool does not store cookies or local storage tracking data, and no web analytics are performed.
-
 ---
 
 ## ✨ Features
