@@ -6,8 +6,6 @@
 
 🌐 **Available Versions:** [English (`exceldiff.html`)](exceldiff.html) | [Deutsch (`exceldiff-de.html`)](exceldiff-de.html)
 
-**English Version:** `exceldiff.html`  
-**German Version:** `exceldiff-de.html`  
 
 
 *Note: The respective language is pre-configured in each file at `class App static Config`. You can easily add and contribute new languages in the code inside `class App static Translations`.*
