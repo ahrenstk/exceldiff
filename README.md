@@ -7,7 +7,7 @@
 **English Version:** `exceldiff.html`  
 **German Version:** `exceldiff-de.html`  
 
-*You can change the active language inside the code at `class App static Config`. Feel free to contribute new language translations by adding them to `class App static Translations`.*
+*You can change the active language inside the code at `class App static Config`. Feel free to contribute new languages by adding them to `class App static Translations`.*
 
 ---
 
