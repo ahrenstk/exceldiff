@@ -45,7 +45,6 @@ Because `exceldiff` is a single, self-contained HTML file, it requires no instal
 - **Row & Column Highlighting:** Double-click any row or column to highlight it for better visual guidance.
 - **Interactive Column Handling:** Move columns on the fly (← →), toggle their visibility (− / +), or sort them directly in the browser.
 - **Filtering & Search:** Built-in live search and dynamic, searchable column dropdown filters to handle large datasets easily.
-- **Advanced Views:** Toggle instantly between standard comparison view, File 1 only, File 2 only, only showing modified rows, or hiding identical columns entirely.
 - **HTML Export:** Exported comparison results remain fully interactive—including search, sorting, column rearranging, and filtering directly within the exported file.
 - **CSV Export:** Fast and clean export of your cleaned text or CSV data.
 - **Multi-Language Support:** Fully supports English and German interfaces and is easily extensible for other languages.
