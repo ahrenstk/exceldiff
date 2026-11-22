@@ -61,7 +61,7 @@ This project uses the following open-source libraries (each under an MIT License
 3. **[fflate](https://github.com/101arrowz/fflate)** (v0.8.3) – For decompressing `.ods` archives.
 4. **[tXml](https://github.com/TobiasNickel/tXml)** (v6.0.0) – For parsing XML contents within ODS files.
 
-If you prefer to load these libraries via a Content Delivery Network (CDN) instead of keeping them bundled inline (for example, to reduce the file size of the HTML template), you can simply uncomment the CDN script tags near the bottom of the HTML file and remove the inline-bundled library code:
+
 
 ### 🌐 Switching to CDN (Optional)
 
