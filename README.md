@@ -2,7 +2,7 @@
 
 > **Lightweight, 100% local spreadsheet comparison directly in your browser.**
 
-`exceldiff` runs entirely on the client side to quickly compare two `.xlsx`, `.ods` or `.csv` files based on primary keys. No server, no installation, maximum privacy.
+`exceldiff` runs entirely on the client side to quickly compare two `.xlsx`, `.ods` & `.csv` files based on primary keys. No server, no installation, maximum privacy.
 
 🌐 **Available Versions:** [`exceldiff.html` (English)](exceldiff.html) | [`exceldiff-de.html` (Deutsch)](exceldiff-de.html)
 
