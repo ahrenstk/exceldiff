@@ -43,6 +43,7 @@ Since this tool does not require any backend server, you can launch it locally o
 - **Filtering & Search:** Built-in live search and dynamic, searchable column dropdown filters to handle large datasets easily.
 - **Date Standardization:** Optionally auto-detect and unify various date formats (e.g., `DD.MM.YYYY` or `MM/DD/YYYY` into `YYYY-MM-DD`).
 - **Flexible Encoding & Delimiters:** Swap between UTF-8 and ANSI encoding, and handle custom column delimiters.
+- **Customize & Exclude Delimiters:** Configure column-, value- and duplicate-delimiter within the settings or exclude them in the app directly.
 - **Duplicate Clean-up:** Consolidate duplicates in your first file using adjustable delimiter symbols.
 - **Advanced Views:** Toggle instantly between standard comparison view, File 1 only, File 2 only, only showing modified rows, or hiding identical columns entirely.
 - **HTML Export:** Exported comparison results remain fully interactive—including search, sorting, column rearranging, and filtering directly within the exported file.
