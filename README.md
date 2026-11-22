@@ -18,7 +18,7 @@
 Since this tool does not require any backend server, you can launch it locally on your computer in a matter of seconds:
 
 1. **Download the ZIP**, **clone the repository**, or **directly download** `exceldiff.html` or `exceldiff-de.html` 
-2. **Open** the `exceldiff.html` or `exceldiff-de.html`file in your preferred web browser (Chrome, Firefox, Edge, Safari).
+2. **Open** the `exceldiff.html` or `exceldiff-de.html`file in your preferred web browser (Chrome, Firefox, Edge, Safari, ...).
 3. **That's it!** You can now use the tool entirely offline without any active internet connection.
 
 ---
