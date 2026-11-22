@@ -45,7 +45,7 @@ Since this tool does not require any backend server, you can launch it locally o
 - **Flexible Encoding & Delimiters:** Swap between UTF-8 and ANSI encoding, and handle custom column delimiters.
 - **Duplicate Clean-up:** Consolidate duplicates in your first file using adjustable delimiter symbols.
 - **Advanced Views:** Toggle instantly between standard comparison view, File 1 only, File 2 only, only showing modified rows, or hiding identical columns entirely.
-- **Interactive HTML Export:** Exported comparison results remain fully interactive—including search, sorting, column rearranging, and filtering directly within the exported file.
+- **HTML Export:** Exported comparison results remain fully interactive—including search, sorting, column rearranging, and filtering directly within the exported file.
 - **CSV Export:** Fast and clean export of your cleaned text or CSV data.
 
 ---
