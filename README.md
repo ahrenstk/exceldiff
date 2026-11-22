@@ -1,6 +1,6 @@
 # exceldiff 📊
 
-> **Lightweight, 100% local spreadsheet comparison directly in your browser.**
+> **Single-file, 100% local spreadsheet comparison directly in your browser.**
 
 `exceldiff` runs entirely on the client side to quickly compare two `.xlsx`, `.ods` & `.csv` files based on primary keys. No server, no installation, maximum privacy.
 
