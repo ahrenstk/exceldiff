@@ -61,6 +61,15 @@ This project uses the following open-source libraries (each under an MIT License
 3. **[fflate](https://github.com/101arrowz/fflate)** (v0.8.3) – For decompressing `.ods` archives.
 4. **[tXml](https://github.com/TobiasNickel/tXml)** (v6.0.0) – For parsing XML contents within ODS files.
 
+If you do not want inline it, configure at the end of the code:
+
+```javascript
+        <script src="https://cdn.jsdelivr.net/npm/read-excel-file@9.x/bundle/read-excel-file.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/fflate@0.8.3/umd/index.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/txml@6.0.0/dist/txml.min.js"></script>
+```
+
 ---
 
 ## 📄 License
