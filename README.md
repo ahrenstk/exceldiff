@@ -38,6 +38,7 @@ Because `exceldiff` is a single, self-contained HTML file, it requires no instal
 - **Smart Key Detection:** Automatically detects the best possible primary key (including composite keys) upon loading your files.
 - **Duplicate Clean-up:** Consolidate duplicates in your first file using adjustable delimiter symbols.
 - **Date Standardization:** Optionally auto-detect and unify various date formats (e.g., `DD.MM.YYYY` or `MM/DD/YYYY` into `YYYY-MM-DD`).
+- **Dual Presentation Modes:** Toggle between a structured, interactive table grid and a raw text view.
 - **High-Performance Virtual Scrolling:** Smoothly handle and scroll through huge datasets by rendering only visible elements in the browser.
 - **Dynamic Column Widths:** Columns automatically adjust to their content featuring smart limits.
 - **Visual Differences:** Modifications, added rows, and deleted entries are clearly highlighted using intuitive color schemes.
