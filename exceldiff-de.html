@@ -5819,6 +5819,11 @@
 			            });
 			            this.highlightedSpans = [];
 			        }
+
+					if (this.allVirtualRows) {
+                        this.allVirtualRows.forEach(row => row.normalize());
+                    }
+					
 			        if (tbody) {
 			            tbody.normalize();
 			        }
