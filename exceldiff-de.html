@@ -1,69 +1,62 @@
-<!-----------------------------------------------------------------------------
-
-  exceldiff 2026-11-20 340 ok
-  - File:    exceldiff.html
-  - License: MIT License (c) 2026 Heinz Ahrens
-  - URLs:    https://github.com/ahrenstk/exceldiff (private)
-             https://github.com/ahrenstk/exceldiff-de (private)
-  ===========================================================================
-
-  THIRD-PARTY COMPONENTS:
-  1. read-excel-file (v9.x)
-     - File:    read-excel-file.min.js
-     - CDN:     https://cdn.jsdelivr.net/npm/read-excel-file@9.x/bundle/read-excel-file.min.js
-     - Local:   Inlined at the end of this file
-     - License: MIT License (c) 2018 gitlab.com/catamphetamine
-     - URL:     https://gitlab.com/catamphetamine/read-excel-file
-
-  2. PapaParse (v5.4.1)
-     - File:    papaparse.min.js
-     - CDN:     https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js
-     - Local:   Inlined at the end of this file
-     - License: MIT License (c) 2015 Matthew Holt
-     - URL:     https://github.com/mholt/PapaParse
-
-  3. fflate (v0.8.3)
-     - File:    index.min.js
-     - CDN:     https://cdn.jsdelivr.net/npm/fflate@0.8.3/umd/index.min.js
-     - Local:   Inlined at the end of this file  
-     - License: MIT License (c) 2020 Arjun Barrett
-     - URL:     https://github.com/101arrowz/fflate
-
-  4. tXml (v6.0.0)
-     - File:    txml.min.js
-     - CDN:     https://cdn.jsdelivr.net/npm/txml@6.0.0/dist/txml.min.js
-     - Local:   Inlined at the end of this file     
-     - License: MIT License (c) 2015 Tobias Nickel
-     - URL:     https://github.com/TobiasNickel/tXml
-
-  ===========================================================================
-  MIT LICENSE TERMS
-  ===========================================================================
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files (the "Software"), to deal
-  in the Software without restriction, including without limitation the rights
-  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  copies of the Software, and to permit persons to whom the Software is
-  furnished to do so, subject to the following conditions:
-
-  The above copyright notice and this permission notice shall be included in all
-  copies or substantial portions of the Software.
-
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-  SOFTWARE.
-  ===========================================================================
-  
-  // Set configuration in <style> :root and class App static Config //
-
------------------------------------------------------------------------------->
-
 <!doctype html>
 <html lang="en">
+<!--===========================================================================
+    exceldiff
+       - File:    exceldiff.html v2026-11-22
+       - License: MIT License (c) 2026 Heinrich Ahrens
+       - URL:     https://github.com/ahrenstk/exceldiff
+    ===========================================================================
+    THIRD-PARTY COMPONENTS:
+    1. read-excel-file (v9.x)
+       - File:    read-excel-file.min.js
+       - CDN:     https://cdn.jsdelivr.net/npm/read-excel-file@9.x/bundle/read-excel-file.min.js
+       - Local:   Inlined at the end of this file
+       - License: MIT License (c) 2018 gitlab.com/catamphetamine
+       - URL:     https://gitlab.com/catamphetamine/read-excel-file
+
+    2. PapaParse (v5.4.1)
+       - File:    papaparse.min.js
+       - CDN:     https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js
+       - Local:   Inlined at the end of this file
+       - License: MIT License (c) 2015 Matthew Holt
+       - URL:     https://github.com/mholt/PapaParse
+
+    3. fflate (v0.8.3)
+       - File:    index.min.js
+       - CDN:     https://cdn.jsdelivr.net/npm/fflate@0.8.3/umd/index.min.js
+       - Local:   Inlined at the end of this file  
+       - License: MIT License (c) 2020 Arjun Barrett
+       - URL:     https://github.com/101arrowz/fflate
+
+    4. tXml (v6.0.0)
+       - File:    txml.min.js
+       - CDN:     https://cdn.jsdelivr.net/npm/txml@6.0.0/dist/txml.min.js
+       - Local:   Inlined at the end of this file     
+       - License: MIT License (c) 2015 Tobias Nickel
+       - URL:     https://github.com/TobiasNickel/tXml
+
+    ===========================================================================
+    MIT LICENSE TERMS
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+
+    ===========================================================================
+    // Set configuration in <style> :root and class App static Config //
+    =========================================================================== -->
+    
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -95,8 +88,9 @@
 			    font-family: Arial, sans-serif;
 			    margin: 0;
 			    opacity: 0;
-			    padding: 10px 0 80px 0;
+			    padding: 0 0 80px 0;
 			    transition: opacity 0.15s ease-in;
+			    overscroll-behavior-y: none;
 			}
             body.is-ready {
                 opacity: 1;
@@ -148,7 +142,7 @@
             td {
                 background-clip: padding-box;
                 border: 1px solid var(--border-color);
-                max-width: 250px;
+                max-width: inherit;
                 min-width: 20px;
                 padding: 3px 4px !important;
                 text-align: left;
@@ -181,9 +175,6 @@
                 padding: 0;
                 transition: color 0.15s;
             }
-            #scroll-to-top-btn:hover {
-                color: var(--color-first-action);
-            }
             #reset-col-order-btn {
                 background: none;
                 border: none;
@@ -208,11 +199,6 @@
                 transition: all 0.15s ease-in-out;
                 display: inline-block;
             }
-            #expand-all-cols-btn:hover {
-                color: #fff;
-                background-color: var(--color-first-action);
-                border-color: var(--color-first-action);
-            }
             #output {
                 background: none;
                 font-size: 12px;
@@ -232,7 +218,6 @@
                 font-weight: normal;
                 margin-bottom: 10px;
             }
-
             #warnings {
                 color: #555;
                 font-size: 13px;
@@ -288,19 +273,20 @@
 			.col-move-btn {
 			    color: #888;
 			    cursor: pointer;
-			    font-size: 14px;
+			    font-size: 11px;
 			    font-weight: 900;
 			    line-height: 1;
 			    user-select: none;
-			    padding: 2px 4px;
+			    padding: 1px 2px;
 			    flex-shrink: 0;
 			}
 			.col-move-btn.move-col-left {
-			    margin-right: 6px;
+			    margin-right: 14px;
 			}
 			.col-move-btn.move-col-right {
-			    margin-left: 6px;
+			    margin-left: 2px;
 			}
+
             .col-move-btn.disabled {
                 visibility: hidden;
             }
@@ -309,6 +295,13 @@
             }
             .custom-table {
                 margin-right: 0px;
+            }
+            .virtual-spacer-top td,
+            .virtual-spacer-bottom td {
+                padding: 0 !important;
+                border: none !important;
+                background: transparent !important;
+                height: 0px;
             }
             .custom-table td .highlight-first,
             .custom-table td .highlight-second {
@@ -321,20 +314,29 @@
             .custom-table td:has(.highlight-second):not(:has(.highlight-first)) {
                 vertical-align: bottom;
             }
-            .custom-table thead {
-                background-color: #fff;
-                position: sticky;
-                top: 50px;
-                z-index: 99;
-            }
+			.custom-table tr.table-filter-row td {
+			    padding: 0;
+			    background-color: #ffffff !important;
+			    border-bottom: 3px solid var(--border-color) !important;
+			    background-clip: padding-box;
+			}
+			.custom-table thead {
+			    position: sticky;
+			    top: 60px;
+			    z-index: 99;
+			    background-color: #ffffff !important;
+			}
+			.custom-table thead th, 
+			.custom-table thead td {
+			    background-clip: padding-box;
+			    z-index: 99;
+			}
+			
             .custom-table th {
                 background-color: #f2f2f2;
                 cursor: pointer;
             }
-            .custom-table tr.table-filter-row td {
-                background-color: #ffffff;
-                padding: 0
-            }
+
             .disclaimer {
                 color: gray;
                 display: block;
@@ -402,18 +404,6 @@
                 border: 1px solid var(--color-first-action) !important;
                 border-radius: 4px !important;
             }
-			.filter-option-row {
-			    display: flex;
-			    align-items: center;
-			    padding: 1px 3px;
-			    cursor: pointer;
-			    user-select: none;
-			    white-space: nowrap;
-			    line-height: 1.2;
-			}
-			.filter-option-meta_row_singular:hover {
-                background-color: #f0f4f8;
-            }
 			.filter-option-checkbox {
 			    appearance: none;
 			    width: 11px;
@@ -440,14 +430,26 @@
                 border-bottom: 2px solid #fff;
                 transform: rotate(-45deg) translate(0.5px, -0.5px);
             }
-			.filter-option-label {
-			    font-size: 11px;
-			    line-height: 11px;
-			    cursor: pointer;
-			    overflow: hidden;
-			    text-overflow: ellipsis;
-			    white-space: nowrap;
-			}            
+            .filter-option-row {
+                display: flex;
+                align-items: center;
+                padding: 1px 3px;
+                cursor: pointer;
+                user-select: none;
+                white-space: nowrap;
+                line-height: 1.2;
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+            .filter-option-label {
+                font-size: 11px;
+                line-height: 11px;
+                cursor: pointer;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                min-width: 0;
+            }            
             .hidden {
                 display: none !important;
             }
@@ -538,9 +540,6 @@
                 transform: translateY(-50%);
                 user-select: none;
             }
-            .search-clear-btn:hover {
-                color: #000;
-            }
             .search-highlight {
                 background-color: var(--search-highlight-color);
             }
@@ -568,24 +567,23 @@
                 width: 100%;
                 display: block;
             }
-            .search-status-wrapper {
-		        align-items: center;
-		        background-color: #ffffff;
-		        box-sizing: border-box;
-		        display: flex;
-		        flex-wrap: wrap;
-		        gap: 20px;
-    		    height: 50px;
-	    	    justify-content: flex-start;
-		        margin-bottom: 0;
-		        padding: 8px 0;
-		        position: sticky;
-		        top: 0;
-    		    left: 0;
-	    	    width: 100vw;
-		        max-width: 100vw;
-		        z-index: 101;
-		    }
+			.search-status-wrapper {
+			    position: sticky;
+			    top: 0;
+			    left: 0;
+			    width: 100vw;
+			    max-width: 100vw;
+			    z-index: 101;
+			    background-color: #fff;
+			    padding: 18px 0 8px 0;
+			    height: 60px;
+			    display: flex;
+			    flex-wrap: wrap;
+			    justify-content: flex-start;
+			    margin-bottom: 0;
+			    box-sizing: border-box;
+			}
+			
             .search-status-inner {
 			    display: flex;
 			    align-items: center;
@@ -706,18 +704,16 @@
                 z-index: 2;
             }
 			.table-filter-scroll-container {
-			    font-size: 11px;
-			    margin-top: 0px;
 			    width: 100%;
 			    height: 110px;
 			    overflow-y: auto;
-			    background-color: #ffffff;
-			    padding: 0 6px 2px 2px;
+			    background: #ffffff !important;
+			    background-clip: padding-box;
 			    box-sizing: border-box;
 			    display: flex;
 			    flex-direction: column;
-			    justify-content: flex-start;
-			    align-items: stretch;
+			    padding: 0 6px 2px 2px;
+			    text-align: left;
 			    overscroll-behavior: contain;
 			}
             .text-header {
@@ -754,11 +750,6 @@
                 border: 1px solid #ccc !important;
                 display: inline-block !important;
             }
-            .col-toggle-btn:hover {
-                color: #fff !important;
-                background-color: var(--color-first-action) !important;
-                border-color: var(--color-first-action) !important;
-            }
             th.column-collapsed {
                 min-width: 10px !important;
                 max-width: 10px !important;
@@ -791,13 +782,10 @@
             td.column-collapsed * {
                 display: none !important;
             }
-
         </style>
 	
-
     </head>
     
-
     <body>
         <div class="page-wrapper">
             <div class="top-container">
@@ -834,7 +822,6 @@
                                 <strong id="file1_column_header" class="options-label"></strong>
                                 <div id="checkboxes-file1"></div>
                             </div>
-
                             <div id="file2-checkbox-section" class="options-row hidden">
                                 <strong id="file2_column_header" class="options-label"></strong>
                                 <div id="checkboxes-file2"></div>
@@ -922,7 +909,6 @@
                     DUPLICATE_DELIMITER: "#",
                     MAX_KEY_SEARCH_SIZE: 4,
                     MISMATCHED_ROWS_THRESHOLD: 0.2,
-                    MAX_COLUMN_WIDTH: 250,
                     ANSI_ENCODING_MAP: "windows-1252",
                 });
 
@@ -985,12 +971,14 @@
                         val_file1_column_not_unique: "The column is not unique in File 1:",
                         val_file1_delimiter_in_value: "A delimiter was found inside a field in File 1.",
                         val_file1_empty: "File 1 is empty and cannot be processed.",
+                        val_file1_empty_header: "In File 1 a header column is empty or missing.",
                         val_file1_empty_keys: "File 1 contains empty primary keys.",
                         val_file1_record_not_unique: "The following entry is not unique in File 1:",
                         val_file1_too_many_columns: "In File 1 the following row has too many columns:",                        
                         val_file2_column_not_unique: "The column is not unique in File 2:",
                         val_file2_delimiter_in_value: "A delimiter was found inside a field in File 2.",
                         val_file2_empty: "File 2 is empty and cannot be processed.",
+                        val_file2_empty_header: "In File 2 a header column is empty or missing.",
                         val_file2_empty_keys: "File 2 contains empty primary keys.",
                         val_file2_record_not_unique: "The following entry is not unique in File 2:",
                         val_file2_too_many_columns: "In File 2 the following row has too many columns:",    
@@ -1054,12 +1042,14 @@
                         val_file1_column_not_unique: "In der 1. Datei ist die Spalte nicht eindeutig:",
                         val_file1_delimiter_in_value: "In der 1. Datei wurde ein Trennzeichen innerhalb eines Feldes gefunden.",
                         val_file1_empty: "Die 1. Datei ist leer und kann nicht verarbeitet werden.",
+                        val_file1_empty_header: "In der 1. Datei ist eine Header-Spalte leer oder fehlt.",
                         val_file1_empty_keys: "In der 1. Datei gibt es leere Primärschlüssel.",
                         val_file1_record_not_unique: "In der 1. Datei ist folgender Eintrag nicht eindeutig:",
                         val_file1_too_many_columns: "In der 1. Datei hat folgende Zeile zu viele Spalten:",                        
                         val_file2_column_not_unique: "In der 2. Datei ist die Spalte nicht eindeutig:",
                         val_file2_delimiter_in_value: "In der 2. Datei wurde ein Trennzeichen innerhalb eines Feldes gefunden.",
                         val_file2_empty: "Die 2. Datei ist leer und kann nicht verarbeitet werden.",
+                        val_file2_empty_header: "In der 2. Datei ist eine Header-Spalte leer oder fehlt.",
                         val_file2_empty_keys: "In der 2. Datei gibt es leere Primärschlüssel.",
                         val_file2_record_not_unique: "In der 2. Datei ist folgender Eintrag nicht eindeutig:",
                         val_file2_too_many_columns: "In der 2. Datei hat folgende Zeile zu viele Spalten:",
@@ -1084,7 +1074,6 @@
 
                     this.comparer = new Comparer(this.config);
                     this.dataManager = new DataManager(this.config);
-                    this.exporter = new Exporter();
                     this.view = new View(this.config, this.tr);
 
                     this.state = {
@@ -1110,6 +1099,7 @@
                             onlyFile2: true,
                         },
                         comparisonStats: null,
+                        initialTotalRows: null,
                     };
 
                     this.tableManager = new TableManager(this.config, this.tr);
@@ -1185,7 +1175,7 @@
                         return null;
                     };
 
-                    const maxSearchSize = Math.min(commonCols.length, this.config.MAX_KEY_SEARCH_SIZE ?? 5);
+                    const maxSearchSize = Math.min(commonCols.length, this.config.MAX_KEY_SEARCH_SIZE ?? 4);
                     for (let size = 1; size <= maxSearchSize; size++) {
                         const foundCombo = findComboOfSize(0, [], size);
                         if (foundCombo) {
@@ -1197,13 +1187,14 @@
                 }
 
 
-                #addEventListeners() {
-                    document.addEventListener("click", (e) => this.handleGlobalClick(e));
-                    document.addEventListener("change", (e) => this.handleGlobalChange(e));
-                    document.addEventListener("dblclick", (e) => this.handleGlobalDoubleClick(e));
+                 #addEventListeners() {
+                    document.addEventListener("click", (e) => this.#handleGlobalClick(e));
+                    document.addEventListener("change", (e) => this.#handleGlobalChange(e));
+                    document.addEventListener("dblclick", (e) => this.#handleGlobalDoubleClick(e));
 
                     const searchInput = this.tableManager.els.globalSearch;
                     const searchClear = this.tableManager.els.searchClear;
+
                     if (searchInput) {
                         let searchTimeout;
                         searchInput.addEventListener("input", () => {
@@ -1234,88 +1225,125 @@
                                 searchInput.blur();
                             }
                         });
-                        
                     }
 
                     this.#setupDropZone(this.view.els.dropZone1, this.view.els.file1, "file1");
                     this.#setupDropZone(this.view.els.dropZone2, this.view.els.file2, "file2");
                     this.#updateScrollTriggerPoint();
-					
+
                     window.addEventListener("resize", () => {
                         this.#updateScrollTriggerPoint();
                     });
-					
 
-					const btn = this.view.els.scrollToTopBtn;
+                    const btn = this.view.els.scrollToTopBtn;
+                    let ticking = false;
+                    window.addEventListener("scroll", (e) => {
+                        const triggerPoint = this.scrollTriggerPoint;
 
-					let ticking = false;
+                        if (this.isLockedAtBottom && window.scrollY < triggerPoint) {
+                            window.scrollTo({
+                                top: triggerPoint,
+                                behavior: "instant"
+                            });
+                        }
 
-					window.addEventListener("scroll", () => {
-					    const triggerPoint = this.scrollTriggerPoint;
-					    if (this.isLockedAtBottom && window.scrollY < triggerPoint) {
-					        window.scrollTo(window.scrollX, triggerPoint);
-					    }
-					
-					    if (!ticking) {
-					        window.requestAnimationFrame(() => {
-					            const hasWarnings = this.view.els.warnings && 
-					                                this.view.els.warnings.style.display !== "none" && 
-					                                this.view.els.warnings.childNodes.length > 0;
-                               this.view.els.warnings.childNodes.length > 0;
-					            
-					            if (hasWarnings) {
-					                this.isLockedAtBottom = false;
-					                this.isScrollingUp = false;
-					                document.body.classList.remove("is-locked");
-					                if (btn) btn.classList.add("hidden");
-					                ticking = false;
-					                return;
-					            }
-					
-					            if (btn) {
-					                if (window.scrollY >= triggerPoint - 5) {
-					                    btn.classList.remove("hidden");
-					                    if (!this.isScrollingUp) {
-					                        this.isLockedAtBottom = true;
-					                        document.body.classList.add("is-locked");
-					                    }
-					                } else {
-					                    btn.classList.add("hidden");
-					                    if (this.isScrollingUp || !(this.tableManager.currentTable || (this.tableManager.textLines && this.tableManager.textLines.length > 0))) {    
-					                        this.isLockedAtBottom = false;
-					                        this.isScrollingUp = false;
-					                        document.body.classList.remove("is-locked");
-					                    }
-					                }
-					            }
-					            ticking = false;
-					        });
+                        if (!ticking) {
+                            window.requestAnimationFrame(() => {
+                                const hasWarnings = this.view.els.warnings && this.view.els.warnings.style.display !== "none" && this.view.els.warnings.childNodes.length > 0;
+                                
+                                if (hasWarnings) {
+                                    this.isLockedAtBottom = false;
+                                    this.isScrollingUp = false;
+                                    document.body.classList.remove("is-locked");
+                                    if (btn) btn.classList.add("hidden");
+                                    ticking = false;
+                                    return;
+                                }
+
+                                if (btn) {
+                                    if (window.scrollY >= triggerPoint - 5) {
+                                        btn.classList.remove("hidden");
+                                        if (!this.isScrollingUp) {
+                                            this.isLockedAtBottom = true;
+                                            document.body.classList.add("is-locked");
+                                        }
+                                    } else {
+                                        btn.classList.add("hidden");
+                                        if (this.isScrollingUp || window.scrollY < triggerPoint - 5 || !(this.tableManager.currentTable || (this.tableManager.textLines && this.tableManager.textLines.length > 0))) {    
+                                            this.isLockedAtBottom = false;
+                                            this.isScrollingUp = false;
+                                            document.body.classList.remove("is-locked");
+                                        }
+                                    }
+                                }
+                                ticking = false;
+                            });
                             ticking = true;
-					    }
-					});
-					
-					window.addEventListener("dragover", (e) => e.preventDefault(), false);
-					
-					window.addEventListener("dragenter", (e) => {
-					    e.preventDefault();
-					    this.view.els.dropZone1?.classList.add("drag-over");
-					    this.view.els.dropZone2?.classList.add("drag-over");
-					}, false);
-					
-					window.addEventListener("dragleave", (e) => {
-					    e.preventDefault();
-					    if (e.relatedTarget === null) {
-					        this.view.els.dropZone1?.classList.remove("drag-over");
-					        this.view.els.dropZone2?.classList.remove("drag-over");
-					    }
-					}, false);
+                        }
+                    });
 
-					window.addEventListener("drop", (e) => {
-					    e.preventDefault();
-					    this.view.els.dropZone1?.classList.remove("drag-over");
-					    this.view.els.dropZone2?.classList.remove("drag-over");
-					}, false);
-					
+
+                    window.addEventListener('touchstart', (e) => {
+                        this.touchStartY = e.touches[0].clientY;
+                    }, { passive: true });
+
+
+                    const preventScrollUp = (e) => {
+                        if (this.isLockedAtBottom) {
+                            const currentScroll = window.scrollY;
+                            const limit = this.scrollTriggerPoint;
+                            let attemptsToScrollUp = false;
+                            let deltaY = 0;
+
+                            if (e.type === 'wheel') {
+                                attemptsToScrollUp = e.deltaY < 0;
+                                deltaY = e.deltaY;
+                            } else if (e.type === 'touchmove' && this.touchStartY !== undefined) {
+                                const currentY = e.touches[0].clientY;
+                                attemptsToScrollUp = currentY > this.touchStartY;
+                                deltaY = this.touchStartY - currentY;
+                            } else if (e.type === 'keydown') {
+                                attemptsToScrollUp = ['ArrowUp', 'PageUp', 'Home'].includes(e.key);
+                                deltaY = -40;
+                            }
+
+                            if (attemptsToScrollUp) {
+                                const estimatedScroll = currentScroll + deltaY;
+
+                                if (estimatedScroll <= limit) {
+                                    if (currentScroll !== limit) {
+                                        window.scrollTo({ top: limit, behavior: "instant" });
+                                    }
+                                    e.preventDefault();
+                                }
+                            }
+                        }
+                    };
+
+
+                    window.addEventListener('wheel', preventScrollUp, { passive: false });
+                    window.addEventListener('touchmove', preventScrollUp, { passive: false });
+                    window.addEventListener('keydown', preventScrollUp, { passive: false });
+                    window.addEventListener("dragover", (e) => e.preventDefault(), false);
+
+                    window.addEventListener("dragenter", (e) => {
+                        e.preventDefault();
+                        this.view.els.dropZone1?.classList.add("drag-over");
+                        this.view.els.dropZone2?.classList.add("drag-over");
+                    }, false);
+
+                    window.addEventListener("dragleave", (e) => {
+                        e.preventDefault();
+                        if (e.relatedTarget === null) {
+                            this.view.els.dropZone1?.classList.remove("drag-over");
+                            this.view.els.dropZone2?.classList.remove("drag-over");
+                        }
+                    }, false);
+                    window.addEventListener("drop", (e) => {
+                        e.preventDefault();
+                        this.view.els.dropZone1?.classList.remove("drag-over");
+                        this.view.els.dropZone2?.classList.remove("drag-over");
+                    }, false);
                 }
 
 
@@ -1331,19 +1359,11 @@
 				        this.#filterTableOutput(table, searchTerm, originalSearchTerm, activeDropdown);
 				    }
 				    
-				
-				    const triggerPoint = this.scrollTriggerPoint;
-				    if (window.scrollY > triggerPoint) {
-				        window.scrollTo({
-				            top: triggerPoint,
-				            behavior: "auto"
-				        });
-				    }
 				    this.#updateScrollTriggerPoint();
 				}
 
 
-                async compareFiles() {
+                async #executeComparison() {
                     this.tableManager.clearOutput();
                     this.view.clearWarnings();
                     this.view.els.asTable.disabled = false;
@@ -1483,7 +1503,6 @@
                 }
 
 
-
                 #displayDifferences(differences, headers, formData, stats) {
                     const changeTypes = [
                         Comparer.CellStatus.DIFFERENCE,
@@ -1578,15 +1597,15 @@
 
 				    this.tableManager.resetTableHighlights(tbody);
 				    const isColumnFilterActive = this.view.isColumnFilterActive();
-				    const allRows = Array.from(tbody.rows);
+				    const allRows = this.tableManager.allVirtualRows;
 				    const headerCells = isColumnFilterActive ? (this.tableManager.filterCells || []) : [];
 				    const activeFilters = this.tableManager.getActiveColumnFilters(headerCells, isColumnFilterActive);
 				    const isSingleView = ["file1", "file2", "merge"].includes(this.state.currentViewMode);
 				    const rtf = this.state.rowTypeFilters || { matching: true, onlyFile1: true, onlyFile2: true };
 				
-				    const rowMatchesAllFilters = (row, colIndexToIgnore = -1) => {
-				        if (!isSingleView) {
-				            const rowType = row.dataset.rowType || "matching";
+                    const rowMatchesAllFilters = (row, colIndexToIgnore = -1) => {
+                        if (!isSingleView) {
+                            const rowType = row._cachedRowType || "matching";
 				            if ((rowType === "onlyFile1" && !rtf.onlyFile1) || (rowType === "onlyFile2" && !rtf.onlyFile2) || (rowType === "matching" && !rtf.matching)) {
 				                return false;
 				            }
@@ -1628,9 +1647,7 @@
 
                     const rtf = this.state.rowTypeFilters || { matching: true, onlyFile1: true, onlyFile2: true };
                     const hasSearch = searchTerm !== "";
-                    const searchRegex = hasSearch
-                        ? new RegExp(`(${Utility.escapeRegExp(originalSearchTerm)})`, "gi")
-                        : null;
+                    const searchRegex = hasSearch ? new RegExp(`(${Utility.escapeRegExp(originalSearchTerm)})`, "gi") : null;
 
                     let visibleCount = 0;
                     let visibleOnlyFile1 = 0;
@@ -1725,7 +1742,7 @@
 						    const htmlContent = this.tableManager.getHtmlForExport(asTable, customTitle);
 
 						    if (htmlContent) {
-						        this.exporter.exportAsHTML(htmlContent);
+						        Utility.exportAsHTML(htmlContent);
 						    } else {
 						        this.tableManager.clearOutput();
 						        this.view.showWarning("file1", "error_no_content_to_save");
@@ -1743,7 +1760,7 @@
 						        const outputText = this.view.els.output?.innerText.trim();
 						
 						        if (outputText) {
-						            this.exporter.exportAsCSV(outputText);
+						            Utility.exportAsCSV(outputText);
 						        } else {
 						            this.tableManager.clearOutput();
 						            this.view.showWarning("file1", "error_no_csv_to_save");
@@ -1755,7 +1772,7 @@
                         case "compare":
                             if (file1 && file2) {
                                 this.state.currentViewMode = "compare";
-                                this.compareFiles();
+                                this.#executeComparison();
                             } else {
                                 this.tableManager.clearOutput();
                                 this.view.showWarning("file1", "file_select_two_prompt");
@@ -1795,7 +1812,7 @@
                 }
 
 
-                async handleFileSelect(fileInputId) {
+                async #handleFileSelect(fileInputId) {
                     if (fileInputId === "file1") {
                         this.view.reset(true);
                     }
@@ -1856,11 +1873,10 @@
                             this.view.showWarning(fileInputId, errorKey, error.message || String(error));
                         }
                     }
-
                 }
 
 
-                handleGlobalChange(e) {
+                #handleGlobalChange(e) {
                     const target = e.target;
                     if (target.classList.contains("status-filter-checkbox")) {
                         const filterType = target.dataset.filter;
@@ -1895,7 +1911,8 @@
                                     const isColumnFilterActive = this.view.isColumnFilterActive();
                                     const headerCells = isColumnFilterActive ? Array.from(table.tHead?.querySelectorAll("tr:nth-child(2) td") || []) : [];
                                     const activeFilters = this.tableManager.getActiveColumnFilters(headerCells, isColumnFilterActive);
-                                    const allRows = tbody ? Array.from(tbody.rows) : [];
+                                    const allRows = this.tableManager.allVirtualRows;
+
 
                                     const rtf = this.state.rowTypeFilters || { matching: true, onlyFile1: true, onlyFile2: true };
                                     const isSingleView = ["file1", "file2", "merge"].includes(this.state.currentViewMode);
@@ -1937,7 +1954,7 @@
 
                     const checkboxContainer = target.closest("#checkboxes-file1, #checkboxes-file2");
                     if (checkboxContainer) {
-                        this.handleToggleAllInColumnSelection(target, checkboxContainer);
+                        this.#handleToggleAllInColumnSelection(target, checkboxContainer);
                         this.#syncSelectionState();
                         return;
                     }
@@ -1951,7 +1968,6 @@
                         this.#rerenderView();
                         return;
                     }
-
 
                     if (target === this.view.els.activateFilter) {
                         this.#toggleFilterActivation();
@@ -1979,7 +1995,7 @@
                 }
 
 
-                handleGlobalClick(e) {
+                #handleGlobalClick(e) {
                     const button = e.target.closest("[data-action]");
                     if (button) {
                         e.preventDefault();
@@ -2036,7 +2052,7 @@
                 }
 
 
-				handleGlobalDoubleClick(e) {
+				#handleGlobalDoubleClick(e) {
 				    const table = this.tableManager.currentTable;
 				    if (!table || !table.contains(e.target)) return;
 				
@@ -2062,12 +2078,10 @@
 					    }
 					    window.getSelection()?.removeAllRanges();
 					}
-					
-
 				}
 
 
-                handleToggleAllInColumnSelection(target, container) {
+                #handleToggleAllInColumnSelection(target, container) {
                     const namePrefix = container.id === "checkboxes-file1" ? "file1-col" : "file2-col";
                     const toggleAll = container.querySelector(`#toggle-all-${namePrefix}`);
                     if (!toggleAll) return;
@@ -2108,62 +2122,70 @@
 
 
                 #onFirstFileSelected(headers) {
-                    this.view.displayCheckboxes(headers, this.view.els.checkboxes, "column", []);
-                    this.view.displayCheckboxes(headers, this.view.els.checkboxesFile1, "file1-col");
-                    this.view.els.keyColumnContainer.classList.remove("hidden");
-                    this.view.els.checkboxes.classList.remove("hidden");
-                    this.view.els.outputOptionsContainer.classList.remove("hidden");
-                    this.view.els.asTableContainer.classList.remove("hidden");
-                    this.view.els.replaceDelimiterContainer.classList.remove("hidden");
-                    this.view.els.onlyDifferences.checked = false;
-                    this.view.els.onlyDifferences.disabled = true;
-                    this.view.els.hideIdenticalColumns.checked = false;
-                    this.view.els.hideIdenticalColumns.disabled = true;
-                    this.view.els.file2.value = "";
-                    this.view.updateFileName("file2", null);
-                    this.state.file2Data = null;
-                    this.state.file2Headers = [];
-                    this.view.els.checkboxesFile2.innerHTML = "";
-                    this.view.els.file1CheckboxSection.classList.remove("hidden");
-                    this.view.els.file2CheckboxSection.classList.add("hidden");
+				    this.state.file2Data = null;
+				    this.state.file2Headers = [];
+				    this.view.els.file2.value = "";
+				    this.view.updateFileName("file2", null);
+				
+				    this.view.displayCheckboxes(headers, this.view.els.checkboxes, "column", []);
+				    this.view.displayCheckboxes(headers, this.view.els.checkboxesFile1, "file1-col");
+				    this.view.els.checkboxesFile2.innerHTML = "";
+				
+				    this.view.els.hideIdenticalColumns.checked = false;
+				    this.view.els.hideIdenticalColumns.disabled = true;
+				    this.view.els.onlyDifferences.checked = false;
+				    this.view.els.onlyDifferences.disabled = true;
+				
+				    this.view.els.asTableContainer.classList.remove("hidden");
+				    this.view.els.checkboxes.classList.remove("hidden");
+				    this.view.els.file1CheckboxSection.classList.remove("hidden");
+				    this.view.els.keyColumnContainer.classList.remove("hidden");
+				    this.view.els.outputOptionsContainer.classList.remove("hidden");
+				    this.view.els.replaceDelimiterContainer.classList.remove("hidden");
+
+				    this.view.els.file2CheckboxSection.classList.add("hidden");
+				
                 }
 
                 #onSecondFileSelected(headers) {
-                    this.view.displayCheckboxes(headers, this.view.els.checkboxesFile2, "file2-col", [], this.state.file1Headers);
-                    this.view.displayCheckboxes(this.state.file1Headers, this.view.els.checkboxesFile1, "file1-col", [], headers);
-
-                    const autoDetectedKeys = this.#findBestCompositeKey(
-                        this.state.file1Headers,
-                        headers,
-                        this.state.file1Data,
-                        this.state.file2Data
-                    );
-
-                    this.view.displayCheckboxes(this.state.file1Headers, this.view.els.checkboxes, "column", autoDetectedKeys, headers);
-
-
-                    this.#syncKeyCheckboxes();
-                    this.view.els.outputOptionsContainer.classList.remove("hidden");
-                    this.view.els.onlyDifferencesContainer.style.display = "block";
-                    this.view.els.hideIdenticalColumnsContainer.style.display = "block";
-                    this.view.els.file1CheckboxSection.classList.remove("hidden");
-                    this.view.els.file2CheckboxSection.classList.remove("hidden");
-                    this.view.els.onlyDifferences.checked = true;
-                    this.view.els.onlyDifferences.disabled = false;
-                    this.#toggleHideIdenticalColumns();
+				    const autoDetectedKeys = this.#findBestCompositeKey(
+				        this.state.file1Headers,
+				        headers,
+				        this.state.file1Data,
+				        this.state.file2Data
+				    );
+				
+				    this.view.displayCheckboxes(headers, this.view.els.checkboxesFile2, "file2-col", [], this.state.file1Headers);
+				    this.view.displayCheckboxes(this.state.file1Headers, this.view.els.checkboxes, "column", autoDetectedKeys, headers);
+				    this.view.displayCheckboxes(this.state.file1Headers, this.view.els.checkboxesFile1, "file1-col", [], headers);
+				
+				    this.view.els.onlyDifferences.checked = true;
+				    this.view.els.onlyDifferences.disabled = false;
+				
+				    this.view.els.file1CheckboxSection.classList.remove("hidden");
+				    this.view.els.file2CheckboxSection.classList.remove("hidden");
+				    this.view.els.hideIdenticalColumnsContainer.style.display = "block";
+				    this.view.els.onlyDifferencesContainer.style.display = "block";
+				    this.view.els.outputOptionsContainer.classList.remove("hidden");
+				
+				    this.#syncKeyCheckboxes();
+				    this.#toggleHideIdenticalColumns();
                 }
 
                 async #mergeDuplicates() {
-                    this.state.currentViewMode = "merge";
-                    this.tableManager.clearOutput();
-                    this.view.clearWarnings();
-                    this.tableManager.clearStatus();
-                    this.view.els.asTable.checked = false;
-                    this.#toggleTableOptions();
-                    this.view.els.onlyDifferences.checked = false;
-                    this.view.els.onlyDifferences.disabled = true;
-                    this.view.els.hideIdenticalColumns.checked = false;
-                    this.view.els.hideIdenticalColumns.disabled = true;
+				    this.state.currentViewMode = "merge";
+
+				    this.tableManager.clearOutput();
+				    this.tableManager.clearStatus();
+				    this.view.clearWarnings();
+
+				    this.view.els.hideIdenticalColumns.checked = false;
+				    this.view.els.hideIdenticalColumns.disabled = true;
+				    this.view.els.onlyDifferences.checked = false;
+				    this.view.els.onlyDifferences.disabled = true;
+
+				    this.view.els.asTable.checked = false;
+				    this.#toggleTableOptions();
 
 					const file1 = this.view.els.file1.files[0];
 					if (!file1) return;
@@ -2262,7 +2284,7 @@
                 #rerenderView() {
                     switch (this.state.currentViewMode) {
                         case "compare":
-                            this.compareFiles();
+                            this.#executeComparison();
                             break;
                         case "file1":
                             this.#showFile("file1");
@@ -2297,7 +2319,6 @@
 				    const table = this.tableManager.currentTable;
 				    if (!table) return true;
 
-				
 				    const headerCells = isColumnFilterActive
 				        ? Array.from(table.tHead?.querySelectorAll("tr:nth-child(2) td") || [])
 				        : [];
@@ -2312,7 +2333,6 @@
 				            return false;
 				        }
 				    }
-				
 				    return true;
 				}
 
@@ -2320,7 +2340,7 @@
 				#setupDropZone(zone, input, fileInputId) {
 				    if (!zone) return;
 				
-				    input.addEventListener("change", () => this.handleFileSelect(fileInputId));
+				    input.addEventListener("change", () => this.#handleFileSelect(fileInputId));
 				    zone.addEventListener("click", () => input.click());
 				
 				    ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
@@ -2349,15 +2369,17 @@
 			    
 
                 async #showFile(fileKey) {
-                    this.state.currentViewMode = fileKey;
-                    this.tableManager.reset();
-                    this.view.clearWarnings();
-                    this.tableManager.clearStatus();
-                    window.getSelection()?.removeAllRanges();
+				    this.state.currentViewMode = fileKey;
+				
+				    this.tableManager.clearStatus();
+				    this.tableManager.reset();
+				    this.view.clearWarnings();
+				    window.getSelection()?.removeAllRanges();
+				
+				    this.#syncOptionsState();
 
-                    this.#syncOptionsState();
-
-                    const file = this.view.els[fileKey].files[0];
+				    const file = this.view.els[fileKey].files[0];
+				
                     if (!file) return;
 
                     try {
@@ -2425,14 +2447,13 @@
                         }
                         this.tableManager.clearStatus();
                     }
-
                 }
 
 
 				#syncKeyCheckboxes() {
 				    const checkedKeyNames = new Set(
 				        Array.from(this.view.els.checkboxes.querySelectorAll("input:checked"), (cb) => {
-				            const labelEl = cb.labels?.[0] || document.querySelector(`label[for="${cb.id}"]`);
+				            const labelEl = cb.labels?.[0] || cb.nextElementSibling;
 				            return labelEl ? labelEl.textContent.trim().toLowerCase() : "";
 				        }).filter(Boolean)
 				    );
@@ -2453,7 +2474,7 @@
 				
 				        const firstCb = container.querySelector("input");
 				        if (firstCb) {
-				            this.handleToggleAllInColumnSelection(firstCb, container);
+				            this.#handleToggleAllInColumnSelection(firstCb, container);
 				        }
 				    });
 				}
@@ -2508,7 +2529,6 @@
                 }
 
 
-
                 #toggleTableOptions() {
                     const els = this.view.els;
                     const isTableChecked = els.asTable.checked;
@@ -2532,7 +2552,6 @@
                     const isExcel1 = file1 && file1.name.includes(".") && ["xlsx", "xls"].includes(file1.name.split(".").pop().toLowerCase());
                     const isExcel2 = file2 && file2.name.includes(".") && ["xlsx", "xls"].includes(file2.name.split(".").pop().toLowerCase());
 
-				
 				    if (isExcel1 && isExcel2) {
 				        this.view.els.encodingToggle.checked = false;
 				        this.view.els.encodingToggle.disabled = true;
@@ -2544,7 +2563,7 @@
 
                 #updateScrollTriggerPoint() {
                     const searchWrapper = this.view.els.searchStatusWrapper;
-                    this.scrollTriggerPoint = searchWrapper ? searchWrapper.offsetTop : 0;
+                    this.scrollTriggerPoint = searchWrapper ? searchWrapper.parentElement.offsetTop : 0;
                 }
 
 
@@ -2577,6 +2596,29 @@
 
             class Utility {
 
+                static #downloadFile(content, mimeType, fileExtension) {
+                    const url = URL.createObjectURL(new Blob([content], { type: `${mimeType};charset=utf-8;` }));
+                        const link = Object.assign(document.createElement("a"), {
+                        href: url,
+                        download: `${Utility.getTimestamp()}.${fileExtension}`,
+                    });
+                    document.body.appendChild(link);
+                    link.click();
+                    link.remove();
+                    URL.revokeObjectURL(url);
+                }
+
+
+                static exportAsCSV(selectedText) {
+                    this.#downloadFile(`\uFEFF${selectedText}`, "text/csv", "csv");
+                }
+
+
+                static exportAsHTML(htmlContent) {
+                    this.#downloadFile(htmlContent, "text/html", "html");
+                }
+
+
                 static escapeHTML(str) {
                     if (str == null) return "";
                     const map = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" };
@@ -2590,46 +2632,49 @@
 				    const usRegex = /^\s*(\d{1,2})\/(\d{1,2})\/(\d{4})(?:\s+\d{1,2}:\d{2}(?::\d{2})?)?\s*$/;
 				    return data.map(row => {
 				        if (!Array.isArray(row)) return row;
-				        return row.map(cell => {
-				            if (cell instanceof Date) {
-				                if (!unify) {
-				                    return cell.toLocaleString(lang, {
-				                        year: 'numeric',
-				                        month: '2-digit',
-				                        day: '2-digit',
-				                        hour: '2-digit',
-				                        minute: '2-digit',
-				                        second: '2-digit'
-				                    });
-				                }
-				                const year = cell.getFullYear();
-				                const month = (cell.getMonth() + 1).toString().padStart(2, '0');
-				                const day = cell.getDate().toString().padStart(2, '0');
-				                return `${year}-${month}-${day}`;
-				            }
-				            if (!unify) {
-				                return cell;
-				            }
-				            if (typeof cell !== 'string' || !cell.trim()) {
-				                return cell;
-				            }
-				            let match = cell.match(deRegex);
-				            if (match) {
-				                const day = match[1].padStart(2, '0');
-				                const month = match[2].padStart(2, '0');
-				                const year = match[3];
-				                return `${year}-${month}-${day}`;
-				            }
-				            match = cell.match(usRegex);
-				            if (match) {
-				                const month = match[1].padStart(2, '0');
-				                const day = match[2].padStart(2, '0');
-				                const year = match[3];
-				                return `${year}-${month}-${day}`;
-				            }
-				            return cell;
-				        });
+				        return row.map(cell => this.#formatSingleCellDate(cell, deRegex, usRegex, unify, lang));
 				    });
+				}
+				
+				
+				static #formatSingleCellDate(cell, deRegex, usRegex, unify, lang) {
+				    if (cell instanceof Date) {
+				        if (!unify) {
+				            return cell.toLocaleString(lang, {
+				                year: 'numeric',
+				                month: '2-digit',
+				                day: '2-digit',
+				                hour: '2-digit',
+				                minute: '2-digit',
+				                second: '2-digit'
+				            });
+				        }
+				        const year = cell.getFullYear();
+				        const month = (cell.getMonth() + 1).toString().padStart(2, '0');
+				        const day = cell.getDate().toString().padStart(2, '0');
+				        return `${year}-${month}-${day}`;
+				    }
+				    if (!unify) {
+				        return cell;
+				    }
+				    if (typeof cell !== 'string' || !cell.trim()) {
+				        return cell;
+				    }
+				    let match = cell.match(deRegex);
+				    if (match) {
+				        const day = match[1].padStart(2, '0');
+				        const month = match[2].padStart(2, '0');
+				        const year = match[3];
+				        return `${year}-${month}-${day}`;
+				    }
+				    match = cell.match(usRegex);
+				    if (match) {
+				        const month = match[1].padStart(2, '0');
+				        const day = match[2].padStart(2, '0');
+				        const year = match[3];
+				        return `${year}-${month}-${day}`;
+				    }
+				    return cell;
 				}
 				
 				
@@ -2696,84 +2741,54 @@
                     );
                 }
 
+
                 static removeHTMLTags(str) {
                     return typeof str === "string" ? str.replace(/<[^>]*>/g, "") : "";
                 }
                 
 
-                static getOptimalColumnWidth(headerText, maxDataLength) {
-
-                    const dataWidth = Math.max(maxDataLength, 8) * 8 + 20;
-                    const cleanHeader = Utility.removeHTMLTags(headerText || "");
-                    const words = cleanHeader.split(/\s+/).filter(Boolean);
-
-                    if (words.length <= 1) {
-                        return Math.max(dataWidth, cleanHeader.length * 8 + 30);
-                    }
-
-                    const longestWordLen = Math.max(...words.map(w => w.length));
-                    let limit = longestWordLen;
-                    for (; limit <= cleanHeader.length; limit++) {
-                        let linesCount = 0;
-                        let currentLen = 0;
-                        
-                        for (let i = 0; i < words.length; i++) {
-                            const word = words[i];
-                            const addedLen = word.length + (currentLen > 0 ? 1 : 0);
-                            if (currentLen + addedLen <= limit) {
-                                currentLen += addedLen;
-                            } else {
-                                linesCount++;
-                                currentLen = word.length;
-                            }
-                        }
-                        if (currentLen > 0) {
-                            linesCount++;
-                        }
-
-                        if (linesCount <= 3) {
-                            break;
-                        }
-                    }
-
-                    const minWordWidth = longestWordLen * 8 + 35;
-                    const headerWidth = limit * 8 + 35;
-
-                    return Math.max(dataWidth, headerWidth, minWordWidth);
-                }
-
-            }
-
-
-            class Exporter {
-
-				#downloadFile(content, mimeType, fileExtension) {
-				    const url = URL.createObjectURL(new Blob([content], { type: `${mimeType};charset=utf-8;` }));
-				    const link = Object.assign(document.createElement("a"), {
-				        href: url,
-				        download: `${Utility.getTimestamp()}.${fileExtension}`,
-				    });
-				    document.body.appendChild(link);
-				    link.click();
-				    link.remove();
-				    URL.revokeObjectURL(url);
-				}
+				static getOptimalColumnWidth(headerText, maxDataLength) {
+				    const dataWidth = Math.max(maxDataLength, 6) * 7 + 12;
+				    const cleanHeader = Utility.removeHTMLTags(headerText || "");
+				    const words = cleanHeader.split(/\s+/).filter(Boolean);
 				
-
-                exportAsCSV(selectedText) {
-                    this.#downloadFile(`\uFEFF${selectedText}`, "text/csv", "csv");
-                }
-
-
-                exportAsHTML(htmlContent) {
-                    this.#downloadFile(htmlContent, "text/html", "html");
-                }
+				    if (words.length <= 1) {
+				        return Math.max(dataWidth, cleanHeader.length * 7 + 50, 120);
+				    }
+				
+				    const longestWordLen = Math.max(...words.map(w => w.length));
+				    let limit = longestWordLen;
+				    for (; limit <= cleanHeader.length; limit++) {
+				        let linesCount = 0;
+				        let currentLen = 0;
+				        
+				        for (let i = 0; i < words.length; i++) {
+				            const word = words[i];
+				            const addedLen = word.length + (currentLen > 0 ? 1 : 0);
+				            if (currentLen + addedLen <= limit) {
+				                currentLen += addedLen;
+				            } else {
+				                linesCount++;
+				                currentLen = word.length;
+				            }
+				        }
+				        if (currentLen > 0) {
+				            linesCount++;
+				        }
+				        if (linesCount <= 3) {
+				            break;
+				        }
+				    }
+				    const minWordWidth = longestWordLen * 7 + 50;
+				    const headerWidth = limit * 7 + 50;
+				    return Math.max(dataWidth, headerWidth, minWordWidth, 120);
+				}
             }
 
 
             class DataManager {
 
-				constructor(config = {}, tr = {}) {
+				constructor(config = {}) {
 				        this.config = config;
 				        this.lang = this.config.LANG ?? "en";
 				}
@@ -2806,7 +2821,6 @@
                             validRows.push(cleanRow);
                         }
                     }
-
                     return validRows;
                 }
 
@@ -2891,126 +2905,10 @@
 				                details: `.${extension}`,
 				            };
 				    }
-				
-				    if (!parsedData || parsedData.length === 0) {
-				        throw {
-				            messageKey: fileIndex === 1 ? "val_file1_empty" : "val_file2_empty"
-				        };
-				    }
-				
-				    if (parsedData.length < 2) {
-				        throw {
-				            messageKey: fileIndex === 1 ? "error_file1_parsing" : "error_file2_parsing"
-				        };
-				    }
-				
-				    const headers = parsedData[0];
-				    
-				    if (!headers || headers.length === 0 || headers.every(h => String(h || "").trim() === "")) {
-				        throw {
-				            messageKey: fileIndex === 1 ? "error_file1_parsing" : "error_file2_parsing"
-				        };
-				    }
-				
-				    const headerSet = new Set();
-				    const duplicateHeaders = new Set();
-				    
-				    for (let i = 0; i < headers.length; i++) {
-				        const hName = String(headers[i] || "").trim().toLowerCase();
-				        if (hName === "") continue;
-				        if (headerSet.has(hName)) {
-				            duplicateHeaders.add(`"${headers[i]}"`);
-				        } else {
-				            headerSet.add(hName);
-				        }
-				    }
-				    
-				    if (duplicateHeaders.size > 0) {
-				        throw {
-				            messageKey: fileIndex === 1 ? "val_file1_column_not_unique" : "val_file2_column_not_unique",
-				            details: Array.from(duplicateHeaders)
-				        };
-				    }
-				
-				    let mismatchedRowsCount = 0;
-				    const expectedColCount = headers.length;
-				    for (let r = 1; r < parsedData.length; r++) {
-				        const rowLength = parsedData[r].length;
-				        if (rowLength !== expectedColCount) {
-				            if (rowLength > expectedColCount) {
-				                mismatchedRowsCount++;
-				            } else {
-				                const hasActualData = parsedData[r].some(cell => cell != null && String(cell).trim() !== "");
-				                if (hasActualData && rowLength < expectedColCount) {
-				                    if (rowLength / expectedColCount < 0.5) {
-				                        mismatchedRowsCount++;
-				                    }
-				                }
-				            }
-				        }
-				    }
-
-				    if ((mismatchedRowsCount / (parsedData.length - 1) > this.config.MISMATCHED_ROWS_THRESHOLD) || (expectedColCount === 1 && mismatchedRowsCount > 0)) {
-				        throw {
-                            messageKey: fileIndex === 1 ? "error_file1_parsing" : "error_file2_parsing"
-				        };
-				    }
-
-				    const mismatchedRowsDetails = [];
-				    for (let r = 1; r < parsedData.length; r++) {
-				        if (parsedData[r].length > expectedColCount) {
-				            const rowPrefix = parsedData[r]
-				                .slice(0, 3)
-				                .map(cell => cell == null ? "" : String(cell).trim())
-				                .join("; ");
-				            mismatchedRowsDetails.push(`"${rowPrefix}"`);
-				        }
-				    }
-				
-				    if (mismatchedRowsDetails.length > 0) {
-				        throw {
-				            messageKey: fileIndex === 1 ? "val_file1_too_many_columns" : "val_file2_too_many_columns",
-				            details: mismatchedRowsDetails
-				        };
-				    }
-				
-				    const uniqueRows = new Set();
-				    let hasTotalDuplicates = false;
-				    for (let r = 1; r < parsedData.length; r++) {
-				        const rowString = parsedData[r].map(cell => String(cell ?? "").trim()).join("§§§");
-				        
-				        if (rowString.replace(/§§§/g, "") === "") continue;
-				        if (uniqueRows.has(rowString)) {
-				            hasTotalDuplicates = true;
-				            break; 
-				        }
-				        uniqueRows.add(rowString);
-				    }
-				
-				    if (hasTotalDuplicates) {
-				        throw {
-				            messageKey: fileIndex === 1 ? "error_file1_parsing" : "error_file2_parsing"
-				        };
-				    }
-				
-				    let maxCols = -1;
-				    for (let i = 0; i < parsedData.length; i++) {
-				        if (parsedData[i].length - 1 > maxCols) {
-				            maxCols = parsedData[i].length - 1;
-				        }
-				    }
-				    const targetLength = maxCols + 1;
-				    for (let i = 0; i < parsedData.length; i++) {
-				        const r = parsedData[i];
-				        while (r.length < targetLength) {
-				            r.push("");
-				        }
-				    }
-				
-				    return parsedData;
+				    return this.#validateAndStructureData(parsedData, fileIndex);
 				}
 				
-				
+
 			    async #parseODS(file, fileIndex = 1) {
 				    if (typeof fflate === "undefined") {
 				        throw { messageKey: "error_library_missing", details: "'fflate'" };
@@ -3104,10 +3002,122 @@
 				        });
 				    });
 				}
-
+				
+				
+				#validateAndStructureData(parsedData, fileIndex) {
+				    if (!parsedData || parsedData.length === 0) {
+				        throw { messageKey: fileIndex === 1 ? "val_file1_empty" : "val_file2_empty" };
+				    }
+				
+				    if (parsedData.length < 2) {
+				        throw { messageKey: fileIndex === 1 ? "error_file1_parsing" : "error_file2_parsing" };
+				    }
+				
+				    const headers = parsedData[0];
+				    if (!headers || headers.length === 0 || headers.every(h => String(h || "").trim() === "")) {
+				        throw { messageKey: fileIndex === 1 ? "error_file1_parsing" : "error_file2_parsing" };
+				    }
+				
+                    if (headers.some(h => String(h || "").trim() === "")) {
+				        throw { messageKey: fileIndex === 1 ? "val_file1_empty_header" : "val_file2_empty_header" };
+				    }				
+				
+				    const headerSet = new Set();
+				    const duplicateHeaders = new Set();
+				    
+				    for (let i = 0; i < headers.length; i++) {
+				        const hName = String(headers[i] || "").trim().toLowerCase();
+				        if (hName === "") continue;
+				        if (headerSet.has(hName)) {
+				            duplicateHeaders.add(`"${headers[i]}"`);
+				        } else {
+				            headerSet.add(hName);
+				        }
+				    }
+				    
+				    if (duplicateHeaders.size > 0) {
+				        throw {
+				            messageKey: fileIndex === 1 ? "val_file1_column_not_unique" : "val_file2_column_not_unique",
+				            details: Array.from(duplicateHeaders)
+				        };
+				    }
+				
+				    let mismatchedRowsCount = 0;
+				    const expectedColCount = headers.length;
+				    for (let r = 1; r < parsedData.length; r++) {
+				        const rowLength = parsedData[r].length;
+				        if (rowLength !== expectedColCount) {
+				            if (rowLength > expectedColCount) {
+				                mismatchedRowsCount++;
+				            } else {
+				                const hasActualData = parsedData[r].some(cell => cell != null && String(cell).trim() !== "");
+				                if (hasActualData && rowLength < expectedColCount) {
+				                    if (rowLength / expectedColCount < 0.5) {
+				                        mismatchedRowsCount++;
+				                    }
+				                }
+				            }
+				        }
+				    }
+				
+				    if ((mismatchedRowsCount / (parsedData.length - 1) > this.config.MISMATCHED_ROWS_THRESHOLD) || (expectedColCount === 1 && mismatchedRowsCount > 0)) {
+				        throw { messageKey: fileIndex === 1 ? "error_file1_parsing" : "error_file2_parsing" };
+				    }
+				
+				    const mismatchedRowsDetails = [];
+				    for (let r = 1; r < parsedData.length; r++) {
+				        if (parsedData[r].length > expectedColCount) {
+				            const rowPrefix = parsedData[r]
+				                .slice(0, 3)
+				                .map(cell => cell == null ? "" : String(cell).trim())
+				                .join("; ");
+				            mismatchedRowsDetails.push(`"${rowPrefix}"`);
+				        }
+				    }
+				
+				    if (mismatchedRowsDetails.length > 0) {
+				        throw {
+				            messageKey: fileIndex === 1 ? "val_file1_too_many_columns" : "val_file2_too_many_columns",
+				            details: mismatchedRowsDetails
+				        };
+				    }
+				
+				    const uniqueRows = new Set();
+				    let hasTotalDuplicates = false;
+				    for (let r = 1; r < parsedData.length; r++) {
+				        const rowString = parsedData[r].map(cell => String(cell ?? "").trim()).join("§§§");
+				        if (rowString.replace(/§§§/g, "") === "") continue;
+				        if (uniqueRows.has(rowString)) {
+				            hasTotalDuplicates = true;
+				            break; 
+				        }
+				        uniqueRows.add(rowString);
+				    }
+				
+				    if (hasTotalDuplicates) {
+				        throw { messageKey: fileIndex === 1 ? "error_file1_parsing" : "error_file2_parsing" };
+				    }
+				
+				    let maxCols = -1;
+				    for (let i = 0; i < parsedData.length; i++) {
+				        if (parsedData[i].length - 1 > maxCols) {
+				            maxCols = parsedData[i].length - 1;
+				        }
+				    }
+				    const targetLength = maxCols + 1;
+				    for (let i = 0; i < parsedData.length; i++) {
+				        const r = parsedData[i];
+				        while (r.length < targetLength) {
+				            r.push("");
+				        }
+				    }
+				    return parsedData;
+				}				
             }
 
+
              class Comparer {
+                 
                 static RowStatus = Object.freeze({
                     UNCHANGED: "unchanged",
                     MODIFIED: "modified",
@@ -3122,13 +3132,14 @@
                     ADDED: "added",
                 });
 
-                constructor(config = {}, tr= {}) {
+
+                constructor(config = {}) {
                     this.config = config;
                     this.lang = this.config.LANG ?? "en";
                 }
 
 
-				 #buildDataMap(data1, data2, cols1, cols2, keyIndices1, keyIndices2, delimiters) {
+				#buildDataMap(data1, data2, cols1, cols2, keyIndices1, keyIndices2, delimiters) {
 				     const headers1 = data1[0] || [];
 				     const headers2 = data2[0] || [];
 				     const finalHeaders1 = cols1.map((i) => headers1[i] || "");
@@ -3260,8 +3271,6 @@
 				 }
 
  
- 
-
                 #buildHeaderIndexMaps(headers1, headers2, cols1, cols2, rawKeyColumns) {
                     const headerMap1 = new Map(
                         cols1.map((colIdx, i) => [String(headers1[colIdx] || "").trim(), i]).filter(([h]) => h !== "")
@@ -3650,24 +3659,126 @@
                     this.config = config;
                     this.tr = tr;
                     this.lang = this.config.LANG ?? "en";
-                    this.headerFilterHeight = 150;
-                    this.els = {};
-                    this.currentTable = null;
-                    this.currentFilterRow = null;
-                    this.highlightedSpans = [];
-                    this.highlightedColumns = new Set();
-                    this.highlightedRows = new Set();
+				    this.currentFilterRow = null;
+				    this.currentTable = null;
+				    this.els = {};
+				    this.allVirtualRows = [];
+				    this.highlightedSpans = [];
+				    this.visibleVirtualRows = [];
+				    this.highlightedColumns = new Set();
+				    this.highlightedRows = new Set();
+				    this.bufferSize = 20;
+				    this.headerFilterHeight = 150;
+				    this.rowHeight = 26;
+                    
                     this.#getElements();
                     Object.freeze(this.els);
+                    
+                    window.addEventListener("scroll", () => {
+                        if (this.currentTable && this.allVirtualRows.length > 0) {
+                            this.updateVirtualRows();
+                        }
+                    }, { passive: true });
+                    window.addEventListener("resize", () => {
+                        if (this.currentTable && this.allVirtualRows.length > 0) {
+                            this.updateVirtualRows();
+                        }
+                    });
                 }
 
+
+
+				#adjustColumnWidths(table, headers, data, colCount) {
+				    const filterTr = this.currentFilterRow;
+				    const originalFilterDisplay = filterTr ? filterTr.style.display : "";
+				    if (filterTr) {
+				        filterTr.style.display = "none";
+				    }
+				
+				    const ths = table.querySelectorAll("thead tr:first-child th");
+				    const maxDataLens = new Array(colCount).fill(0);
+
+				    for (let r = 0; r < data.length; r++) {
+				        const row = data[r];
+				        for (let c = 0; c < colCount; c++) {
+				            const cellObj = row[c];
+				            const cellData = Utility.getCellData(cellObj);
+				            
+				            let valLen = 0;
+				            const hasOld = cellData.oldValue !== undefined && cellData.oldValue !== null;
+				            const hasNew = cellData.newValue !== undefined && cellData.newValue !== null;
+				            if (hasOld && hasNew && cellData.oldValue !== cellData.newValue) {
+				                valLen = cellData.oldValue.toString().length + cellData.newValue.toString().length;
+				            } else {
+				                valLen = (cellData.value || "").toString().length;
+				            }
+				
+				            if (valLen > maxDataLens[c]) {
+				                maxDataLens[c] = valLen;
+				            }
+				        }
+				    }
+				
+				    const widths = [];
+				    ths.forEach((th, i) => {
+				        const headerObj = headers[i];
+				        const headerText = typeof headerObj === "object" && headerObj !== null ? headerObj.name : headerObj;
+				        const optWidth = Utility.getOptimalColumnWidth(headerText, maxDataLens[i]);
+				        
+				        const dynamicMaxColWidth = Math.max(250, Math.min(maxDataLens[i] * 1.5, 600));
+				        th.style.maxWidth = dynamicMaxColWidth + 'px';
+				        
+				        const w = Math.min(optWidth, dynamicMaxColWidth);
+				        widths.push(w);
+				    });
+				    
+
+				    let totalWidth = widths.reduce((sum, w) => sum + w, 0);
+				    const containerWidth = this.els.output.clientWidth;
+				    const wrapperWidth = this.els.output.parentElement ? this.els.output.parentElement.clientWidth : containerWidth;
+				    const targetWidth = Math.max(containerWidth, wrapperWidth) * 0.9;
+				    
+				    let actualTotalWidth = 0;
+				
+				    if (totalWidth < targetWidth && targetWidth > 0) {
+				        const ratio = targetWidth / totalWidth;
+				        ths.forEach((th, i) => {
+				            const baseMaxLimit = Math.max(250, Math.min(maxDataLens[i] * 1.5, 600));
+				            
+				            const dynamicMaxColWidth = Math.min(baseMaxLimit * ratio, 800);
+				            const finalWidth = Math.min(widths[i] * ratio, dynamicMaxColWidth);
+				            
+				            th.style.width = finalWidth + "px";
+				            th.style.minWidth = finalWidth + "px";
+				            th.style.maxWidth = dynamicMaxColWidth + "px";
+				            actualTotalWidth += finalWidth;
+				        });
+				    } else {
+				        ths.forEach((th, i) => {
+				            const dynamicMaxColWidth = Math.max(250, Math.min(maxDataLens[i] * 1.5, 600));
+				            const finalWidth = Math.min(widths[i], dynamicMaxColWidth);
+				            
+				            th.style.width = finalWidth + "px";
+				            th.style.minWidth = finalWidth + "px"; 
+				            th.style.maxWidth = dynamicMaxColWidth + "px";
+				            actualTotalWidth += finalWidth;
+				        });
+				    }
+				    
+				    if (filterTr) {
+				        filterTr.style.display = originalFilterDisplay;
+				    }
+				    
+				    table.style.width = actualTotalWidth + "px";
+				}
+
+				
 				#applyColumnSorting(header, table) {
 				    const tbody = table.tBodies[0];
 				    if (!tbody) return;
 				
 				    const columnIndex = header.cellIndex;
-				    const rows = Array.from(tbody.rows);
-				    const rowCount = rows.length;
+				    const rowCount = this.allVirtualRows.length;
 				    if (rowCount === 0) return;
 				
 				    const currentSort = header.dataset.sort || "none";
@@ -3686,16 +3797,15 @@
 				
 				    if (nextSort === "none") {
 				        sortIcon.innerHTML = '';
-
-				        const mappedRows = rows.map((row) => ({
-				            meta_row_singular: row,
-				            origIndex: parseInt(row.dataset.origIndex || row.getAttribute("data-orig-index") || 0, 10)
-				        }));
+				
+				        const sortByOrigIndex = (a, b) => {
+				            const idxA = parseInt(a.dataset.origIndex || a.getAttribute("data-orig-index") || 0, 10);
+				            const idxB = parseInt(b.dataset.origIndex || b.getAttribute("data-orig-index") || 0, 10);
+				            return idxA - idxB;
+				        };
 				        
-				        mappedRows.sort((a, b) => a.origIndex - b.origIndex);
-				        
-				        const sortedRows = mappedRows.map(item => item.row);
-				        tbody.append(...sortedRows);
+				        this.allVirtualRows.sort(sortByOrigIndex);
+				        this.visibleVirtualRows.sort(sortByOrigIndex);
 				    } else {
 				        const arrowPoints = nextSort === "asc" ? "18 15 12 9 6 15" : "6 9 12 15 18 9";
 				        sortIcon.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 1em; height: 1em; display: inline-block; vertical-align: middle; margin-left: 4px;"><polyline points="${arrowPoints}"></polyline></svg>`;
@@ -3703,48 +3813,58 @@
 				        const isAsc = nextSort === "asc";
 				        const modifier = isAsc ? 1 : -1;
 				
-				        const mappedRows = rows.map((row) => {
+				        const getSortValue = (row) => {
 				            const cell = row.cells[columnIndex];
-				            let sortValue = "";
-				
-				            if (cell) {
-				                const oldVal = cell.dataset.cachedOldVal;
-				                const newVal = cell.dataset.cachedNewVal;
-				                
-				                if (oldVal !== undefined && newVal !== undefined) {
-				                    sortValue = `${oldVal} ${newVal}`;
-				                } else if (oldVal !== undefined) {
-				                    sortValue = oldVal;
-				                } else if (newVal !== undefined) {
-				                    sortValue = newVal;
-				                } else {
-				                    sortValue = cell.dataset.cachedVal ?? "";
-				                }
+				            if (!cell) return "";
+				            const oldVal = cell._cachedOldVal !== undefined ? cell._cachedOldVal : cell.dataset.cachedOldVal;
+				            const newVal = cell._cachedNewVal !== undefined ? cell._cachedNewVal : cell.dataset.cachedNewVal;
+				            
+				            if (oldVal !== undefined && newVal !== undefined) {
+				                return `${oldVal} ${newVal}`;
+				            } else if (oldVal !== undefined) {
+				                return oldVal;
+				            } else if (newVal !== undefined) {
+				                return newVal;
+				            } else {
+				                return (cell._cachedVal !== undefined ? cell._cachedVal : cell.dataset.cachedVal) ?? "";
 				            }
+				        };
 				
-				            return {
-				                meta_row_singular: row,
-				                value: sortValue.trim()
-				            };
-				        });
+				        const sortWithLocale = (a, b) => {
+				            const valA = getSortValue(a).trim();
+				            const valB = getSortValue(b).trim();
+				            return valA.localeCompare(valB, this.lang, { numeric: true, sensitivity: 'base' }) * modifier;
+				        };
 				
-                        mappedRows.sort((a, b) => {
-                            return a.value.localeCompare(b.value, this.lang, { numeric: true, sensitivity: 'base' }) * modifier;
-                        });
-
-				        const sortedRows = mappedRows.map(item => item.row);
-				        tbody.append(...sortedRows);
+				        this.allVirtualRows.sort(sortWithLocale);
+				        this.visibleVirtualRows.sort(sortWithLocale);
 				    }
 				
+
+				    this.updateVirtualRows(true, true);
+				
+				    this.isLockedAtBottom = false;
+				    this.isScrollingUp = true; 
+				    document.body.classList.remove("is-locked");
+
+				    window.scrollTo(window.scrollX, 1);
+
+				    this.updateVirtualRows(true, true);
+
 				    const bottomContainer = this.view.els.bottomContainer;
-				    if (bottomContainer && window.scrollY >= bottomContainer.offsetTop) {
+				    if (bottomContainer) {
 				        window.scrollTo({
-				            top: bottomContainer.offsetTop,
+				            top: Math.max(0, bottomContainer.offsetTop - 100),
 				            behavior: "auto"
 				        });
 				    }
+				    
+				    this.isScrollingUp = false;
 				}
-				
+
+
+
+			
 
 			    clearOutput() {
 			        this.els.output.style.minHeight = "";
@@ -3774,6 +3894,140 @@
                     this.els.status.replaceChildren();
                     this.els.status.style.visibility = "hidden";
                 }
+
+
+				#createNewStatus(data) {
+				    this.els.status.replaceChildren();
+				    const unitLabel = data.totalCount === 1 ? this.tr[this.lang].meta_row_singular : this.tr[this.lang].meta_row_plural;
+				    const elVis = document.createElement("span");
+				    elVis.id = "status-visible-count";
+				    elVis.textContent = data.visibleCount;
+				
+				    const elTotal = document.createElement("span");
+				    elTotal.id = "status-total-count";
+				    elTotal.textContent = data.totalCount;
+				
+				    const txtOf = ` ${this.tr[this.lang].meta_of} `;
+				    const txtUnit = ` ${unitLabel}`;
+				    this.els.status.appendChild(elVis);
+				
+				    let elM = null, elO1 = null, elO2 = null;
+				    let cbM = null, cbO1 = null, cbO2 = null;
+				
+				    if (!data.isSingleView && data.stats) {
+				        const rtf = data.rowTypeFilters;
+				        const countM = data.comparisonStats?.matching ?? data.stats.matching;
+				        const countO1 = data.comparisonStats?.onlyFile1 ?? data.stats.onlyFile1;
+				        const countO2 = data.comparisonStats?.onlyFile2 ?? data.stats.onlyFile2;
+				
+				        const createFilter = (id, filter, count, isChecked, isDisabled, className = "") => {
+				            const lbl = document.createElement("label");
+				            lbl.style.cssText = `${isDisabled ? "opacity: 0.4; cursor: not-allowed;" : "cursor: pointer;"} display: inline-flex; align-items: center; gap: 3px;`;
+				            const span = document.createElement("span");
+				            span.id = `status-count-${id}`;
+				            if (className) span.className = className;
+				            span.textContent = count;
+				
+				            if (id === "matching") elM = span;
+				            if (id === "only1") elO1 = span;
+				            if (id === "only2") elO2 = span;
+				
+				            const cb = document.createElement("input");
+				            cb.type = "checkbox";
+				            cb.className = "status-filter-checkbox";
+				            cb.dataset.filter = filter;
+				            cb.checked = !isDisabled && isChecked;
+				            cb.disabled = isDisabled;
+				            cb.style.cssText = "cursor: inherit; margin: 0; vertical-align: middle;";
+				
+				            if (filter === "matching") cbM = cb;
+				            if (filter === "onlyFile1") cbO1 = cb;
+				            if (filter === "onlyFile2") cbO2 = cb;
+				
+				            lbl.append(span, cb);
+				            return lbl;
+				        };
+				
+				        const lblM = createFilter("matching", "matching", countM, rtf.matching, countM === 0);
+				        const lblO1 = createFilter("only1", "onlyFile1", countO1, rtf.onlyFile1, countO1 === 0, "highlight-first");
+				        const lblO2 = createFilter("only2", "onlyFile2", countO2, rtf.onlyFile2, countO2 === 0, "highlight-second");
+				        this.els.status.append(" (", lblO1, ", ", lblO2, ", ", lblM, ")");
+				    }
+				
+				    this.els.status.append(txtOf, elTotal, txtUnit);
+				
+				    this.statusEls = {
+				        elVis: elVis,
+				        elM: elM || document.createElement("span"),
+				        elO1: elO1 || document.createElement("span"),
+				        elO2: elO2 || document.createElement("span"),
+				        cbM: cbM,
+				        cbO1: cbO1,
+				        cbO2: cbO2
+				    };
+				}
+
+
+				#createTableBody(data) {
+				    const escapeHtml = (str) => {
+				        if (str === null || str === undefined) return '';
+				        return String(str)
+				            .replace(/&/g, '&amp;')
+				            .replace(/</g, '&lt;')
+				            .replace(/>/g, '&gt;')
+				            .replace(/"/g, '&quot;')
+				            .replace(/'/g, '&#039;');
+				    };
+				
+				    const tbodyHtmlRows = [];
+				    const dataLen = data.length;
+				
+				    for (let r = 0; r < dataLen; r++) {
+				        const row = data[r];
+				        const rowLen = row.length;
+				        let hasDeleted = false;
+				        let hasAdded = false;
+				        const cellsHtml = [];
+				
+						for (let c = 0; c < rowLen; c++) {
+						    const cellObj = row[c];
+						    let cellContent = "";
+						
+						    const { type, value, oldValue, newValue } = Utility.getCellData(cellObj);
+						    if (type === Comparer.CellStatus.DELETED) hasDeleted = true;
+						    else if (type === Comparer.CellStatus.ADDED) hasAdded = true;
+						
+						    let cacheAttrs = "";
+						    switch (type) {
+						        case Comparer.CellStatus.DIFFERENCE:
+						            cellContent = `<span class="highlight-first">${escapeHtml(oldValue)}</span> <span class="highlight-second">${escapeHtml(newValue)}</span>`;
+						            cacheAttrs = `data-cached-old-val="${escapeHtml(oldValue.trim())}" data-cached-new-val="${escapeHtml(newValue.trim())}"`;
+						            break;
+						        case Comparer.CellStatus.DELETED:
+						            cellContent = `<span class="highlight-first">${escapeHtml(oldValue)}</span>`;
+						            cacheAttrs = `data-cached-old-val="${escapeHtml(oldValue.trim())}" data-cached-new-val=""`;
+						            break;
+						        case Comparer.CellStatus.ADDED:
+						            cellContent = `<span class="highlight-second">${escapeHtml(newValue)}</span>`;
+						            cacheAttrs = `data-cached-old-val="" data-cached-new-val="${escapeHtml(newValue.trim())}"`;
+						            break;
+						        default:
+						            cellContent = escapeHtml(value);
+						            cacheAttrs = `data-cached-val="${escapeHtml(value.trim())}"`;
+						            break;
+						    }
+						    cellsHtml.push(`<td data-original-index="${c}" ${cacheAttrs}>${cellContent}</td>`);
+						}		
+										
+				        const rowType = (hasDeleted && !hasAdded) ? "onlyFile1" : (!hasDeleted && hasAdded) ? "onlyFile2" : "matching";
+				        tbodyHtmlRows.push(`<tr data-orig-index="${r}" data-row-type="${rowType}">${cellsHtml.join('')}</tr>`);
+				    }
+				
+				    const tbody = document.createElement("tbody");
+				    tbody.innerHTML = tbodyHtmlRows.join('');
+				    
+				    return tbody; 
+				}
 
 
                 #createTableHeader(headers, uniqueValuesMap, hasEmptyArray, options) {
@@ -3875,7 +4129,6 @@
 				            boxSizing: "border-box"
 				        });
 
-				
 				        const searchInput = document.createElement("input");
 				        searchInput.type = "text";
 				        searchInput.placeholder = "🔍";
@@ -3903,6 +4156,8 @@
 				            userSelect: "none"
 				        });
 				
+				        filterTd._scrollContainer = scrollContainer;
+				        filterTd._searchInput = searchInput;			
 				
 				        const triggerFilterUpdate = () => {
 				            const isColumnFilterActive = Boolean(options.activateFilter ?? true);
@@ -3911,7 +4166,7 @@
 				                const tbody = table.tBodies[0];
 				                const headerCells = isColumnFilterActive ? Array.from(table.tHead?.querySelectorAll("tr:nth-child(2) td") || []) : [];
 				                const activeFilters = this.getActiveColumnFilters(headerCells, isColumnFilterActive);
-				                const allRows = tbody ? Array.from(tbody.rows) : [];
+				                const allRows = this.allVirtualRows;
 				                const filterFn = typeof this.rowMatchesFiltersCallback === 'function' ? this.rowMatchesFiltersCallback : () => true;
 				                this.updateColumnDropdowns(headerCells, allRows, activeFilters, (row, colIdx) => filterFn(row, colIdx), scrollContainer);
 				            }
@@ -3951,11 +4206,12 @@
 
                             row.append(cb, span);
                             
-
+                            row._cb = cb;
+                            row._val = value;
+                            row._label = span;
 
                             return row;
                         };
-
 
                         const allRow = createOptionRow("select-all", textFilterAll, true);
                         scrollContainer.appendChild(allRow);
@@ -3964,7 +4220,6 @@
                             const emptyRow = createOptionRow("select-empty", textFilterEmpty, true);
                             scrollContainer.appendChild(emptyRow);
                         }
-
 
                         const sortedValues = Array.from(uniqueValuesMap[colIndex]).sort(textCollator.compare);
                         const sortedLen = sortedValues.length;
@@ -3982,68 +4237,51 @@
 				}
 
 
-				#createTableBody(data) {
-				    const escapeHtml = (str) => {
-				        if (str === null || str === undefined) return '';
-				        return String(str)
-				            .replace(/&/g, '&amp;')
-				            .replace(/</g, '&lt;')
-				            .replace(/>/g, '&gt;')
-				            .replace(/"/g, '&quot;')
-				            .replace(/'/g, '&#039;');
-				    };
+				doesCellMatchFilter(cell, selectedValues) {
+				    const oldVal = cell.dataset.cachedOldVal;
+				    const newVal = cell.dataset.cachedNewVal;
 				
-				    const tbodyHtmlRows = [];
-				    const dataLen = data.length;
-				
-				    for (let r = 0; r < dataLen; r++) {
-				        const row = data[r];
-				        const rowLen = row.length;
-				        let hasDeleted = false;
-				        let hasAdded = false;
-				        const cellsHtml = [];
-				
-						for (let c = 0; c < rowLen; c++) {
-						    const cellObj = row[c];
-						    let cellContent = "";
-						
-						    const { type, value, oldValue, newValue } = Utility.getCellData(cellObj);
-						    if (type === Comparer.CellStatus.DELETED) hasDeleted = true;
-						    else if (type === Comparer.CellStatus.ADDED) hasAdded = true;
-						
-						    let cacheAttrs = "";
-						    switch (type) {
-						        case Comparer.CellStatus.DIFFERENCE:
-						            cellContent = `<span class="highlight-first">${escapeHtml(oldValue)}</span> <span class="highlight-second">${escapeHtml(newValue)}</span>`;
-						            cacheAttrs = `data-cached-old-val="${escapeHtml(oldValue.trim())}" data-cached-new-val="${escapeHtml(newValue.trim())}"`;
-						            break;
-						        case Comparer.CellStatus.DELETED:
-						            cellContent = `<span class="highlight-first">${escapeHtml(oldValue)}</span>`;
-						            cacheAttrs = `data-cached-old-val="${escapeHtml(oldValue.trim())}" data-cached-new-val=""`;
-						            break;
-						        case Comparer.CellStatus.ADDED:
-						            cellContent = `<span class="highlight-second">${escapeHtml(newValue)}</span>`;
-						            cacheAttrs = `data-cached-old-val="" data-cached-new-val="${escapeHtml(newValue.trim())}"`;
-						            break;
-						        default:
-						            cellContent = escapeHtml(value);
-						            cacheAttrs = `data-cached-val="${escapeHtml(value.trim())}"`;
-						            break;
-						    }
-						    cellsHtml.push(`<td data-original-index="${c}" ${cacheAttrs}>${cellContent}</td>`);
-						}		
-										
-				        const rowType = (hasDeleted && !hasAdded) ? "onlyFile1" : (!hasDeleted && hasAdded) ? "onlyFile2" : "matching";
-				        tbodyHtmlRows.push(`<tr data-orig-index="${r}" data-row-type="${rowType}">${cellsHtml.join('')}</tr>`);
+				    if (oldVal !== undefined || newVal !== undefined) {
+				        const hasEmptyMatch = selectedValues.has("empty") && (!oldVal || !newVal);
+				        const hasValMatch = selectedValues.has(oldVal) || selectedValues.has(newVal);
+				        return hasEmptyMatch || hasValMatch;
 				    }
 				
-				    const tbody = document.createElement("tbody");
-				    tbody.innerHTML = tbodyHtmlRows.join('');
-				    
-				    return tbody; 
-				}
-	
+				    const cellText = cell.dataset.cachedVal ?? "";
+				    return selectedValues.has(cellText || "empty");
+				}	
+
+
+			    expandAllColumns() {
+				    const table = this.currentTable;
+				    if (!table) return;
 				
+				    const collapsedHeaders = table.querySelectorAll('th.column-collapsed');
+				    collapsedHeaders.forEach(th => {
+				        th.classList.remove('column-collapsed');
+				        const toggleBtn = th.querySelector('.col-toggle-btn');
+				        if (toggleBtn) {
+				            toggleBtn.innerHTML = '−';
+				            toggleBtn.title = '';
+				        }
+				    });
+				
+				    const collapsedFilters = table.querySelectorAll('.table-filter-cell.column-collapsed');
+				    collapsedFilters.forEach(td => {
+				        td.classList.remove('column-collapsed');
+				    });
+				
+				    const collapsedCells = table.querySelectorAll('td.column-collapsed');
+				    collapsedCells.forEach(cell => {
+				        cell.classList.remove('column-collapsed');
+				    });
+
+				    table.style.minWidth = '';
+				
+				    this.#updateExpandButtonVisibility();
+				}
+
+
                 #extractUniqueAndEmptyValues(colCount, data) {
                     const uniqueValuesMap = Array.from({ length: colCount }, () => new Set());
                     const hasEmptyArray = new Array(colCount).fill(false);
@@ -4137,6 +4375,31 @@
 				        valuesSet.add(val || "empty");
 				    }
 				}
+
+
+				getActiveColumnFilters(headerCells) {
+				    const isColumnFilterActive = this.currentFilterRow && this.currentFilterRow.style.display !== "none";
+				    if (!isColumnFilterActive) return [];
+				    const activeFilters = [];
+				    headerCells.forEach((td, index) => {
+				        const scrollContainer = td._scrollContainer || td.querySelector(".table-filter-scroll-container");
+				        if (!scrollContainer) return;
+				        const allCheckbox = scrollContainer.querySelector('.filter-option-checkbox[value="select-all"]');
+				        
+				        const isActive = allCheckbox && !allCheckbox.checked;
+				        scrollContainer.classList.toggle("filter-active", isActive);
+				
+				        if (isActive) {
+				            const checkedCheckboxes = Array.from(scrollContainer.querySelectorAll(".filter-option-checkbox:checked"));
+				            const values = checkedCheckboxes.map(cb => cb.value === "select-empty" ? "empty" : cb.value);
+				            activeFilters.push({
+				                colIndex: index,
+				                selectedValues: new Set(values)
+				            });
+				        }
+				    });
+				    return activeFilters;
+				}
 				
 
                 #getElements() {
@@ -4150,805 +4413,7 @@
                     this.els.expandAllColsBtn = document.getElementById("expand-all-cols-btn");
                 }
 
-                getSearchTerm() {
-                    const searchInput = this.els.globalSearch;
-                    return searchInput ? searchInput.value.trim().toLowerCase() : "";
-                }
-                
-                getOriginalSearchTerm() {
-                    return this.els.globalSearch ? this.els.globalSearch.value.trim() : "";
-                }
 
-
-				handleHeaderClick(header, eventTarget) {
-				    const colIndex = header.cellIndex;
-				    if (eventTarget.closest(".col-toggle-btn")) {
-				        this.toggleColumnCollapse(header);
-				    } else if (eventTarget.closest(".move-col-left")) {
-				        this.#moveColumn(colIndex, -1);
-				    } else if (eventTarget.closest(".move-col-right")) {
-				        this.#moveColumn(colIndex, 1);
-				    } else if (eventTarget.closest(".sort-trigger")) {
-				        this.#applyColumnSorting(header, this.currentTable);
-				    }
-				}
-              
-              
-				resetColumnOrder() {
-				    if (!this.currentTable) return;
-				    
-				    this.highlightedColumns.forEach(cell => {
-				        cell.classList.remove('highlighted-column');
-				    });
-				    this.highlightedColumns.clear();
-				
-				    const rows = this.currentTable.querySelectorAll('tr');
-				
-                    rows.forEach(row => {
-                        const cells = Array.from(row.children).sort((a, b) => 
-                            parseInt(a.dataset.originalIndex, 10) - parseInt(b.dataset.originalIndex, 10)
-                        );
-                        row.replaceChildren(...cells);
-                    });
-
-                    this.#updateMoveButtonsState();
-                    this.#updateResetButtonVisibility();
-                }
-                
-                
-                #isOrderDefault() {
-                    if (!this.currentTable) return true;
-                    const headers = this.currentTable.querySelector('thead tr:first-child').children;
-                    return Array.from(headers).every((th, index) => parseInt(th.dataset.originalIndex, 10) === index);
-                }
-
-
-                #updateResetButtonVisibility() {
-                    if (!this.els.resetColOrderBtn) return;
-                    this.els.resetColOrderBtn.classList.toggle('hidden', this.#isOrderDefault());
-                }
-
-
-                toggleColumnCollapse(th) {
-				    const originalIndex = th.dataset.originalIndex;
-				    const isCollapsed = th.classList.toggle('column-collapsed');
-				    const toggleBtn = th.querySelector('.col-toggle-btn');
-				    if (toggleBtn) {
-				        toggleBtn.innerHTML = isCollapsed ? '+' : '−';
-				        const columnName = th.querySelector('.sort-trigger')?.textContent?.trim() || '';
-				        toggleBtn.title = isCollapsed ? columnName : '';
-				    }
-				    const table = this.currentTable;
-				    if (!table) return;
-				    
-				    const filterRow = this.currentFilterRow;
-				    if (filterRow) {
-				        const filterCell = filterRow.querySelector(`td[data-original-index="${originalIndex}"]`);
-				        if (filterCell) {
-				            filterCell.classList.toggle('column-collapsed', isCollapsed);
-				        }
-				    }
-				    
-				    const tbody = table.tBodies[0];
-				    if (tbody) {
-				        const cells = tbody.querySelectorAll(`td[data-original-index="${originalIndex}"]`);
-				        cells.forEach(cell => {
-				            cell.classList.toggle('column-collapsed', isCollapsed);
-				        });
-				    }
-
-				    const currentlyCollapsed = table.querySelectorAll('th.column-collapsed').length;
-				    if (currentlyCollapsed > 0) {
-				        table.style.minWidth = '0';
-				    } else {
-				        table.style.minWidth = '';
-				    }
-
-				    this.#updateExpandButtonVisibility();
-				 }
-
-
-				  expandAllColumns() {
-				    const table = this.currentTable;
-				    if (!table) return;
-				
-				    const collapsedHeaders = table.querySelectorAll('th.column-collapsed');
-				    collapsedHeaders.forEach(th => {
-				        th.classList.remove('column-collapsed');
-				        const toggleBtn = th.querySelector('.col-toggle-btn');
-				        if (toggleBtn) {
-				            toggleBtn.innerHTML = '−';
-				            toggleBtn.title = '';
-				        }
-				    });
-				
-				    const collapsedFilters = table.querySelectorAll('.table-filter-cell.column-collapsed');
-				    collapsedFilters.forEach(td => {
-				        td.classList.remove('column-collapsed');
-				    });
-				
-				    const collapsedCells = table.querySelectorAll('td.column-collapsed');
-				    collapsedCells.forEach(cell => {
-				        cell.classList.remove('column-collapsed');
-				    });
-
-				    table.style.minWidth = '';
-				
-				    this.#updateExpandButtonVisibility();
-				}
-
-
-                #updateExpandButtonVisibility() {
-                    if (!this.els.expandAllColsBtn) return;
-                    const hasCollapsed = this.currentTable && this.currentTable.querySelector('th.column-collapsed') !== null;
-                    this.els.expandAllColsBtn.classList.toggle('hidden', !hasCollapsed);
-                }
-
-
-				handleHeaderDoubleClick(header) {
-				    this.#toggleColumnHighlight(header, this.currentTable);
-				}
-				
-
-                #moveColumn(colIndex, direction) {
-                    if (!this.currentTable) return;
-                    const newIndex = colIndex + direction;
-
-                    this.currentTable.querySelectorAll('tr').forEach(row => {
-                        const cells = Array.from(row.children);
-                        const cellToMove = cells[colIndex];
-                        const targetCell = cells[newIndex];
-
-                        if (direction === -1) {
-                            row.insertBefore(cellToMove, targetCell);
-                        } else {
-                            row.insertBefore(cellToMove, targetCell.nextSibling);
-                        }
-                    });
-
-                    this.#updateMoveButtonsState();
-                    this.#updateResetButtonVisibility();
-                }
-                
-                
-                #updateMoveButtonsState() {
-                    if (!this.currentTable) return;
-                    const headers = this.currentTable.querySelector('thead tr:first-child').children;
-                    const numCols = headers.length;
-
-                    Array.from(headers).forEach((th, index) => {
-                        const leftBtn = th.querySelector('.move-col-left');
-                        const rightBtn = th.querySelector('.move-col-right');
-                        if (leftBtn) leftBtn.classList.toggle('disabled', index === 0);
-                        if (rightBtn) rightBtn.classList.toggle('disabled', index === numCols - 1);
-                    });
-                }
-
-
-                highlightNodeText(node, term) {
-                    if (!node || !term) return;
-                    if (node.nodeType === Node.TEXT_NODE) {
-                        const text = node.textContent;
-                        const regex = new RegExp(`(${Utility.escapeRegExp(term)})`, "gi");
-                        const parts = text.split(regex);
-                        if (parts.length > 1) {
-                            const fragment = document.createDocumentFragment();
-                            parts.forEach((part) => {
-                                if (part.toLowerCase() === term.toLowerCase()) {
-                                    const span = document.createElement("span");
-                                    span.className = "search-highlight";
-                                    span.textContent = part;
-                                    fragment.appendChild(span);
-                                    this.highlightedSpans.push(span);
-                                } else {
-                                    fragment.appendChild(document.createTextNode(part));
-                                }
-                            });
-                            node.parentNode.replaceChild(fragment, node);
-                        }
-                    } else if (
-                        node.nodeType === Node.ELEMENT_NODE &&
-                        node.nodeName !== "SCRIPT" &&
-                        node.nodeName !== "STYLE"
-                    ) {
-                        Array.from(node.childNodes).forEach((child) => this.highlightNodeText(child, term));
-                    }
-                }
-
-
-                handleTableFilterChange(changedCheckbox, scrollContainer) {
-                    const checkboxes = Array.from(scrollContainer.querySelectorAll(".filter-option-checkbox"));
-                    const allCheckbox = checkboxes.find(cb => cb.value === "select-all");
-                    if (!allCheckbox) return;
-
-                    if (changedCheckbox === allCheckbox) {
-
-                        checkboxes.forEach(cb => {
-                            if (cb !== allCheckbox) {
-                                cb.checked = allCheckbox.checked;
-                            }
-                        });
-                    } else {
-
-                        if (!changedCheckbox.checked) {
-
-                            allCheckbox.checked = false;
-                        } else {
-
-                            const allOthersChecked = checkboxes.every(cb => cb === allCheckbox || cb.checked);
-                            if (allOthersChecked) {
-                                allCheckbox.checked = true;
-                            }
-                        }
-                    }
-                    scrollContainer.classList.toggle("filter-active", !allCheckbox.checked);
-                }
-
-
-                getActiveColumnFilters(headerCells, isColumnFilterActive) {
-                    if (!isColumnFilterActive) return [];
-                    const activeFilters = [];
-                    headerCells.forEach((td, index) => {
-                        const scrollContainer = td.querySelector(".table-filter-scroll-container");
-                        if (!scrollContainer) return;
-                        const allCheckbox = scrollContainer.querySelector('.filter-option-checkbox[value="select-all"]');
-                        
-                        if (allCheckbox && allCheckbox.checked) return;
-                        const checkedCheckboxes = Array.from(scrollContainer.querySelectorAll(".filter-option-checkbox:checked"));
-
-                        const selectedValues = new Set(checkedCheckboxes.map(cb => {
-                            return cb.value === "select-empty" ? "empty" : cb.value;
-                        }));
-                        
-                        activeFilters.push({
-                            colIndex: index,
-                            selectedValues,
-                        });
-                    });
-                    return activeFilters;
-                }
-
-
-                reset() {
-                    this.clearStatus();
-                    this.clearOutput();
-                    this.highlightedColumns.clear();
-                    this.highlightedRows.clear();
-                    if (this.els.globalSearch) {
-                        this.els.globalSearch.value = "";
-                    }
-                    if (this.els.searchClear) {
-                        this.els.searchClear.style.display = "none";
-                    }
-                    if (this.els.resetColOrderBtn) {
-                        this.els.resetColOrderBtn.classList.add('hidden');
-                    }
-                    if (this.els.expandAllColsBtn) {
-                        this.els.expandAllColsBtn.classList.add('hidden');
-                    }
-                }
-
-
-
-                renderTable(headers, data, options = {}) {
-                    this.clearOutput();
-                    const colCount = headers.length;
-                    const { uniqueValuesMap, hasEmptyArray } = this.#extractUniqueAndEmptyValues(colCount, data);
-                    const fragment = document.createDocumentFragment();
-                    const table = document.createElement("table");
-                    table.className = "custom-table";
-                    this.currentTable = table;
-                    const thead = this.#createTableHeader(headers, uniqueValuesMap, hasEmptyArray, options);
-                    table.appendChild(thead);
-                    this.filterCells = this.currentFilterRow ? Array.from(this.currentFilterRow.children) : [];
-                    const tbody = this.#createTableBody(data);
-                    table.appendChild(tbody);
-                    fragment.appendChild(table);
-                    this.els.output.appendChild(fragment);
-                    
-                    const originalTableWidth = table.style.width;
-                    table.style.width = 'auto';
-                    
-                    const filterTr = this.currentFilterRow;
-                    const originalFilterDisplay = filterTr ? filterTr.style.display : "";
-                    if (filterTr) {
-                        filterTr.style.display = "none";
-                    }
-                    
-
-                    const ths = table.querySelectorAll("thead tr:first-child th");
-
-                    const maxDataLens = new Array(colCount).fill(0);
-                    for (let r = 0; r < data.length; r++) {
-                        const row = data[r];
-                        for (let c = 0; c < colCount; c++) {
-                            const cellObj = row[c];
-                            const cellData = Utility.getCellData(cellObj);
-                            const valLen = Math.max(
-                                (cellData.value || "").length,
-                                (cellData.oldValue || "").length,
-                                (cellData.newValue || "").length
-                            );
-                            if (valLen > maxDataLens[c]) {
-                                maxDataLens[c] = valLen;
-                            }
-                        }
-                    }
-
-					const maxColWidth = this.config.MAX_COLUMN_WIDTH || 250;
-					
-					ths.forEach((th, i) => {
-					    const headerObj = headers[i];
-					    const headerText = typeof headerObj === "object" && headerObj !== null ? headerObj.name : headerObj;
-					    const optWidth = Utility.getOptimalColumnWidth(headerText, maxDataLens[i]);
-					    th.style.width = optWidth + "px";
-					    th.style.maxWidth = maxColWidth + "px";
-					});
-					
-					
-					
-					const widths = [];
-					let totalWidth = 0;
-					ths.forEach(th => {
-					    th.style.maxWidth = maxColWidth + 'px';
-					    const w = Math.min(th.offsetWidth, maxColWidth);
-					    widths.push(w);
-					    totalWidth += w;
-					});
-                    
-                    const containerWidth = this.els.output.clientWidth;
-                    const wrapperWidth = this.els.output.parentElement ? this.els.output.parentElement.clientWidth : containerWidth;
-                    const targetWidth = Math.max(containerWidth, wrapperWidth) * 0.9;
-
-                    
-                    if (totalWidth < targetWidth && targetWidth > 0) {
-                        const ratio = targetWidth / totalWidth;
-                        ths.forEach((th, i) => {
-                            const finalWidth = widths[i] * ratio;
-                            th.style.maxWidth = 'none';
-                            th.style.width = finalWidth + "px";
-                        });
-                    } else {
-                        ths.forEach((th, i) => {
-                            const finalWidth = Math.min(widths[i], maxColWidth);
-                            th.style.maxWidth = maxColWidth + 'px';
-                            th.style.width = finalWidth + "px";
-                        });
-                    }
-                    
-                    if (filterTr) {
-                        filterTr.style.display = originalFilterDisplay;
-                    }
-                    table.style.width = originalTableWidth;
-
-                    const viewportMin = window.innerHeight - this.headerFilterHeight;
-                    this.els.output.style.minHeight = `${viewportMin}px`;
-
-
-                    if (this.els.searchContainer) {
-                        this.els.searchContainer.classList.remove("hidden");
-                    }
-                    const rows = table.tBodies[0].rows;
-                    for (const row of rows) {
-                        row._cachedSearchText = row.textContent.toLowerCase();
-                    }
-                    this.#updateMoveButtonsState();
-                    this.#updateResetButtonVisibility();                    
-                }
-
-
-				
-				renderText(headers, data, { includeEmptyLines, columnDelimiter, valueDelimiter }) {
-				    this.clearOutput();
-				    this.currentTable = null;
-				
-				    if (this.els.resetColOrderBtn) {
-				        this.els.resetColOrderBtn.classList.add('hidden');
-				    }
-				
-				    const fragment = document.createDocumentFragment();
-				
-				    const headerEl = document.createElement("div");
-				    headerEl.className = "text-header";
-				    const headerHtmls = headers.map(headerObj => {
-				        if (typeof headerObj !== 'object' || headerObj === null) {
-				            return Utility.escapeHTML(headerObj);
-				        }
-				        
-				        let headerHtml = Utility.escapeHTML(headerObj.name);
-				
-				        if (headerObj.onlyInFile2) {
-				            headerHtml = `<span class="highlight-second">${headerHtml}</span>`;
-				        } else if (headerObj.onlyInFile1) {
-				            headerHtml = `<span class="highlight-first">${headerHtml}</span>`;
-				        }
-				        
-				        if (headerObj.isKey) {
-				            headerHtml = `<span class="primary-underlined">${headerHtml}</span>`;
-				        }
-				        
-				        return headerHtml;
-				    });
-				    headerEl.innerHTML = headerHtmls.join(columnDelimiter);
-				    fragment.appendChild(headerEl);
-				    
-				    if (includeEmptyLines && data.length > 0) {
-				        fragment.appendChild(document.createElement("br"));
-				    }
-				
-				    const lineElements = [];
-				    for (let r = 0; r < data.length; r++) {
-				        const row = data[r];
-				        const rowParts = new Array(row.length);
-				
-				        for (let c = 0; c < row.length; c++) {
-				            const { type, value, oldValue, newValue } = Utility.getCellData(row[c]);
-				            switch (type) {
-				                case Comparer.CellStatus.DIFFERENCE:
-				                    rowParts[c] =
-				                        `<span class="highlight-first">${Utility.escapeHTML(oldValue)}</span>${valueDelimiter}<span class="highlight-second">${Utility.escapeHTML(newValue)}</span>`;
-				                    break;
-				                case Comparer.CellStatus.DELETED:
-				                    rowParts[c] =
-				                        `<span class="highlight-first">${Utility.escapeHTML(oldValue)}</span>${valueDelimiter}`;
-				                    break;
-				                case Comparer.CellStatus.ADDED:
-				                    rowParts[c] =
-				                        `${valueDelimiter}<span class="highlight-second">${Utility.escapeHTML(newValue)}</span>`;
-				                    break;
-				                default:
-				                    rowParts[c] = Utility.escapeHTML(value);
-				                    break;
-				            }
-				        }
-				
-				        const lineDiv = document.createElement("div");
-				        lineDiv.className = "text-line";
-				        lineDiv.innerHTML = rowParts.join(columnDelimiter);
-				
-				        lineDiv.dataset.searchText = lineDiv.textContent.toLowerCase();
-				        const hasFirst = lineDiv.innerHTML.includes("highlight-first");
-				        const hasSecond = lineDiv.innerHTML.includes("highlight-second");
-				        lineDiv.dataset.rowType =
-				            hasFirst && !hasSecond ? "onlyFile1" : !hasFirst && hasSecond ? "onlyFile2" : "matching";
-				
-				        lineElements.push(lineDiv);
-				    }
-				
-				    if (includeEmptyLines) {
-				        lineElements.forEach((line, index) => {
-				            fragment.appendChild(line);
-				            if (index < lineElements.length - 1) {
-				                fragment.appendChild(document.createElement("br"));
-				            }
-				        });
-				    } else {
-				        fragment.append(...lineElements);
-				    }
-				    this.textLines = lineElements;
-				    const viewportMin = window.innerHeight - this.headerFilterHeight;
-                    this.els.output.style.minHeight = `${viewportMin}px`;
-				    this.els.output.appendChild(fragment);
-				    this.els.searchContainer?.classList.remove("hidden");
-				}
-
-
-		    	resetTableHighlights(tbody) {
-		    	    if (this.highlightedSpans && this.highlightedSpans.length > 0) {
-	    		        this.highlightedSpans.forEach((span) => {
-    			            if (span.parentNode) {
-			                    span.replaceWith(document.createTextNode(span.textContent));
-			                }
-			            });
-			            this.highlightedSpans = [];
-			        }
-			        if (tbody) {
-			            tbody.normalize();
-			        }
-			    }
-
-                setStatus(html = "") {
-                    if (!this.els.status) return;
-                    this.els.status.innerHTML = html;
-                    this.els.status.style.visibility = html ? "visible" : "hidden";
-                }
-
-                setFilterRowVisibility(visible) {
-                    if (this.currentFilterRow) {
-                        this.currentFilterRow.style.display = visible ? "table-row" : "none";
-                        if (!visible && this.currentTable) {
-                            this.#resetAllFilters(this.currentTable);
-                        }
-                    }
-                }
-
-				doesCellMatchFilter(cell, selectedValues) {
-				    const oldVal = cell.dataset.cachedOldVal;
-				    const newVal = cell.dataset.cachedNewVal;
-				
-				    if (oldVal !== undefined || newVal !== undefined) {
-				        const hasEmptyMatch = selectedValues.has("empty") && (!oldVal || !newVal);
-				        const hasValMatch = selectedValues.has(oldVal) || selectedValues.has(newVal);
-				        return hasEmptyMatch || hasValMatch;
-				    }
-				
-				    const cellText = cell.dataset.cachedVal ?? "";
-				    return selectedValues.has(cellText || "empty");
-				}
-	
-	
-                 renderStatus(data) {
-                    if (!this.els.status) return;
-                    this.els.status.style.visibility = "visible";
-                    const existingCb = this.els.status.querySelector('[data-filter="matching"]');
-
-                    if (existingCb && !data.isSingleView && data.stats) {
-                        if (this.statusEls) {
-                            this.statusEls.elVis.textContent = data.visibleCount;
-                            this.statusEls.elM.textContent = data.stats.matching;
-                            this.statusEls.elO1.textContent = data.stats.onlyFile1;
-                            this.statusEls.elO2.textContent = data.stats.onlyFile2;
-
-                            const counts = [
-                                { cb: this.statusEls.cbM, val: data.comparisonStats?.matching ?? data.stats.matching, key: "matching" },
-                                { cb: this.statusEls.cbO1, val: data.comparisonStats?.onlyFile1 ?? data.stats.onlyFile1, key: "onlyFile1" },
-                                { cb: this.statusEls.cbO2, val: data.comparisonStats?.onlyFile2 ?? data.stats.onlyFile2, key: "onlyFile2" }
-                            ];
-
-                            counts.forEach(({ cb, val, key }) => {
-                                if (cb) {
-                                    const disabled = val === 0;
-                                    cb.disabled = disabled;
-                                    cb.checked = !disabled && !!data.rowTypeFilters[key];
-                                    cb.parentElement.style.opacity = disabled ? "0.4" : "1";
-                                }
-                            });
-                        } else {
-                            const elVis = this.els.status.querySelector("#status-visible-count");
-                            if (elVis) elVis.textContent = data.visibleCount;
-                            const keys = [
-                                { id: "matching", stat: "matching", filter: "matching" },
-                                { id: "only1", stat: "onlyFile1", filter: "onlyFile1" },
-                                { id: "only2", stat: "onlyFile2", filter: "onlyFile2" }
-                            ];
-                            keys.forEach(k => {
-                                const el = this.els.status.querySelector(`#status-count-${k.id}`);
-                                if (el) el.textContent = data.stats[k.stat];
-                                const cb = this.els.status.querySelector(`[data-filter="${k.filter}"]`);
-                                if (cb) {
-                                    const val = data.comparisonStats?.[k.stat] ?? data.stats[k.stat];
-                                    cb.disabled = val === 0;
-                                    cb.checked = val > 0 && !!data.rowTypeFilters[k.filter];
-                                    cb.parentElement.style.opacity = val === 0 ? "0.4" : "1";
-                                }
-                            });
-                        }
-                        return;
-                    }
-
-                    this.els.status.replaceChildren();
-                    const unitLabel = data.totalCount === 1 ? this.tr[this.lang].meta_row_singular : this.tr[this.lang].meta_row_plural;
-                    const elVis = document.createElement("span");
-                    elVis.id = "status-visible-count";
-                    elVis.textContent = data.visibleCount;
-
-                    const elTotal = document.createElement("span");
-                    elTotal.id = "status-total-count";
-                    elTotal.textContent = data.totalCount;
-
-                    const txtOf = ` ${this.tr[this.lang].meta_of} `;
-                    const txtUnit = ` ${unitLabel}`;
-                    this.els.status.appendChild(elVis);
-
-                    let elM = null, elO1 = null, elO2 = null;
-                    let cbM = null, cbO1 = null, cbO2 = null;
-
-                    if (!data.isSingleView && data.stats) {
-                        const rtf = data.rowTypeFilters;
-                        const countM = data.comparisonStats?.matching ?? data.stats.matching;
-                        const countO1 = data.comparisonStats?.onlyFile1 ?? data.stats.onlyFile1;
-                        const countO2 = data.comparisonStats?.onlyFile2 ?? data.stats.onlyFile2;
-
-                        const createFilter = (id, filter, count, isChecked, isDisabled, className = "") => {
-                            const lbl = document.createElement("label");
-                            lbl.style.cssText = `${isDisabled ? "opacity: 0.4; cursor: not-allowed;" : "cursor: pointer;"} display: inline-flex; align-items: center; gap: 3px;`;
-                            const span = document.createElement("span");
-                            span.id = `status-count-${id}`;
-                            if (className) span.className = className;
-                            span.textContent = count;
-
-                            if (id === "matching") elM = span;
-                            if (id === "only1") elO1 = span;
-                            if (id === "only2") elO2 = span;
-
-                            const cb = document.createElement("input");
-                            cb.type = "checkbox";
-                            cb.className = "status-filter-checkbox";
-                            cb.dataset.filter = filter;
-                            cb.checked = !isDisabled && isChecked;
-                            cb.disabled = isDisabled;
-                            cb.style.cssText = "cursor: inherit; margin: 0; vertical-align: middle;";
-
-                            if (filter === "matching") cbM = cb;
-                            if (filter === "onlyFile1") cbO1 = cb;
-                            if (filter === "onlyFile2") cbO2 = cb;
-
-                            lbl.append(span, cb);
-                            return lbl;
-                        };
-
-                        const lblM = createFilter("matching", "matching", countM, rtf.matching, countM === 0);
-                        const lblO1 = createFilter("only1", "onlyFile1", countO1, rtf.onlyFile1, countO1 === 0, "highlight-first");
-                        const lblO2 = createFilter("only2", "onlyFile2", countO2, rtf.onlyFile2, countO2 === 0, "highlight-second");
-                        this.els.status.append(" (", lblO1, ", ", lblO2, ", ", lblM, ")");
-                    }
-
-                    this.els.status.append(txtOf, elTotal, txtUnit);
-
-                    this.statusEls = {
-                        elVis: elVis,
-                        elM: elM || document.createElement("span"),
-                        elO1: elO1 || document.createElement("span"),
-                        elO2: elO2 || document.createElement("span"),
-                        cbM: cbM,
-                        cbO1: cbO1,
-                        cbO2: cbO2
-                    };
-                }
-
- 
-                renderTableOutput(tbody, rows, rowMatchesFilters, originalSearchTerm) {
-                    const viewportMin = window.innerHeight - this.headerFilterHeight;
-                    this.els.output.style.minHeight = `${viewportMin}px`;
-                    let visibleCount = 0;
-                    let visibleOnlyFile1 = 0;
-                    let visibleOnlyFile2 = 0;
-                    let visibleMatching = 0;
-
-                    const rowCount = rows.length;
-                    const hasSearch = originalSearchTerm !== "";
-
-                    for (let i = 0; i < rowCount; i++) {
-                        const row = rows[i];
-                        const isVisible = rowMatchesFilters(row, -1);
-                        row.style.display = isVisible ? "" : "none";
-
-                        if (isVisible) {
-                            visibleCount++;
-                            const rowType = row.dataset.rowType || "matching";
-
-                            if (rowType === "onlyFile1") visibleOnlyFile1++;
-                            else if (rowType === "onlyFile2") visibleOnlyFile2++;
-                            else visibleMatching++;
-
-                            if (hasSearch && row._cachedSearchText.includes(originalSearchTerm.toLowerCase())) {
-                                const cells = row.cells;
-                                const cellCount = cells.length;
-                                for (let c = 0; c < cellCount; c++) {
-                                    this.highlightNodeText(cells[c], originalSearchTerm);
-                                }
-                            }
-                        }
-                    }
-
-                    return {
-                        visibleCount,
-                        totalRows: rowCount,
-                        stats: {
-                            matching: visibleMatching,
-                            onlyFile1: visibleOnlyFile1,
-                            onlyFile2: visibleOnlyFile2,
-                        },
-                    };
-                }
-
-
-                #resetAllFilters(table) {
-                    table.querySelectorAll(".table-filter-dropdown").forEach((dropdown) => {
-                        dropdown.value = "select-all";
-                        dropdown.classList.remove("filter-active");
-                    });
-                }
-
-				#toggleColumnHighlight(header, table) {
-				    const columnIndex = header.cellIndex;
-				    const isAlreadyHighlighted = header.classList.contains("highlighted-column");
-				    const action = isAlreadyHighlighted ? "remove" : "add";
-				
-				    header.classList[action]("highlighted-column");
-				    if (isAlreadyHighlighted) {
-				        this.highlightedColumns.delete(header);
-				    } else {
-				        this.highlightedColumns.add(header);
-				    }
-				
-				    const filterRow = table.querySelector("thead tr.table-filter-row");
-				    if (filterRow && filterRow.cells[columnIndex]) {
-				        const filterCell = filterRow.cells[columnIndex];
-				        filterCell.classList[action]("highlighted-column");
-				        if (isAlreadyHighlighted) {
-				            this.highlightedColumns.delete(filterCell);
-				        } else {
-				            this.highlightedColumns.add(filterCell);
-				        }
-				    }
-				
-				    const tbody = table.tBodies[0];
-				    if (tbody) {
-				        for (let i = 0; i < tbody.rows.length; i++) {
-				            const cell = tbody.rows[i].cells[columnIndex];
-				            if (cell) {
-				                cell.classList[action]("highlighted-column");
-				                if (isAlreadyHighlighted) {
-				                    this.highlightedColumns.delete(cell);
-				                } else {
-				                    this.highlightedColumns.add(cell);
-				                }
-				            }
-				        }
-				    }
-				}
-				
-
-
-				updateColumnDropdowns(headerCells, allRows, activeFilters, rowMatchesFilters, activeDropdown = null) {
-				    const colCount = headerCells.length;
-				
-				    for (let colIndex = 0; colIndex < colCount; colIndex++) {
-				        const scrollContainer = headerCells[colIndex]?.querySelector(".table-filter-scroll-container");
-				        if (!scrollContainer) continue;
-				
-				        let optionsToShow = new Set();
-				        for (const row of allRows) {
-				            if (rowMatchesFilters(row, colIndex)) {
-				                TableManager.#extractValuesFromCell(row.children[colIndex], optionsToShow);
-				            }
-				        }
-				
-				        const optionRows = scrollContainer.querySelectorAll(".filter-option-row");
-				        const searchInput = scrollContainer.querySelector(".dropdown-search-input");
-				        const query = searchInput ? searchInput.value.toLowerCase().trim() : "";
-
-				        optionRows.forEach(row => {
-				            const cb = row.querySelector(".filter-option-checkbox");
-				            if (!cb) return;
-				            
-				            const val = cb.value;
-				            const labelSpan = row.querySelector(".filter-option-label");
-				            
-				            if (labelSpan) {
-				                if (!labelSpan.dataset.originalText) {
-				                    labelSpan.dataset.originalText = labelSpan.textContent;
-				                }
-				                labelSpan.textContent = labelSpan.dataset.originalText;
-				            }
-
-				            let shouldShow = false;
-				            if (val === "select-all") {
-				                shouldShow = true;
-				            } else if (val === "select-empty") {
-				                shouldShow = optionsToShow.has("empty");
-				            } else {
-				                shouldShow = optionsToShow.has(val);
-				            }
-
-				            if (shouldShow && query && val !== "select-all" && val !== "select-empty") {
-				                const originalText = labelSpan ? labelSpan.dataset.originalText : val;
-				                const lowerText = originalText.toLowerCase();
-				                if (!lowerText.includes(query)) {
-				                    shouldShow = false;
-				                } else if (labelSpan) {
-				                    const regex = new RegExp(`(${Utility.escapeRegExp(query)})`, "gi");
-				                    labelSpan.innerHTML = originalText.replace(regex, '<span class="search-highlight">$1</span>');
-				                }
-				            }
-
-				            row.style.display = shouldShow ? "flex" : "none";
-				        });
-				    }
-				}
-				
-			
 				getHtmlForExport(asTable = true, customTitle = "exceldiff") {
 				    const outputEl = this.els.output;
 				    if (!outputEl?.innerHTML.trim()) {
@@ -4957,8 +4422,8 @@
 				    const zoneFirstColor = getComputedStyle(document.documentElement).getPropertyValue("--zone-first-color").trim() || "red";
 				    const zoneSecondColor = getComputedStyle(document.documentElement).getPropertyValue("--zone-second-color").trim() || "blue";
 				    const appHighlightColor = getComputedStyle(document.documentElement).getPropertyValue("--highlight-color").trim();
-	                    const txtAll = this.tr[this.lang]["filter_all"];
-	                    const txtEmpty = this.tr[this.lang]["filter_empty"];
+				    const txtAll = this.tr[this.lang]["filter_all"];
+				    const txtEmpty = this.tr[this.lang]["filter_empty"];
 				    const scriptTagStart = "<scr" + "ipt>";
 				    const scriptTagEnd = "</scr" + "ipt>";
 				
@@ -4968,24 +4433,24 @@
 				        `<head>`,
 				        `    <meta charset="UTF-8">`,
 				        `    <meta name="viewport" content="width=device-width, initial-scale=1.0">`,
-                        `    <title>${Utility.escapeHTML(customTitle)}</title>`,
+				        `    <title>${Utility.escapeHTML(customTitle)}</title>`,
 				        `    <link rel="icon" href="data:,">`,
 				        `    <style>`,
-						`        :root {`,
-						`            --zone-first-color: ${zoneFirstColor};`,
-						`            --zone-second-color: ${zoneSecondColor};`,
-						`            --highlight-color: ${appHighlightColor};`,
-						`            --color-first-action: #0056b3;`,
-						`            --border-color: #d9d9d9;`,
-						`            --text-color: #2c3e50;`,
-						`            --header-height: ${this.headerFilterHeight}px;`,						
-						`            accent-color: var(--color-first-action);`,
-						`        }`,
-				        `        body { font-family: Arial, sans-serif; margin: 0; padding: 10px 20px 20px 20px; min-height: 100vh; box-sizing: border-box; color: var(--text-color); font-size: 12px; word-break: break-all; background-color: #fff; }`,
+				        `        :root {`,
+				        `            --zone-first-color: ${zoneFirstColor};`,
+				        `            --zone-second-color: ${zoneSecondColor};`,
+				        `            --highlight-color: ${appHighlightColor};`,
+				        `            --color-first-action: #0056b3;`,
+				        `            --border-color: #d9d9d9;`,
+				        `            --text-color: #2c3e50;`,
+				        `            --header-height: ${this.headerFilterHeight}px;`,						
+				        `            accent-color: var(--color-first-action);`,
+				        `        }`,
+				        `        body { font-family: Arial, sans-serif; margin: 0; padding: 0 20px 20px 20px; min-height: 100vh; box-sizing: border-box; color: var(--text-color); font-size: 12px; word-break: break-all; background-color: #fff; }`,
 				        `        .filter-active { border: 1px solid var(--color-first-action) !important; border-radius: 4px !important; }`,
 				        `        .highlight-first { font-weight: normal; color: var(--zone-first-color); }`,
 				        `        .highlight-second { font-weight: normal; color: var(--zone-second-color); }`,
-                        `        .primary-underlined { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 2px; display: inline-block; padding-bottom: 5px; }`,
+				        `        .primary-underlined { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 2px; display: inline-block; padding-bottom: 5px; }`,
 				    ].join("\n");
 				
 				    if (!asTable) {
@@ -5011,15 +4476,13 @@
 				    const table = tableElement.cloneNode(true);
 				    table.querySelectorAll("tbody tr[style*='display: none']").forEach((row) => row.remove());
 				    
-	                table.querySelectorAll("thead th").forEach(th => {
-	                    const toggleBtn = th.querySelector(".col-toggle-btn");
-	                    if (toggleBtn && !th.querySelector(".col-toggle-btn")) {
-	                        th.appendChild(toggleBtn.cloneNode(true));
-	                    }
-	                });
-
-
-	
+				    table.querySelectorAll("thead th").forEach(th => {
+				        const toggleBtn = th.querySelector(".col-toggle-btn");
+				        if (toggleBtn && !th.querySelector(".col-toggle-btn")) {
+				            th.appendChild(toggleBtn.cloneNode(true));
+				        }
+				    });
+				
 				    const tbody = table.querySelector("tbody");
 				    const rows = tbody ? Array.from(tbody.querySelectorAll("tr")) : [];
 				
@@ -5056,7 +4519,6 @@
 				                    }
 				                }
 				            });
-
 				            const sortedValues = Array.from(uniqueValues).sort((a, b) => {
 				                const numA = parseFloat(a.replace(",", "."));
 				                const numB = parseFloat(b.replace(",", "."));
@@ -5068,23 +4530,21 @@
 				            const scrollContainer = document.createElement("div");
 				            scrollContainer.className = "table-filter-scroll-container";
 				            scrollContainer.dataset.colIndex = index;
-
-		
-				        const searchWrapper = document.createElement("div");
-				        searchWrapper.className = "dropdown-search-wrapper";
-				        Object.assign(searchWrapper.style, {
-				            position: "sticky",
-				            top: "0",
-				            zIndex: "10",
-				            background: "#fff",
-				            display: "flex",
-				            alignItems: "center",
-				            margin: "0",
-				            padding: "4px 4px 4px 4px",
-				            width: "100%",
-				            boxSizing: "border-box"
-				        });
-
+				
+				            const searchWrapper = document.createElement("div");
+				            searchWrapper.className = "dropdown-search-wrapper";
+				            Object.assign(searchWrapper.style, {
+				                position: "sticky",
+				                top: "0",
+				                zIndex: "10",
+				                background: "#fff",
+				                display: "flex",
+				                alignItems: "center",
+				                margin: "0",
+				                padding: "4px 4px 4px 4px",
+				                width: "100%",
+				                boxSizing: "border-box"
+				            });
 				
 				            const searchInput = document.createElement("input");
 				            searchInput.type = "text";
@@ -5099,7 +4559,6 @@
 				                boxSizing: "border-box",
 				                outline: "none"
 				            });
-
 				
 				            const clearBtn = document.createElement("span");
 				            clearBtn.innerHTML = "×";
@@ -5116,7 +4575,6 @@
 				
 				            searchWrapper.append(searchInput, clearBtn);
 				            scrollContainer.appendChild(searchWrapper);
-
 				            const appendExportOptionRow = (val, labelText, checked) => {
 				                const rowDiv = document.createElement("div");
 				                rowDiv.className = "filter-option-row";
@@ -5129,6 +4587,11 @@
 				                labelSpan.className = "filter-option-label";
 				                labelSpan.textContent = labelText;
 				                rowDiv.append(cb, labelSpan);
+
+				                rowDiv._cb = cb;
+				                rowDiv._val = val;
+				                rowDiv._label = labelSpan;
+				                
 				                scrollContainer.appendChild(rowDiv);
 				            };
 				
@@ -5139,13 +4602,11 @@
 				            sortedValues.forEach(val => {
 				                appendExportOptionRow(val, val, true);
 				            });
-
 				            td.innerHTML = "";
 				            td.appendChild(scrollContainer);
-
 				        });
 				    }
-
+				
 				    table.querySelectorAll("td, th").forEach((cell) => {
 				        cell.querySelectorAll("script").forEach((s) => s.remove());
 				        for (let i = cell.attributes.length - 1; i >= 0; i--) {
@@ -5154,60 +4615,153 @@
 				        }
 				    });
 				
-				    const interactiveScript = `
+				    const interactiveScript = this.#getExportInteractiveScript(rows.length);
+				
+				    return [
+				        htmlHeaderStart,
+				        `        #output { min-height: calc(100vh - 150px); box-sizing: border-box; padding-right: 20px !important; }`,
+				        `        table { border-collapse: separate; border-spacing: 0; width: max-content; min-width: auto; table-layout: fixed; }`,
+				        `        thead { position: sticky; top: 60px; z-index: 99; background-color: #ffffff !important; }`,
+                        `        th, td { border: 1px solid var(--border-color); padding: 3px 4px !important; text-align: left; vertical-align: middle; min-width: 20px; max-width: inherit; white-space: normal; background-clip: padding-box; }`,
+				        `        td:has(.highlight-first):not(:has(.highlight-second)) { vertical-align: top; }`,
+				        `        td:has(.highlight-second):not(:has(.highlight-first)) { vertical-align: bottom; }`,
+				        `        th { word-break: normal; overflow-wrap: normal; background-color: #f2f2f2; text-align: center; cursor: pointer; position: relative !important; padding-right: 10px !important; }`,
+				        `        th > div { box-sizing: border-box; display: inline-flex; justify-content: center; padding-right: 0 !important; position: relative; width: 100%; }`,
+				        `        td { word-break: break-word; }`,
+                        `        .highlighted-column { background-color: var(--highlight-color) !important; }`,
+                        `        .highlighted-row { background-color: var(--highlight-color) !important; }`,
+                        `        td .highlight-first, td .highlight-second { display: block; }`,
+                        `        .search-highlight { background-color: #ffd700; }`,
+				        `        .header-content-wrapper { display: inline-flex; flex-wrap: nowrap; align-items: center; justify-content: center; position: relative; max-width: 100%; }`,
+				        `        .hidden { display: none !important; }`,
+                        `        .col-move-btn { color: #888; cursor: pointer; font-size: 11px; font-weight: 900; line-height: 1; user-select: none; padding: 1px 2px; flex-shrink: 0; }`,
+                        `        .col-move-btn.move-col-left { margin-right: 14px; } .col-move-btn.move-col-right { margin-left: 2px; } .col-move-btn.disabled { visibility: hidden; } .column-hidden { opacity: 0.6; }`,
+                        `        .sort-trigger { display: inline-flex; align-items: center; justify-content: center; gap: 4px; position: relative; padding-right: 14px !important; max-width: calc(100% - 28px); }`,
+				        `        .sort-trigger span { white-space: normal; text-align: center; word-break: normal; }`,
+				        `        .sort-icon { position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: inline-flex; align-items: center; }`,
+				        `        .col-toggle-btn { position: absolute !important; right: 2px !important; top: 2px !important; cursor: pointer !important; font-size: 11px !important; font-weight: bold !important; color: #777 !important; background: #e5e5e5 !important; border-radius: 3px !important; padding: 1px 4px !important; line-height: 1 !important; user-select: none !important; z-index: 10 !important; border: 1px solid #ccc !important; display: inline-block !important; }`,
+				        `        th.column-collapsed { min-width: 10px !important; max-width: 10px !important; width: 10px !important; padding: 3px 0 !important; text-align: center !important; background-color: #e0e0e0 !important; border: 1px solid var(--border-color) !important; }`,
+				        `        th.column-collapsed .header-content-wrapper { display: none !important; }`,
+				        `        td.column-collapsed { min-width: 10px !important; max-width: 10px !important; width: 10px !important; padding: 3px 0 !important; overflow: hidden !important; white-space: nowrap !important; background-color: #f5f5f5 !important; }`,
+				        `        td.column-collapsed { color: transparent !important; font-size: 0 !important; line-height: 0 !important; border-left: 1px solid var(--border-color) !important; border-right: 1px solid var(--border-color) !important; border-bottom: 1px solid var(--border-color) !important; box-sizing: border-box !important; }`,
+				        `        td.column-collapsed * { display: none !important; }`,
+                        `        .export-controls { position: sticky; top: 0; left: 0; width: 100vw; max-width: 100vw; z-index: 101; background: #fff; padding: 18px 0 8px 0; display: flex; gap: 15px; align-items: center; margin-bottom: 0; height: 60px; box-sizing: border-box; border-bottom: none; }`,
+				        `        .search-wrapper { position: relative; display: inline-block; width: 250px; }`,
+				        `        .search-input { padding: 6px 30px 6px 10px; font-size: 12px; border: 1px solid var(--border-color); border-radius: 4px; width: 100%; box-sizing: border-box; }`,
+				        `        .search-input:focus { outline: none; border-color: var(--color-first-action); box-shadow: 0 0 5px rgba(0, 86, 179, 0.4); }`,
+				        `        .search-input:focus::placeholder, .dropdown-search-input:focus::placeholder { color: transparent; }`,
+				        `        .search-clear-btn { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 16px; color: #888; user-select: none; display: none; }`,
+				        `        .status-filter-checkbox { width: 14px; height: 14px; margin: 0; vertical-align: middle; cursor: pointer; }`,
+                        `        thead th, thead td { background-clip: padding-box; z-index: 99; }`,
+                        `        .table-filter-scroll-container { width: 100%; height: 110px; overflow-y: auto; background: #ffffff !important; background-clip: padding-box; box-sizing: border-box; display: flex; flex-direction: column; padding: 0 6px 2px 2px; text-align: left; overscroll-behavior: contain; }`,
+				        `        .filter-option-row { display: flex; align-items: center; padding: 0px 3px; cursor: pointer; user-select: none; white-space: nowrap; line-height: 1.0; }`,
+				        `        .filter-option-checkbox { appearance: none; width: 11px; height: 11px; box-sizing: border-box; border: 1px solid #999; border-radius: 2px; margin-right: 6px; flex-shrink: 0; cursor: pointer; position: relative; background-color: #fff; display: inline-grid; place-content: center; }`,
+				        `        .filter-option-checkbox:checked { background-color: var(--color-first-action); border-color: var(--color-first-action); }`,
+				        `        .filter-option-checkbox:checked::before { content: ""; width: 6px; height: 3px; border-left: 1.5px solid #fff; border-bottom: 1.5px solid #fff; transform: rotate(-45deg) translate(0.5px, -0.5px); }`,
+				        `        .filter-option-label { font-size: 11px; line-height: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }`,
+				        `    </style>`,
+				        `</head>`,
+				        `<body>`,
+				        `  <div style="width: 100%; min-width: max-content; display: block; box-sizing: border-box;">`,
+				        `    <div class="export-controls">`,
+				        `        <div class="search-wrapper">`,
+				        `            <input type="text" id="export-search-input" class="search-input" placeholder="${this.tr[this.lang]["meta_search_placeholder"]}">`,
+				        `            <span id="export-search-clear" class="search-clear-btn">&times;</span>`,
+				        `        </div>`,
+				        `        <div id="export-status" style="font-size: 12px; display: inline-flex; align-items: center; gap: 6px;">`,
+				        `            <span id="export-visible-count">0</span>`,
+				        `            (`,
+				        `            <label id="export-lbl-only1" style="cursor: pointer; display: inline-flex; align-items: center; gap: 2px;">`,
+				        `                <span id="export-count-only1" class="highlight-first">0</span>`,
+				        `                <input type="checkbox" class="status-filter-checkbox" data-filter="onlyFile1" checked>`,
+				        `            </label>,`,
+				        `            <label id="export-lbl-only2" style="cursor: pointer; display: inline-flex; align-items: center; gap: 2px;">`,
+				        `                <span id="export-count-only2" class="highlight-second">0</span>`,
+				        `                <input type="checkbox" class="status-filter-checkbox" data-filter="onlyFile2" checked>`,
+				        `            </label>,`,
+				        `            <label id="export-lbl-matching" style="cursor: pointer; display: inline-flex; align-items: center; gap: 2px;">`,
+				        `                <span id="export-count-matching">0</span>`,
+				        `                <input type="checkbox" class="status-filter-checkbox" data-filter="matching" checked>`,
+				        `            </label>`,
+				        `            )`,
+				        `            ${this.tr[this.lang]["meta_of"] || "meta_of"} <span id="export-total-count">0</span> ${rows.length === 1 ? this.tr[this.lang]["meta_row_singular"] : this.tr[this.lang]["meta_row_plural"]}`,
+				        `        </div>`,
+				        `        <button id="export-reset-col-order-btn" class="hidden" style="background: none; border: none; color: #999; cursor: pointer; font-size: 14px; padding: 0; margin-left: 10px;">← →</button>`,
+				        `        <button id="export-expand-all-cols-btn" class="hidden" style="background: #e5e5e5; border: 1px solid #ccc; border-radius: 3px; color: #777; cursor: pointer; font-size: 11px; font-weight: bold; padding: 2px 6px; line-height: 1; margin-left: 10px; user-select: none; display: inline-block;">+</button>`,
+				        `    </div>`,
+				        `    <div id="output">`,
+				        table.outerHTML,
+				        `    </div>`,
+				        `  </div>`,
+				        scriptTagStart,
+				        interactiveScript,
+				        scriptTagEnd,
+				        `</body>`,
+				        `</html>`,
+				    ].join("\n");
+				}
 
+
+                #getExportInteractiveScript(rowsLength) {
+                    return `
                         function exporthandleRowHighlighting(row) {
                             row.classList.toggle("highlighted-row");
                         }
 
-                        function exporttoggleColumnCollapse(th, table) {
-                            const originalIndex = th.dataset.originalIndex;
-                            const isCollapsed = th.classList.toggle('column-collapsed');
-                            const toggleBtn = th.querySelector('.col-toggle-btn');
-                            if (toggleBtn) {
-                                toggleBtn.innerHTML = isCollapsed ? '+' : '−';
-                                const columnName = th.querySelector('.sort-trigger')?.textContent?.trim() || '';
-                                toggleBtn.title = isCollapsed ? columnName : '';
-                            }
-                            if (!table) return;
-
-                            const filterRow = table.querySelector("thead tr.table-filter-row");
-                            if (filterRow) {
-                                const filterCell = filterRow.querySelector('td[data-original-index="' + originalIndex + '"]');
-                                if (filterCell) {
-                                    filterCell.classList.toggle('column-collapsed', isCollapsed);
-                                }
-                            }
-                            
-                            const tbody = table.tBodies[0];
-                            if (tbody) {
-                                const cells = tbody.querySelectorAll('td[data-original-index="' + originalIndex + '"]');
-                                cells.forEach(cell => {
-                                    cell.classList.toggle('column-collapsed', isCollapsed);
-                                });
-                            }
-
-                            const currentlyCollapsed = table.querySelectorAll('th.column-collapsed').length;
-                            if (currentlyCollapsed > 0) {
-                                table.style.minWidth = '0';
-                            } else {
-                                table.style.minWidth = '';
-                            }
-                            exportUpdateExpandButtonVisibility(table);
-
-                        }
+						function exporttoggleColumnCollapse(th, table) {
+						    const originalIndex = th.dataset.originalIndex;
+						    const originalWidth = parseFloat(th.style.width) || 250;
+						    const isCollapsed = th.classList.toggle('column-collapsed');
+						    const toggleBtn = th.querySelector('.col-toggle-btn');
+						    
+						    if (toggleBtn) {
+						        toggleBtn.innerHTML = isCollapsed ? '+' : '−';
+						        const columnName = th.querySelector('.sort-trigger')?.textContent?.trim() || '';
+						        toggleBtn.title = isCollapsed ? columnName : '';
+						    }
+						    if (!table) return;
+						
+						    const filterRow = table.querySelector("thead tr.table-filter-row");
+						    if (filterRow) {
+						        const filterCell = filterRow.querySelector('td[data-original-index="' + originalIndex + '"]');
+						        if (filterCell) {
+						            filterCell.classList.toggle('column-collapsed', isCollapsed);
+						        }
+						    }
+						    
+						    const tbody = table.tBodies[0];
+						    if (tbody) {
+						        const cells = tbody.querySelectorAll('td[data-original-index="' + originalIndex + '"]');
+						        cells.forEach(cell => {
+						            cell.classList.toggle('column-collapsed', isCollapsed);
+						        });
+						    }
+						
+						    const deltaWidth = originalWidth - 10;
+						    const currentTableWidth = parseFloat(table.style.width) || table.offsetWidth;
+						    
+						    if (isCollapsed) {
+						        table.style.width = (currentTableWidth - deltaWidth) + "px";
+						    } else {
+						        table.style.width = (currentTableWidth + deltaWidth) + "px";
+						    }
+						
+						    const currentlyCollapsed = table.querySelectorAll('th.column-collapsed').length;
+						    if (currentlyCollapsed > 0) {
+						        table.style.minWidth = '0';
+						    } else {
+						        table.style.minWidth = '';
+						    }
+						    exportUpdateExpandButtonVisibility(table);
+						}
 				
 						function exporthandleColumnHighlighting(header, table) {
-
 						    const columnIndex = header.cellIndex;
 						    const isAlreadyHighlighted = header.classList.contains("highlighted-column");
-						
 						    const action = isAlreadyHighlighted ? "remove" : "add";
-						
-				
 						    header.classList[action]("highlighted-column");
-				
 						    const filterRow = table.querySelector("thead tr.table-filter-row");
+						    
 						    if (filterRow && filterRow.cells[columnIndex]) {
 						        filterRow.cells[columnIndex].classList[action]("highlighted-column");
 						    }
@@ -5316,19 +4870,16 @@
 								  return valA.trim().localeCompare(valB.trim(), exportLang, { numeric: true, sensitivity: 'base' }) * modifier;
 								
 								});
-														        
-
 						    }
 						    
 						    rows.forEach(row => tbody.appendChild(row));
-                            if (window.scrollY > 0) {
-                                window.scrollTo({
-                                    top: 0,
-                                    behavior: "auto"
-                                });
-                            }					    
+                            const exportControls = document.querySelector(".export-controls");
+                            const offset = exportControls ? exportControls.offsetHeight + 50 : 100;
+                            window.scrollTo({
+                                top: Math.max(0, table.offsetTop - offset),
+                                behavior: "auto"
+                            });
 						}
-
 				
 						function exportextractValuesFromCell(cell, valuesSet) {
 						    if (!cell || !valuesSet) return;
@@ -5343,7 +4894,6 @@
 						        valuesSet.add(val || "empty");
 						    }
 						}
-						
 				
 						function exportdoesCellMatchFilter(cell, selectedValues) {
 						    const oldVal = cell.dataset.cachedOldVal;
@@ -5391,6 +4941,9 @@
 				            const headerCells = Array.from(table.tHead.querySelectorAll("tr:nth-child(2) td"));
 				            const allRows = Array.from(table.tBodies[0].rows);
 				            
+				        	const activeSearchInput = document.activeElement;
+				            const isSearchingInDropdown = activeSearchInput && activeSearchInput.classList.contains("dropdown-search-input");    
+				            
                            const activeFilters = headerCells.map((td, index) => {
 			                    const scrollContainer = td.querySelector(".table-filter-scroll-container");
 			                    if (!scrollContainer) return null;
@@ -5412,7 +4965,11 @@
 				            for (let i = 0; i < headerCells.length; i++) {
 				                const scrollContainer = headerCells[i].querySelector(".table-filter-scroll-container");
 				                if (!scrollContainer) continue;
-				
+				                
+				                if (isSearchingInDropdown && activeDropdown && scrollContainer !== activeDropdown) {
+				                    continue;
+				                }
+				                
 				                let optionsToShow = new Set();
 				                const otherFilters = activeFilters.filter(f => f.colIndex !== i);
 				                for (const row of allRows) {
@@ -5445,16 +5002,15 @@
 				                    }
 				                }
 
-				
 				                const searchInput = scrollContainer.querySelector(".dropdown-search-input");
 				                const query = searchInput ? searchInput.value.toLowerCase().trim() : "";
 
 				                const optionRows = scrollContainer.querySelectorAll(".filter-option-row");
-				                optionRows.forEach(row => {
-				                    const cb = row.querySelector(".filter-option-checkbox");
-				                    if (!cb) return;
-				                    const val = cb.value;
-				                    const labelSpan = row.querySelector(".filter-option-label");
+						        optionRows.forEach(row => {
+						            const cb = row._cb || row.querySelector(".filter-option-checkbox");
+						            if (!cb) return;
+						            const val = row._val || cb.value;
+						            const labelSpan = row._label || row.querySelector(".filter-option-label");
 
 				                    if (labelSpan) {
 				                        if (!labelSpan.dataset.originalText) {
@@ -5483,13 +5039,11 @@
 				                            labelSpan.innerHTML = originalText.replace(regex, '<span class="search-highlight">$1</span>');
 				                        }
 				                    }
-
 				                    row.style.display = shouldShow ? "flex" : "none";
 				                });
 
 				            }
 				        }
-				
 		
 				        var currentSearchQuery = "";
 				        var rtf = { matching: true, onlyFile1: true, onlyFile2: true };
@@ -5689,7 +5243,6 @@
 							            exportfilterTable(table, null);
 							        }, 200);
 							    });
-
       
                                 searchInput.addEventListener("keydown", e => {
                                     if (e.key === "Escape") {
@@ -5706,7 +5259,6 @@
                                         searchInput.blur();
                                     }
                                 });
-
 							
 							searchClear.addEventListener("click", () => {
                                 searchInput.value = "";
@@ -5722,7 +5274,6 @@
                             exportfilterTable(table, null);
                         });
 						
-						
 				        }
 
 				        table.tHead.addEventListener("keydown", e => {
@@ -5731,7 +5282,6 @@
 				            }
 				        });
 
-
 				        table.tHead.addEventListener("input", e => {
 				            if (e.target.classList.contains("dropdown-search-input")) {
 				                const input = e.target;
@@ -5739,7 +5289,7 @@
 				                if (clearBtn) {
 				                    clearBtn.style.display = input.value ? "block" : "none";
 				                }
-				                exportupdateColumnDropdowns(table, null);
+				                exportupdateColumnDropdowns(table, input.closest(".table-filter-scroll-container"));
 				            }
 				        });
 
@@ -5866,101 +5416,726 @@
 						exportfilterTable(table, null);
 						});
 				    `;
+                }
 
-					return [
-					    htmlHeaderStart,
-					    `        body { font-family: Arial, sans-serif; margin: 0; padding: 10px 20px 20px 20px; min-height: 100vh; box-sizing: border-box; color: var(--text-color); font-size: 12px; word-break: break-all; background-color: #fff; }`,
-					    `        #output { min-height: calc(100vh - 150px); box-sizing: border-box; padding-right: 20px !important; }`,
-                        `        table { border-collapse: separate; border-spacing: 0; width: max-content; min-width: auto; table-layout: fixed; }`,
-					    `        thead { position: sticky; top: 50px; z-index: 99; background-color: #fff; }`,
-                        `        th, td { border: 1px solid var(--border-color); padding: 3px 4px !important; text-align: left; vertical-align: middle; min-width: 20px; max-width: ${(this.config.MAX_COLUMN_WIDTH) || 250}px; white-space: normal; background-clip: padding-box; }`,
-					    `        td:has(.highlight-first):not(:has(.highlight-second)) { vertical-align: top; }`,
-					    `        td:has(.highlight-second):not(:has(.highlight-first)) { vertical-align: bottom; }`,
-                        `        th { word-break: normal; overflow-wrap: normal; background-color: #f8f9fa; text-align: center; cursor: pointer; position: relative !important; padding-right: 10px !important; }`,
-                        `        th > div { box-sizing: border-box; display: inline-flex; justify-content: center; padding-right: 0 !important; position: relative; width: 100%; }`,
-					    `        td { word-break: break-word; }`,
-                        `        .highlighted-column { background-color: var(--highlight-color) !important; }`,
-                        `        .highlighted-row { background-color: var(--highlight-color) !important; }`,
-					    `        .highlight-first { font-weight: normal; color: var(--zone-first-color); }`,
-					    `        .highlight-second { font-weight: normal; color: var(--zone-second-color); }`,
-					    `        td .highlight-first, td .highlight-second { display: block; }`,
-                        `        .primary-underlined { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 2px; display: inline-block; padding-bottom: 5px; }`,
-					    `        .search-highlight { background-color: #ffd700; }`,
-					    `        .header-content-wrapper { display: inline-flex; flex-wrap: nowrap; align-items: center; justify-content: center; position: relative; max-width: 100%; }`,
-                        `        .hidden { display: none !important; }`,
-					    `        .col-move-btn { color: #888; cursor: pointer; font-size: 14px; font-weight: 900; line-height: 1; user-select: none; padding: 2px 4px; flex-shrink: 0; }`,
-					    `        .col-move-btn.move-col-left { margin-right: 6px; }`,
-					    `        .col-move-btn.move-col-right { margin-left: 6px; }`,
-                        `        .sort-trigger { display: inline-flex; align-items: center; justify-content: center; gap: 4px; position: relative; padding-right: 14px !important; max-width: calc(100% - 28px); }`,
-					    `        .sort-trigger span { white-space: normal; text-align: center; word-break: normal; }`,
-                        `        .sort-icon { position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: inline-flex; align-items: center; }`,
-                        `        .col-toggle-btn { position: absolute !important; right: 2px !important; top: 2px !important; cursor: pointer !important; font-size: 11px !important; font-weight: bold !important; color: #777 !important; background: #e5e5e5 !important; border-radius: 3px !important; padding: 1px 4px !important; line-height: 1 !important; user-select: none !important; z-index: 10 !important; border: 1px solid #ccc !important; display: inline-block !important; }`,
-                        `        .col-toggle-btn:hover { color: #fff !important; background-color: var(--color-first-action) !important; border-color: var(--color-first-action) !important; }`,
-                        `        th.column-collapsed { min-width: 10px !important; max-width: 10px !important; width: 10px !important; padding: 3px 0 !important; text-align: center !important; background-color: #e0e0e0 !important; border: 1px solid var(--border-color) !important; }`,
-                        `        th.column-collapsed .header-content-wrapper { display: none !important; }`,
-                        `        td.column-collapsed { min-width: 10px !important; max-width: 10px !important; width: 10px !important; padding: 3px 0 !important; overflow: hidden !important; white-space: nowrap !important; background-color: #f5f5f5 !important; }`,
-                        `        td.column-collapsed { color: transparent !important; font-size: 0 !important; line-height: 0 !important; border-left: 1px solid var(--border-color) !important; border-right: 1px solid var(--border-color) !important; border-bottom: 1px solid var(--border-color) !important; box-sizing: border-box !important; }`,
-                        `        td.column-collapsed * { display: none !important; }`,
-					    `        .export-controls { position: sticky; top: 0; background: #fff; padding: 8px 0; z-index: 101; display: flex; gap: 15px; align-items: center; margin-bottom: 0; height: 50px; box-sizing: border-box; width: 100%; min-width: max-content; }`,
-					    `        .search-wrapper { position: relative; display: inline-block; width: 250px; }`,
-					    `        .search-input { padding: 6px 30px 6px 10px; font-size: 12px; border: 1px solid var(--border-color); border-radius: 4px; width: 100%; box-sizing: border-box; }`,
-					    `        .search-input:focus { outline: none; border-color: var(--color-first-action); box-shadow: 0 0 5px rgba(0, 86, 179, 0.4); }`,
-					    `        .search-input:focus::placeholder, .dropdown-search-input:focus::placeholder { color: transparent; }`,
-                        `        .search-clear-btn { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 16px; color: #888; user-select: none; display: none; }`,
-					    `        .search-clear-btn:hover { color: #000; }`,
-					    `        .status-filter-checkbox { width: 14px; height: 14px; margin: 0; vertical-align: middle; cursor: pointer; }`,
-					    `        tr.table-filter-row td { padding: 0; background-color: #ffffff; }`,
-				    	`        .filter-active { border: 2px solid var(--color-first-action) !important; border-radius: 4px !important; }`,
-                        `        .table-filter-scroll-container { width: 100%; height: 110px; overflow-y: auto; background: #fff; box-sizing: border-box; display: flex; flex-direction: column; padding: 0 6px 2px 2px; text-align: left; overscroll-behavior: contain; }`,
-                        `        .filter-option-row { display: flex; align-items: center; padding: 0px 3px; cursor: pointer; user-select: none; white-space: nowrap; line-height: 1.0; }`,
-					    `        .filter-option-meta_row_singular:hover { background-color: #f0f4f8; }`,
-                		`        .filter-option-checkbox { appearance: none; width: 11px; height: 11px; box-sizing: border-box; border: 1px solid #999; border-radius: 2px; margin-right: 6px; flex-shrink: 0; cursor: pointer; position: relative; background-color: #fff; display: inline-grid; place-content: center; }`,
-					    `        .filter-option-checkbox:checked { background-color: var(--color-first-action); border-color: var(--color-first-action); }`,
-                        `        .filter-option-checkbox:checked::before { content: ""; width: 6px; height: 3px; border-left: 1.5px solid #fff; border-bottom: 1.5px solid #fff; transform: rotate(-45deg) translate(0.5px, -0.5px); }`,
-                        `        .filter-option-label { font-size: 11px; line-height: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }`,
-					    `    </style>`,
-					    `</head>`,
-					    `<body>`,
-					    `  <div style="width: 100%; min-width: max-content; display: block; box-sizing: border-box;">`,
-					    `    <div class="export-controls">`,
-					    `        <div class="search-wrapper">`,
-					    `            <input type="text" id="export-search-input" class="search-input" placeholder="${this.tr[this.lang]["meta_search_placeholder"]}">`,
-					    `            <span id="export-search-clear" class="search-clear-btn">&times;</span>`,
-					    `        </div>`,
-					    `        <div id="export-status" style="font-size: 12px; display: inline-flex; align-items: center; gap: 6px;">`,
-					    `            <span id="export-visible-count">0</span>`,
-					    `            (`,
-					    `            <label id="export-lbl-only1" style="cursor: pointer; display: inline-flex; align-items: center; gap: 2px;">`,
-					    `                <span id="export-count-only1" class="highlight-first">0</span>`,
-					    `                <input type="checkbox" class="status-filter-checkbox" data-filter="onlyFile1" checked>`,
-					    `            </label>,`,
-					    `            <label id="export-lbl-only2" style="cursor: pointer; display: inline-flex; align-items: center; gap: 2px;">`,
-					    `                <span id="export-count-only2" class="highlight-second">0</span>`,
-					    `                <input type="checkbox" class="status-filter-checkbox" data-filter="onlyFile2" checked>`,
-					    `            </label>,`,
-					    `            <label id="export-lbl-matching" style="cursor: pointer; display: inline-flex; align-items: center; gap: 2px;">`,
-					    `                <span id="export-count-matching">0</span>`,
-					    `                <input type="checkbox" class="status-filter-checkbox" data-filter="matching" checked>`,
-					    `            </label>`,
-					    `            )`,
-					    `            ${this.tr[this.lang]["meta_of"] || "meta_of"} <span id="export-total-count">0</span> ${rows.length === 1 ? this.tr[this.lang]["meta_row_singular"] : this.tr[this.lang]["meta_row_plural"]}`,
-					    `        </div>`,
-					    `        <button id="export-reset-col-order-btn" class="hidden" style="background: none; border: none; color: #999; cursor: pointer; font-size: 14px; padding: 0; margin-left: 10px;">← →</button>`,
-					    `        <button id="export-expand-all-cols-btn" class="hidden" style="background: #e5e5e5; border: 1px solid #ccc; border-radius: 3px; color: #777; cursor: pointer; font-size: 11px; font-weight: bold; padding: 2px 6px; line-height: 1; margin-left: 10px; user-select: none; display: inline-block;">+</button>`,
-					    `    </div>`,
-					    `    <div id="output">`,
-					    table.outerHTML,
-					    `    </div>`,
-					    `  </div>`,
-					    scriptTagStart,
-					    interactiveScript,
-					    scriptTagEnd,
-					    `</body>`,
-					    `</html>`,
-					].join("\n");
 
+                getOriginalSearchTerm() {
+                    return this.els.globalSearch ? this.els.globalSearch.value.trim() : "";
+                }
+
+
+                getSearchTerm() {
+                    const searchInput = this.els.globalSearch;
+                    return searchInput ? searchInput.value.trim().toLowerCase() : "";
+                }
+                
+
+				handleHeaderClick(header, eventTarget) {
+				    const colIndex = header.cellIndex;
+				    if (eventTarget.closest(".col-toggle-btn")) {
+				        this.toggleColumnCollapse(header);
+				    } else if (eventTarget.closest(".move-col-left")) {
+				        this.#moveColumn(colIndex, -1);
+				    } else if (eventTarget.closest(".move-col-right")) {
+				        this.#moveColumn(colIndex, 1);
+				    } else if (eventTarget.closest(".sort-trigger")) {
+				        this.#applyColumnSorting(header, this.currentTable);
+				    }
+				}
+
+
+				handleHeaderDoubleClick(header) {
+				    this.#toggleColumnHighlight(header, this.currentTable);
+				}
+				
+				
+               #highlightNodeText(node, term) {
+                    if (!node || !term) return;
+                    if (node.nodeType === Node.TEXT_NODE) {
+                        const text = node.textContent;
+                        const regex = new RegExp(`(${Utility.escapeRegExp(term)})`, "gi");
+                        const parts = text.split(regex);
+                        if (parts.length > 1) {
+                            const fragment = document.createDocumentFragment();
+                            parts.forEach((part) => {
+                                if (part.toLowerCase() === term.toLowerCase()) {
+                                    const span = document.createElement("span");
+                                    span.className = "search-highlight";
+                                    span.textContent = part;
+                                    fragment.appendChild(span);
+                                    this.highlightedSpans.push(span);
+                                } else {
+                                    fragment.appendChild(document.createTextNode(part));
+                                }
+                            });
+                            node.parentNode.replaceChild(fragment, node);
+                        }
+                    } else if (
+                        node.nodeType === Node.ELEMENT_NODE &&
+                        node.nodeName !== "SCRIPT" &&
+                        node.nodeName !== "STYLE"
+                    ) {
+                        Array.from(node.childNodes).forEach((child) => this.#highlightNodeText(child, term));
+                    }
+                }
+
+
+                handleTableFilterChange(changedCheckbox, scrollContainer) {
+                    const checkboxes = Array.from(scrollContainer.querySelectorAll(".filter-option-checkbox"));
+                    const allCheckbox = checkboxes.find(cb => cb.value === "select-all");
+                    if (!allCheckbox) return;
+
+                    if (changedCheckbox === allCheckbox) {
+
+                        checkboxes.forEach(cb => {
+                            if (cb !== allCheckbox) {
+                                cb.checked = allCheckbox.checked;
+                            }
+                        });
+                    } else {
+
+                        if (!changedCheckbox.checked) {
+
+                            allCheckbox.checked = false;
+                        } else {
+
+                            const allOthersChecked = checkboxes.every(cb => cb === allCheckbox || cb.checked);
+                            if (allOthersChecked) {
+                                allCheckbox.checked = true;
+                            }
+                        }
+                    }
+                    scrollContainer.classList.toggle("filter-active", !allCheckbox.checked);
+                }
+
+
+                #isOrderDefault() {
+                    if (!this.currentTable) return true;
+                    const headers = this.currentTable.querySelector('thead tr:first-child').children;
+                    return Array.from(headers).every((th, index) => parseInt(th.dataset.originalIndex, 10) === index);
+                }
+
+
+                #moveColumn(colIndex, direction) {
+                    if (!this.currentTable) return;
+                    const newIndex = colIndex + direction;
+
+                    this.currentTable.querySelectorAll('tr').forEach(row => {
+                        const cells = Array.from(row.children);
+                        const cellToMove = cells[colIndex];
+                        const targetCell = cells[newIndex];
+
+                        if (direction === -1) {
+                            row.insertBefore(cellToMove, targetCell);
+                        } else {
+                            row.insertBefore(cellToMove, targetCell.nextSibling);
+                        }
+                    });
+
+                    this.#updateMoveButtonsState();
+                    this.#updateResetButtonVisibility();
+                }
+
+				   
+				renderTable(headers, data, options = {}) {
+				    this.clearOutput();
+				    const colCount = headers.length;
+				    const { uniqueValuesMap, hasEmptyArray } = this.#extractUniqueAndEmptyValues(colCount, data);
+				    
+				    const fragment = document.createDocumentFragment();
+				    const table = document.createElement("table");
+				    table.className = "custom-table";
+				    this.currentTable = table;
+				    
+				    const thead = this.#createTableHeader(headers, uniqueValuesMap, hasEmptyArray, options);
+				    table.appendChild(thead);
+				    
+				    this.filterCells = this.currentFilterRow ? Array.from(this.currentFilterRow.children) : [];
+				    
+				    const tbody = this.#createTableBody(data);
+				    
+				    this.allVirtualRows = Array.from(tbody.rows);
+				    this.visibleVirtualRows = [...this.allVirtualRows];
+				    
+				    tbody.replaceChildren();
+				    table.appendChild(tbody);
+				    fragment.appendChild(table);
+				    this.els.output.appendChild(fragment);
+				    
+				    this.#adjustColumnWidths(table, headers, data, colCount);
+				
+				    const viewportMin = window.innerHeight - this.headerFilterHeight;
+				    this.els.output.style.minHeight = `${viewportMin}px`;
+				
+				    if (this.els.searchContainer) {
+				        this.els.searchContainer.classList.remove("hidden");
+				    }
+				    
+					for (const row of this.allVirtualRows) {
+					    row._cachedSearchText = row.textContent.toLowerCase();
+					    row._cachedRowType = row.dataset.rowType || "matching";
 					
-				}  
+					    const cellsLen = row.cells.length;
+					    for (let c = 0; c < cellsLen; c++) {
+					        const cell = row.cells[c];
+					        cell._cachedOldVal = cell.dataset.cachedOldVal;
+					        cell._cachedNewVal = cell.dataset.cachedNewVal;
+					        cell._cachedVal = cell.dataset.cachedVal;
+					    }
+					}
+				    
+				    this.updateVirtualRows(true);
+				    this.#updateMoveButtonsState();
+				    this.#updateResetButtonVisibility();                    
+				}
+
+
+                 renderTableOutput(tbody, rows, rowMatchesFilters, originalSearchTerm) {
+                    const viewportMin = window.innerHeight - this.headerFilterHeight;
+                    this.els.output.style.minHeight = `${viewportMin}px`;
+                    let visibleCount = 0;
+                    let visibleOnlyFile1 = 0;
+                    let visibleOnlyFile2 = 0;
+                    let visibleMatching = 0;
+
+                    const hasSearch = originalSearchTerm !== "";
+                    const filteredRows = [];
+
+                    const totalRowsCount = this.allVirtualRows.length;
+                    for (let i = 0; i < totalRowsCount; i++) {
+                        const row = this.allVirtualRows[i];
+                        const isVisible = rowMatchesFilters(row, -1);
+
+                        if (isVisible) {
+                            visibleCount++;
+                            const rowType = row.dataset.rowType || "matching";
+
+                            if (rowType === "onlyFile1") visibleOnlyFile1++;
+                            else if (rowType === "onlyFile2") visibleOnlyFile2++;
+                            else visibleMatching++;
+
+                            if (hasSearch && row._cachedSearchText.includes(originalSearchTerm.toLowerCase())) {
+                                const cells = row.cells;
+                                const cellCount = cells.length;
+                                for (let c = 0; c < cellCount; c++) {
+                                    this.#highlightNodeText(cells[c], originalSearchTerm);
+                                }
+                            }
+                            filteredRows.push(row);
+                        }
+                    }
+
+                    this.visibleVirtualRows = filteredRows;
+                    this.updateVirtualRows();
+
+                    return {
+                        visibleCount,
+                        totalRows: totalRowsCount,
+                        stats: {
+                            matching: visibleMatching,
+                            onlyFile1: visibleOnlyFile1,
+                            onlyFile2: visibleOnlyFile2,
+                        },
+                    };
+                }
+		
+				
+				renderText(headers, data, { includeEmptyLines, columnDelimiter, valueDelimiter }) {
+				    this.clearOutput();
+				    this.currentTable = null;
+				
+				    if (this.els.resetColOrderBtn) {
+				        this.els.resetColOrderBtn.classList.add('hidden');
+				    }
+				
+				    const fragment = document.createDocumentFragment();
+				
+				    const headerEl = this.#renderTextHeader(headers, columnDelimiter);
+				    fragment.appendChild(headerEl);
+				    
+				    if (includeEmptyLines && data.length > 0) {
+				        fragment.appendChild(document.createElement("br"));
+				    }
+				
+				    const lineElements = [];
+				    for (let r = 0; r < data.length; r++) {
+				        const lineDiv = this.#renderTextLine(data[r], columnDelimiter, valueDelimiter);
+				        lineElements.push(lineDiv);
+				    }
+				
+				    if (includeEmptyLines) {
+				        lineElements.forEach((line, index) => {
+				            fragment.appendChild(line);
+				            if (index < lineElements.length - 1) {
+				                fragment.appendChild(document.createElement("br"));
+				            }
+				        });
+				    } else {
+				        fragment.append(...lineElements);
+				    }
+				    this.textLines = lineElements;
+				    
+				    const viewportMin = window.innerHeight - this.headerFilterHeight;
+				    this.els.output.style.minHeight = `${viewportMin}px`;
+				    this.els.output.appendChild(fragment);
+				    this.els.searchContainer?.classList.remove("hidden");
+				}
+				
+
+				#renderTextHeader(headers, columnDelimiter) {
+				    const headerEl = document.createElement("div");
+				    headerEl.className = "text-header";
+				    const headerHtmls = headers.map(headerObj => {
+				        if (typeof headerObj !== 'object' || headerObj === null) {
+				            return Utility.escapeHTML(headerObj);
+				        }
+				        
+				        let headerHtml = Utility.escapeHTML(headerObj.name);
+				
+				        if (headerObj.onlyInFile2) {
+				            headerHtml = `<span class="highlight-second">${headerHtml}</span>`;
+				        } else if (headerObj.onlyInFile1) {
+				            headerHtml = `<span class="highlight-first">${headerHtml}</span>`;
+				        }
+				        
+				        if (headerObj.isKey) {
+				            headerHtml = `<span class="primary-underlined">${headerHtml}</span>`;
+				        }
+				        
+				        return headerHtml;
+				    });
+				    headerEl.innerHTML = headerHtmls.join(columnDelimiter);
+				    return headerEl;
+				}
+				
+				
+				#renderTextLine(row, columnDelimiter, valueDelimiter) {
+				    const rowParts = new Array(row.length);
+				
+				    for (let c = 0; c < row.length; c++) {
+				        const { type, value, oldValue, newValue } = Utility.getCellData(row[c]);
+				        switch (type) {
+				            case Comparer.CellStatus.DIFFERENCE:
+				                rowParts[c] =
+				                    `<span class="highlight-first">${Utility.escapeHTML(oldValue)}</span>${valueDelimiter}<span class="highlight-second">${Utility.escapeHTML(newValue)}</span>`;
+				                break;
+				            case Comparer.CellStatus.DELETED:
+				                rowParts[c] =
+				                    `<span class="highlight-first">${Utility.escapeHTML(oldValue)}</span>${valueDelimiter}`;
+				                break;
+				            case Comparer.CellStatus.ADDED:
+				                rowParts[c] =
+				                    `${valueDelimiter}<span class="highlight-second">${Utility.escapeHTML(newValue)}</span>`;
+				                break;
+				            default:
+				                rowParts[c] = Utility.escapeHTML(value);
+				                break;
+				        }
+				    }
+				
+				    const lineDiv = document.createElement("div");
+				    lineDiv.className = "text-line";
+				    lineDiv.innerHTML = rowParts.join(columnDelimiter);
+				
+				    lineDiv.dataset.searchText = lineDiv.textContent.toLowerCase();
+				    const hasFirst = lineDiv.innerHTML.includes("highlight-first");
+				    const hasSecond = lineDiv.innerHTML.includes("highlight-second");
+				    lineDiv.dataset.rowType =
+				        hasFirst && !hasSecond ? "onlyFile1" : !hasFirst && hasSecond ? "onlyFile2" : "matching";
+				
+				    return lineDiv;
+				}
+						
+								
+				renderStatus(data) {
+				    if (!this.els.status) return;
+				    this.els.status.style.visibility = "visible";
+				    const existingCb = this.els.status.querySelector('[data-filter="matching"]');
+				
+				    if (existingCb && !data.isSingleView && data.stats) {
+				        this.#updateExistingStatus(data);
+				    } else {
+				        this.#createNewStatus(data);
+				    }
+				}
+
+
+                reset() {
+                    this.clearStatus();
+                    this.clearOutput();
+                    this.highlightedColumns.clear();
+                    this.highlightedRows.clear();
+                    if (this.els.globalSearch) {
+                        this.els.globalSearch.value = "";
+                    }
+                    if (this.els.searchClear) {
+                        this.els.searchClear.style.display = "none";
+                    }
+                    if (this.els.resetColOrderBtn) {
+                        this.els.resetColOrderBtn.classList.add('hidden');
+                    }
+                    if (this.els.expandAllColsBtn) {
+                        this.els.expandAllColsBtn.classList.add('hidden');
+                    }
+                }
+                
+                
+                #resetAllFilters(table) {
+                    table.querySelectorAll(".table-filter-dropdown").forEach((dropdown) => {
+                        dropdown.value = "select-all";
+                        dropdown.classList.remove("filter-active");
+                    });
+                }                
+                
+
+				resetColumnOrder() {
+				    if (!this.currentTable) return;
+				    
+				    this.highlightedColumns.forEach(cell => {
+				        cell.classList.remove('highlighted-column');
+				    });
+				    this.highlightedColumns.clear();
+				
+				    const rows = this.currentTable.querySelectorAll('tr');
+				
+                    rows.forEach(row => {
+                        const cells = Array.from(row.children).sort((a, b) => 
+                            parseInt(a.dataset.originalIndex, 10) - parseInt(b.dataset.originalIndex, 10)
+                        );
+                        row.replaceChildren(...cells);
+                    });
+
+                    this.#updateMoveButtonsState();
+                    this.#updateResetButtonVisibility();
+                }
+
+
+		    	resetTableHighlights(tbody) {
+		    	    if (this.highlightedSpans && this.highlightedSpans.length > 0) {
+	    		        this.highlightedSpans.forEach((span) => {
+    			            if (span.parentNode) {
+			                    span.replaceWith(document.createTextNode(span.textContent));
+			                }
+			            });
+			            this.highlightedSpans = [];
+			        }
+			        if (tbody) {
+			            tbody.normalize();
+			        }
+			    }
+
+
+                setStatus(html = "") {
+                    if (!this.els.status) return;
+                    this.els.status.innerHTML = html;
+                    this.els.status.style.visibility = html ? "visible" : "hidden";
+                }
+
+
+                setFilterRowVisibility(visible) {
+                    if (this.currentFilterRow) {
+                        this.currentFilterRow.style.display = visible ? "table-row" : "none";
+                        if (!visible && this.currentTable) {
+                            this.#resetAllFilters(this.currentTable);
+                        }
+                    }
+                }
+
+
+				toggleColumnCollapse(th) {
+				    const originalIndex = th.dataset.originalIndex;
+				    const originalWidth = parseFloat(th.style.width) || 250;
+				    const isCollapsed = th.classList.toggle('column-collapsed');
+				    const toggleBtn = th.querySelector('.col-toggle-btn');
+				    if (toggleBtn) {
+				        toggleBtn.innerHTML = isCollapsed ? '+' : '−';
+				        const columnName = th.querySelector('.sort-trigger')?.textContent?.trim() || '';
+				        toggleBtn.title = isCollapsed ? columnName : '';
+				    }
+				    const table = this.currentTable;
+				    if (!table) return;
+				    
+				    const filterRow = this.currentFilterRow;
+				    if (filterRow) {
+				        const filterCell = filterRow.querySelector(`td[data-original-index="${originalIndex}"]`);
+				        if (filterCell) {
+				            filterCell.classList.toggle('column-collapsed', isCollapsed);
+				        }
+				    }
+				    
+				    const tbody = table.tBodies[0];
+				    if (tbody) {
+				        const cells = tbody.querySelectorAll(`td[data-original-index="${originalIndex}"]`);
+				        cells.forEach(cell => {
+				            cell.classList.toggle('column-collapsed', isCollapsed);
+				        });
+				    }
+				    
+				    const deltaWidth = originalWidth - 10;
+				    const currentTableWidth = parseFloat(table.style.width) || table.offsetWidth;
+				    
+				    if (isCollapsed) {
+				        table.style.width = (currentTableWidth - deltaWidth) + "px";
+				    } else {
+				        table.style.width = (currentTableWidth + deltaWidth) + "px";
+				    }
+				
+				    const currentlyCollapsed = table.querySelectorAll('th.column-collapsed').length;
+				    if (currentlyCollapsed > 0) {
+				        table.style.minWidth = '0';
+				    } else {
+				        table.style.minWidth = '';
+				    }
+				    this.#updateExpandButtonVisibility();
+				}
+
+
+				#toggleColumnHighlight(header, table) {
+				    const columnIndex = header.cellIndex;
+				    const isAlreadyHighlighted = header.classList.contains("highlighted-column");
+				    const action = isAlreadyHighlighted ? "remove" : "add";
+				
+				    header.classList[action]("highlighted-column");
+				    if (isAlreadyHighlighted) {
+				        this.highlightedColumns.delete(header);
+				    } else {
+				        this.highlightedColumns.add(header);
+				    }
+				
+				    const filterRow = table.querySelector("thead tr.table-filter-row");
+				    if (filterRow && filterRow.cells[columnIndex]) {
+				        const filterCell = filterRow.cells[columnIndex];
+				        filterCell.classList[action]("highlighted-column");
+				        if (isAlreadyHighlighted) {
+				            this.highlightedColumns.delete(filterCell);
+				        } else {
+				            this.highlightedColumns.add(filterCell);
+				        }
+				    }
+				
+				    const tbody = table.tBodies[0];
+				    if (tbody) {
+				        for (let i = 0; i < tbody.rows.length; i++) {
+				            const cell = tbody.rows[i].cells[columnIndex];
+				            if (cell) {
+				                cell.classList[action]("highlighted-column");
+				                if (isAlreadyHighlighted) {
+				                    this.highlightedColumns.delete(cell);
+				                } else {
+				                    this.highlightedColumns.add(cell);
+				                }
+				            }
+				        }
+				    }
+				}
+
+
+				updateColumnDropdowns(headerCells, allRows, activeFilters, rowMatchesFilters, activeDropdown = null) {
+				    const colCount = headerCells.length;
+				    
+				    const activeSearchInput = document.activeElement;
+				    const isSearchingInDropdown = activeSearchInput && activeSearchInput.classList.contains("dropdown-search-input");
+				
+				    for (let colIndex = 0; colIndex < colCount; colIndex++) {
+				        const cell = headerCells[colIndex];
+				        if (!cell) continue;
+				
+				        const scrollContainer = cell._scrollContainer || cell.querySelector(".table-filter-scroll-container");
+				        if (!scrollContainer) continue;
+				
+				        if (isSearchingInDropdown && activeDropdown && scrollContainer !== activeDropdown) {
+				            continue;
+				        }
+				
+				        let optionsToShow = new Set();
+				        for (const row of allRows) {
+				            if (rowMatchesFilters(row, colIndex)) {
+				                TableManager.#extractValuesFromCell(row.children[colIndex], optionsToShow);
+				            }
+				        }
+				
+				        const optionRows = scrollContainer.querySelectorAll(".filter-option-row");
+				        const searchInput = cell._searchInput || scrollContainer.querySelector(".dropdown-search-input");
+				        const query = searchInput ? searchInput.value.toLowerCase().trim() : "";
+				
+				        optionRows.forEach(row => {
+				            this.#updateOptionRow(row, optionsToShow, query);
+				        });
+				    }
+				}
+
+
+				#updateExistingStatus(data) {
+				    if (this.statusEls) {
+				        this.statusEls.elVis.textContent = data.visibleCount;
+				        this.statusEls.elM.textContent = data.stats.matching;
+				        this.statusEls.elO1.textContent = data.stats.onlyFile1;
+				        this.statusEls.elO2.textContent = data.stats.onlyFile2;
+				
+				        const counts = [
+				            { cb: this.statusEls.cbM, val: data.comparisonStats?.matching ?? data.stats.matching, key: "matching" },
+				            { cb: this.statusEls.cbO1, val: data.comparisonStats?.onlyFile1 ?? data.stats.onlyFile1, key: "onlyFile1" },
+				            { cb: this.statusEls.cbO2, val: data.comparisonStats?.onlyFile2 ?? data.stats.onlyFile2, key: "onlyFile2" }
+				        ];
+				
+				        counts.forEach(({ cb, val, key }) => {
+				            if (cb) {
+				                const disabled = val === 0;
+				                cb.disabled = disabled;
+				                cb.checked = !disabled && !!data.rowTypeFilters[key];
+				                cb.parentElement.style.opacity = disabled ? "0.4" : "1";
+				            }
+				        });
+				    } else {
+				        const elVis = this.els.status.querySelector("#status-visible-count");
+				        if (elVis) elVis.textContent = data.visibleCount;
+				        const keys = [
+				            { id: "matching", stat: "matching", filter: "matching" },
+				            { id: "only1", stat: "onlyFile1", filter: "onlyFile1" },
+				            { id: "only2", stat: "onlyFile2", filter: "onlyFile2" }
+				        ];
+				        keys.forEach(k => {
+				            const el = this.els.status.querySelector(`#status-count-${k.id}`);
+				            if (el) el.textContent = data.stats[k.stat];
+				            const cb = this.els.status.querySelector(`[data-filter="${k.filter}"]`);
+				            if (cb) {
+				                const val = data.comparisonStats?.[k.stat] ?? data.stats[k.stat];
+				                cb.disabled = val === 0;
+				                cb.checked = val > 0 && !!data.rowTypeFilters[k.filter];
+				                cb.parentElement.style.opacity = val === 0 ? "0.4" : "1";
+				            }
+				        });
+				    }
+				}	
+
+
+                #updateExpandButtonVisibility() {
+                    if (!this.els.expandAllColsBtn) return;
+                    const hasCollapsed = this.currentTable && this.currentTable.querySelector('th.column-collapsed') !== null;
+                    this.els.expandAllColsBtn.classList.toggle('hidden', !hasCollapsed);
+                }
+
+
+                #updateMoveButtonsState() {
+                    if (!this.currentTable) return;
+                    const headers = this.currentTable.querySelector('thead tr:first-child').children;
+                    const numCols = headers.length;
+
+                    Array.from(headers).forEach((th, index) => {
+                        const leftBtn = th.querySelector('.move-col-left');
+                        const rightBtn = th.querySelector('.move-col-right');
+                        if (leftBtn) leftBtn.classList.toggle('disabled', index === 0);
+                        if (rightBtn) rightBtn.classList.toggle('disabled', index === numCols - 1);
+                    });
+                }
+
+				
+				#updateOptionRow(row, optionsToShow, query) {
+				    const cb = row._cb || row.querySelector(".filter-option-checkbox");
+				    if (!cb) return;
+				    
+				    const val = row._val || cb.value;
+				    const labelSpan = row._label || row.querySelector(".filter-option-label");
+				    
+				    if (labelSpan) {
+				        if (!labelSpan.dataset.originalText) {
+				            labelSpan.dataset.originalText = labelSpan.textContent;
+				        }
+				        labelSpan.textContent = labelSpan.dataset.originalText;
+				    }
+				
+				    let shouldShow = false;
+				    if (val === "select-all") {
+				        shouldShow = true;
+				    } else if (val === "select-empty") {
+				        shouldShow = optionsToShow.has("empty");
+				    } else {
+				        shouldShow = optionsToShow.has(val);
+				    }
+				
+				    if (shouldShow && query && val !== "select-all" && val !== "select-empty") {
+				        const originalText = labelSpan ? labelSpan.dataset.originalText : val;
+				        const lowerText = originalText.toLowerCase();
+				        if (!lowerText.includes(query)) {
+				            shouldShow = false;
+				        } else if (labelSpan) {
+				            const regex = new RegExp("(" + Utility.escapeRegExp(query) + ")", "gi");
+				            labelSpan.innerHTML = originalText.replace(regex, '<span class="search-highlight">$1</span>');
+				        }
+				    }
+				
+				    row.style.display = shouldShow ? "flex" : "none";
+				}
+
+
+                #updateResetButtonVisibility() {
+                    if (!this.els.resetColOrderBtn) return;
+                    this.els.resetColOrderBtn.classList.toggle('hidden', this.#isOrderDefault());
+                }
+
+
+
+				updateVirtualRows(forceMeasure = false, forceStartAtZero = false) {
+				    const table = this.currentTable;
+				    if (!table) return;
+				    const tbody = table.tBodies[0];
+				    if (!tbody) return;
+				
+				    if ((forceMeasure || this.rowHeight === 26) && this.visibleVirtualRows.length > 0) {
+				        const tempRow = this.visibleVirtualRows[0].cloneNode(true);
+				        tbody.appendChild(tempRow);
+				        this.rowHeight = tempRow.offsetHeight || 26;
+				        tbody.removeChild(tempRow);
+				    }
+				
+				    const totalVisible = this.visibleVirtualRows.length;
+				    const colCount = table.rows[0]?.cells.length || 1;
+				
+				    if (totalVisible === 0) {
+				        tbody.replaceChildren();
+				        return;
+				    }
+				
+				    const rect = tbody.getBoundingClientRect();
+				    const viewportHeight = window.innerHeight;
+				    const offsetTop = Math.max(0, -rect.top);
+				    
+					const maxVisibleRows = 100;
+					
+					let startIndex = forceStartAtZero ? 0 : (Math.floor(offsetTop / this.rowHeight) - this.bufferSize);
+					startIndex = Math.max(0, startIndex);
+            					let endIndex = startIndex + maxVisibleRows;
+					endIndex = Math.min(totalVisible, endIndex);
+					
+				    const topSpacerHeight = startIndex * this.rowHeight;
+				    const bottomSpacerHeight = (totalVisible - endIndex) * this.rowHeight;
+				    
+				    const visibleSlice = this.visibleVirtualRows.slice(startIndex, endIndex);
+				    
+				    const fragment = document.createDocumentFragment();
+				    
+				    if (topSpacerHeight > 0) {
+				        const topSpacer = document.createElement("tr");
+				        topSpacer.className = "virtual-spacer-top";
+				        topSpacer.innerHTML = `<td colspan="${colCount}" style="height: ${topSpacerHeight}px;"></td>`;
+				        fragment.appendChild(topSpacer);
+				    }
+				    
+				    for (const row of visibleSlice) {
+				        row.style.display = "";
+				        fragment.appendChild(row);
+				    }
+				    
+				    if (bottomSpacerHeight > 0) {
+				        const bottomSpacer = document.createElement("tr");
+				        bottomSpacer.className = "virtual-spacer-bottom";
+				        bottomSpacer.innerHTML = `<td colspan="${colCount}" style="height: ${bottomSpacerHeight}px;"></td>`;
+				        fragment.appendChild(bottomSpacer);
+				    }
+				    
+				    tbody.replaceChildren(fragment);
+				}
+
             }
 
             class View {
@@ -6166,7 +6341,6 @@
 					this.els.outputOptionsContainer.classList.add("hidden");                    
 					this.els.replaceDelimiterWithSpace.checked = false;
 					this.els.unifyDates.checked = true;
-					
                 }
 
 
