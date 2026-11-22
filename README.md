@@ -50,7 +50,7 @@ Since this tool does not require any backend server, you can launch it locally o
 - **Advanced Views:** Toggle instantly between standard comparison view, File 1 only, File 2 only, only showing modified rows, or hiding identical columns entirely.
 - **HTML Export:** Exported comparison results remain fully interactive—including search, sorting, column rearranging, and filtering directly within the exported file.
 - **CSV Export:** Fast and clean export of your cleaned text or CSV data.
-- **Multi-Language Support:** Fully supports English and German interfaces (including all errors and exports) and is easily extensible for other languages.
+- **Multi-Language Support:** Fully supports English and German interfaces and is easily extensible for other languages.
 
 
 ---
