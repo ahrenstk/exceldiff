@@ -15,15 +15,18 @@
 
 ![exceldiff](https://raw.githubusercontent.com/ahrenstk/exceldiff/main/exceldiff.jpg)
 
-## 🚀 Quick Start & Offline Use
-
-Since this tool does not require any backend server, you can launch it locally on your computer in a matter of seconds:
-
-1. **Download the ZIP**, **clone the repository**, or **directly download** `exceldiff.html` or `exceldiff-de.html` 
-2. **Open** the `exceldiff.html` or `exceldiff-de.html` file in your preferred web browser (Chrome, Firefox, Edge, Safari, ...).
-3. **That's it!** You can now use the tool entirely offline without any active internet connection.
-
 ---
+
+## 🔒 100% Local, Private & Secure
+
+Because `exceldiff` is a single, self-contained HTML file, it requires no installation or backend server. Just **download and double-click** to run it completely offline.
+
+* **Run Anywhere, 100% Offline:** Launch the app instantly on any device with a web browser—no internet connection, no local setup, and no server configuration required.
+* **No Server Uploads:** Your sensitive spreadsheet data never leaves your computer. All calculations and comparison processes are executed purely within your browser's local memory.
+* **No Third-Party CDNs:** All required JavaScript libraries are bundled directly within the HTML source code. No external scripts or resources are loaded (100% offline-ready).
+* **No Cookies or Tracking:** No tracking scripts, no cookies, and absolutely no web analytics.
+
+
 
 ## 🔒 100% Privacy & Security
 
