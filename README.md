@@ -22,7 +22,7 @@
 Because `exceldiff` is a single, self-contained HTML/CSS/JavaScript file, it requires no installation or backend server.
 
 * **Run Anywhere, 100% Offline:** Launch the app instantly on any device with a web browser—no internet connection, no local setup, and no server configuration required.
-* **No Third-Party CDNs:** All required JavaScript libraries (read-excel-file, PapaParse, fflate, tXml) are bundled directly within the HTML source code. No external scripts or resources are loaded (100% offline-ready).
+* **No Third-Party CDNs:** All required JavaScript libraries ('read-excel-file', 'PapaParse', 'fflate', 'tXml') are bundled directly within the HTML source code. No external scripts or resources are loaded (100% offline-ready).
 * **No Server Uploads:** Your sensitive spreadsheet data never leaves your computer. All calculations and comparison processes are executed purely within your browser's local memory.
 * **No Cookies or Tracking:** No tracking scripts, no cookies, and absolutely no web analytics.
 
