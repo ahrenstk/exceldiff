@@ -36,7 +36,6 @@ Because `exceldiff` is a single, self-contained HTML file, it requires no instal
 - **Flexible Delimiter Settings:** Delimiters are customizable in the code, or you can easily disable/replace them directly during runtime.
 - **Robust Data Validation:** Automatically checks for structural issues such as mismatched columns, duplicate headers, empty keys, ...
 - **Smart Key Detection:** Automatically detects the best possible primary key (including composite keys) upon loading your files.
-- **Custom Primary Keys:** Define which columns should serve as the unique key for matching rows.
 - **Duplicate Clean-up:** Consolidate duplicates in your first file using adjustable delimiter symbols.
 - **Date Standardization:** Optionally auto-detect and unify various date formats (e.g., `DD.MM.YYYY` or `MM/DD/YYYY` into `YYYY-MM-DD`).
 - **High-Performance Virtual Scrolling:** Smoothly handle and scroll through huge datasets by rendering only visible elements in the browser.
