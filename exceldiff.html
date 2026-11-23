@@ -2,7 +2,7 @@
 <html lang="en">
 <!--===========================================================================
     exceldiff
-       - File:    exceldiff.html v2026-11-22
+       - File:    exceldiff.html v2026-11-23
        - License: MIT License (c) 2026 Heinrich Ahrens
        - URL:     https://github.com/ahrenstk/exceldiff
     ===========================================================================
@@ -3668,7 +3668,7 @@
 				    this.highlightedColumns = new Set();
 				    this.highlightedRows = new Set();
 				    this.bufferSize = 20;
-				    this.headerFilterHeight = 150;
+				    this.headerFilterHeight = 165;
 				    this.rowHeight = 26;
                     
                     this.#getElements();
@@ -3681,7 +3681,7 @@
                     }, { passive: true });
                     window.addEventListener("resize", () => {
                         if (this.currentTable && this.allVirtualRows.length > 0) {
-                            this.updateVirtualRows();
+                            this.updateVirtualRows(true);
                         }
                     });
                 }
@@ -5819,10 +5819,10 @@
 			            });
 			            this.highlightedSpans = [];
 			        }
-					
-			       if (this.allVirtualRows) {
+
+					if (this.allVirtualRows) {
                         this.allVirtualRows.forEach(row => row.normalize());
-                    } 
+                    }
 					
 			        if (tbody) {
 			            tbody.normalize();
@@ -6105,12 +6105,18 @@
 				    const viewportHeight = window.innerHeight;
 				    const offsetTop = Math.max(0, -rect.top);
 				    
-					const maxVisibleRows = 100;
+					const visibleOnScreen = Math.ceil(window.innerHeight / this.rowHeight);
+					const maxVisibleRows = 20 + visibleOnScreen + 20;
+
 					
-					let startIndex = forceStartAtZero ? 0 : (Math.floor(offsetTop / this.rowHeight) - this.bufferSize);
+					let startIndex = (forceStartAtZero || totalVisible <= maxVisibleRows) ? 0 : (Math.floor(offsetTop / this.rowHeight) - this.bufferSize);
 					startIndex = Math.max(0, startIndex);
+					startIndex = Math.min(startIndex, Math.max(0, totalVisible - maxVisibleRows));
             					let endIndex = startIndex + maxVisibleRows;
 					endIndex = Math.min(totalVisible, endIndex);
+
+
+
 					
 				    const topSpacerHeight = startIndex * this.rowHeight;
 				    const bottomSpacerHeight = (totalVisible - endIndex) * this.rowHeight;
