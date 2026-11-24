@@ -19,3 +19,34 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+THIRD-PARTY COMPONENTS:
+
+1. read-excel-file (v9.x)
+   - File:    read-excel-file.min.js
+   - CDN:     https://cdn.jsdelivr.net/npm/read-excel-file@9.x/bundle/read-excel-file.min.js
+   - Local:   Inlined at the end of the HTML application files
+   - License: MIT License (c) 2018 gitlab.com/catamphetamine
+   - URL:     https://gitlab.com/catamphetamine/read-excel-file
+
+2. PapaParse (v5.4.1)
+   - File:    papaparse.min.js
+   - CDN:     https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js
+   - Local:   Inlined at the end of the HTML application files
+   - License: MIT License (c) 2015 Matthew Holt
+   - URL:     https://github.com/mholt/PapaParse
+
+3. fflate (v0.8.3)
+   - File:    index.min.js
+   - CDN:     https://cdn.jsdelivr.net/npm/fflate@0.8.3/umd/index.min.js
+   - Local:   Inlined at the end of the HTML application files  
+   - License: MIT License (c) 2020 Arjun Barrett
+   - URL:     https://github.com/101arrowz/fflate
+
+4. tXml (v6.0.0)
+   - File:    txml.min.js
+   - CDN:     https://cdn.jsdelivr.net/npm/txml@6.0.0/dist/txml.min.js
+   - Local:   Inlined at the end of the HTML application files     
+   - License: MIT License (c) 2015 Tobias Nickel
+   - URL:     https://github.com/TobiasNickel/tXml
+
