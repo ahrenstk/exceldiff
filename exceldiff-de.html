@@ -2,7 +2,7 @@
 <html lang="en">
 <!--===========================================================================
     exceldiff
-       - File:    exceldiff.html v2026-11-23
+       - File:    exceldiff.html v2026-11-24
        - License: MIT License (c) 2026 Heinrich Ahrens
        - URL:     https://github.com/ahrenstk/exceldiff
     ===========================================================================
@@ -1104,8 +1104,6 @@
 
                     this.tableManager = new TableManager(this.config, this.tr);
                     this.tableManager.rowMatchesFiltersCallback = this.#rowMatchesFilters.bind(this);
-
-
                     this.#initializeApp();
                 }
 
@@ -1127,8 +1125,6 @@
 
                     const numRows1 = data1.length - 1;
                     const numRows2 = data2.length - 1;
-
-
 					const isCombinationUnique = (colIndices) => {
 					    const delimRegex = new RegExp(Utility.escapeRegExp(this.config.VALUE_DELIMITER), "g");
 					
@@ -1156,8 +1152,6 @@
 					    return set2.size === numRows2;
 					};
 					
-					
-
                     const findComboOfSize = (startIdx, currentCombo, k) => {
                         if (currentCombo.length === k) {
                             if (isCombinationUnique(currentCombo)) {
@@ -1187,12 +1181,21 @@
                 }
 
 
-                 #addEventListeners() {
-                    document.addEventListener("click", (e) => this.#handleGlobalClick(e));
-                    document.addEventListener("change", (e) => this.#handleGlobalChange(e));
-                    document.addEventListener("dblclick", (e) => this.#handleGlobalDoubleClick(e));
+				#addEventListeners() {
+				    document.addEventListener("click", (e) => this.#handleGlobalClick(e));
+				    document.addEventListener("change", (e) => this.#handleGlobalChange(e));
 
-                    const searchInput = this.tableManager.els.globalSearch;
+				    document.addEventListener("mousedown", (e) => {
+				        const table = this.tableManager.currentTable;
+				        if (e.detail > 1 && table && table.contains(e.target)) {
+				            if (!e.target.closest(".table-filter-scroll-container")) {
+				                e.preventDefault();
+				            }
+				        }
+				    });
+				
+				    document.addEventListener("dblclick", (e) => this.#handleGlobalDoubleClick(e));
+				    const searchInput = this.tableManager.els.globalSearch;
                     const searchClear = this.tableManager.els.searchClear;
 
                     if (searchInput) {
@@ -1282,11 +1285,9 @@
                         }
                     });
 
-
                     window.addEventListener('touchstart', (e) => {
                         this.touchStartY = e.touches[0].clientY;
                     }, { passive: true });
-
 
                     const preventScrollUp = (e) => {
                         if (this.isLockedAtBottom) {
@@ -1319,7 +1320,6 @@
                             }
                         }
                     };
-
 
                     window.addEventListener('wheel', preventScrollUp, { passive: false });
                     window.addEventListener('touchmove', preventScrollUp, { passive: false });
@@ -1442,7 +1442,6 @@
                             columnDelimiter: this.config.COLUMN_DELIMITER,
                         });
 
-
                         if (!result.stats) {
                             if (result.warnings && result.warnings.length > 0) {
                                 result.warnings.forEach((warning) => {
@@ -1499,7 +1498,6 @@
                         }
                         this.tableManager.clearStatus();
                     }
-
                 }
 
 
@@ -1912,8 +1910,6 @@
                                     const headerCells = isColumnFilterActive ? Array.from(table.tHead?.querySelectorAll("tr:nth-child(2) td") || []) : [];
                                     const activeFilters = this.tableManager.getActiveColumnFilters(headerCells, isColumnFilterActive);
                                     const allRows = this.tableManager.allVirtualRows;
-
-
                                     const rtf = this.state.rowTypeFilters || { matching: true, onlyFile1: true, onlyFile2: true };
                                     const isSingleView = ["file1", "file2", "merge"].includes(this.state.currentViewMode);
 
@@ -2056,28 +2052,26 @@
 				    const table = this.tableManager.currentTable;
 				    if (!table || !table.contains(e.target)) return;
 				
-			
+				
 				    const clickedHeader = e.target.closest("th");
 				    if (clickedHeader) {
-				        if (!e.target.closest(".move-col-left") && 
-				            !e.target.closest(".move-col-right") && 
+				        if (!e.target.closest(".move-col-left") &&
+				            !e.target.closest(".move-col-right") &&
 				            !e.target.closest(".sort-trigger")) {
 				            this.tableManager.handleHeaderDoubleClick(clickedHeader);
-				            window.getSelection()?.removeAllRanges();
 				        }
 				        return;
 				    }
-
-					const clickedRow = e.target.closest("tr");
-					if (clickedRow && clickedRow.parentElement.tagName === "TBODY") {
-					    const isHighlighted = clickedRow.classList.toggle("highlighted-row");
-					    if (isHighlighted) {
-					        this.tableManager.highlightedRows.add(clickedRow);
-					    } else {
-					        this.tableManager.highlightedRows.delete(clickedRow);
-					    }
-					    window.getSelection()?.removeAllRanges();
-					}
+				
+				    const clickedRow = e.target.closest("tr");
+				    if (clickedRow && clickedRow.parentElement.tagName === "TBODY") {
+				        const isHighlighted = clickedRow.classList.toggle("highlighted-row");
+				        if (isHighlighted) {
+				            this.tableManager.highlightedRows.add(clickedRow);
+				        } else {
+				            this.tableManager.highlightedRows.delete(clickedRow);
+				        }
+				    }
 				}
 
 
@@ -2370,12 +2364,10 @@
 
                 async #showFile(fileKey) {
 				    this.state.currentViewMode = fileKey;
-				
 				    this.tableManager.clearStatus();
 				    this.tableManager.reset();
 				    this.view.clearWarnings();
 				    window.getSelection()?.removeAllRanges();
-				
 				    this.#syncOptionsState();
 
 				    const file = this.view.els[fileKey].files[0];
@@ -3647,7 +3639,6 @@
                             messageKey: isFile1 ? "val_file1_empty_keys" : "val_file2_empty_keys",
                         });
                     }
-
                     return { warnings, hasCriticalError };
                 }
             }
@@ -3670,7 +3661,6 @@
 				    this.bufferSize = 20;
 				    this.headerFilterHeight = 165;
 				    this.rowHeight = 26;
-                    
                     this.#getElements();
                     Object.freeze(this.els);
                     
@@ -3685,7 +3675,6 @@
                         }
                     });
                 }
-
 
 
 				#adjustColumnWidths(table, headers, data, colCount) {
@@ -3731,7 +3720,6 @@
 				        const w = Math.min(optWidth, dynamicMaxColWidth);
 				        widths.push(w);
 				    });
-				    
 
 				    let totalWidth = widths.reduce((sum, w) => sum + w, 0);
 				    const containerWidth = this.els.output.clientWidth;
@@ -3840,17 +3828,12 @@
 				        this.visibleVirtualRows.sort(sortWithLocale);
 				    }
 				
-
 				    this.updateVirtualRows(true, true);
-				
 				    this.isLockedAtBottom = false;
 				    this.isScrollingUp = true; 
 				    document.body.classList.remove("is-locked");
-
 				    window.scrollTo(window.scrollX, 1);
-
 				    this.updateVirtualRows(true, true);
-
 				    const bottomContainer = this.view.els.bottomContainer;
 				    if (bottomContainer) {
 				        window.scrollTo({
@@ -3862,9 +3845,6 @@
 				    this.isScrollingUp = false;
 				}
 
-
-
-			
 
 			    clearOutput() {
 			        this.els.output.style.minHeight = "";
@@ -4474,7 +4454,15 @@
 				    if (!tableElement) return null;
 				
 				    const table = tableElement.cloneNode(true);
-				    table.querySelectorAll("tbody tr[style*='display: none']").forEach((row) => row.remove());
+				    const tbody = table.querySelector("tbody");
+				    if (tbody) {
+				        tbody.replaceChildren();
+				        this.visibleVirtualRows.forEach(row => {
+				            const clonedRow = row.cloneNode(true);
+				            clonedRow.style.display = "";
+				            tbody.appendChild(clonedRow);
+				        });
+				    }
 				    
 				    table.querySelectorAll("thead th").forEach(th => {
 				        const toggleBtn = th.querySelector(".col-toggle-btn");
@@ -4483,10 +4471,9 @@
 				        }
 				    });
 				
-				    const tbody = table.querySelector("tbody");
 				    const rows = tbody ? Array.from(tbody.querySelectorAll("tr")) : [];
-				
 				    const filterRow = table.querySelector("thead tr.table-filter-row");
+				    
 				    if (filterRow) {
 				        filterRow.querySelectorAll("td").forEach((td, index) => {
 				            const uniqueValues = new Set();
@@ -5375,25 +5362,33 @@
                             }
 				        });
 
-				        table.tHead.addEventListener("dblclick", e => {
-                            if (e.target.tagName === "INPUT" || e.target.classList.contains("filter-option-label") || e.target.closest(".table-filter-scroll-container")) return;
-                            const th = e.target.closest("th");
-                            if (!th) return;
-                            if (!e.target.closest(".sort-trigger")) {
-                                exporthandleColumnHighlighting(th, table);
-                                window.getSelection()?.removeAllRanges();
-                            }
-                        });
-
-                        if (table.tBodies[0]) {
-                            table.tBodies[0].addEventListener("dblclick", (event) => {
-                                const tr = event.target.closest("tr");
-                                if (tr) {
-                                    exporthandleRowHighlighting(tr);
-                                    window.getSelection()?.removeAllRanges();
-                                }
-                            });
-                        }
+						table.addEventListener("mousedown", (e) => {
+						    if (e.detail > 1) {
+						        if (!e.target.closest(".table-filter-scroll-container")) {
+						            e.preventDefault();
+						        }
+						    }
+						});
+						
+						table.tHead.addEventListener("dblclick", e => {
+						    if (e.target.tagName === "INPUT" || e.target.classList.contains("filter-option-label") || e.target.closest(".table-filter-scroll-container")) return;
+						    const th = e.target.closest("th");
+						    if (!th) return;
+						    if (!e.target.closest(".sort-trigger")) {
+						        exporthandleColumnHighlighting(th, table);
+						        // window.getSelection()?.removeAllRanges(); <- ENTFERNT
+						    }
+						});
+						
+						if (table.tBodies[0]) {
+						    table.tBodies[0].addEventListener("dblclick", (event) => {
+						        const tr = event.target.closest("tr");
+						        if (tr) {
+						            exporthandleRowHighlighting(tr);
+						            // window.getSelection()?.removeAllRanges(); <- ENTFERNT
+						        }
+						    });
+						}
 
                         const resetBtn = document.getElementById("export-reset-col-order-btn");
                         if (resetBtn) {
@@ -5790,25 +5785,20 @@
 
 				resetColumnOrder() {
 				    if (!this.currentTable) return;
-				    
-				    this.highlightedColumns.forEach(cell => {
-				        cell.classList.remove('highlighted-column');
-				    });
-				    this.highlightedColumns.clear();
 				
 				    const rows = this.currentTable.querySelectorAll('tr');
 				
-                    rows.forEach(row => {
-                        const cells = Array.from(row.children).sort((a, b) => 
-                            parseInt(a.dataset.originalIndex, 10) - parseInt(b.dataset.originalIndex, 10)
-                        );
-                        row.replaceChildren(...cells);
-                    });
-
-                    this.#updateMoveButtonsState();
-                    this.#updateResetButtonVisibility();
-                }
-
+				    rows.forEach(row => {
+				        const cells = Array.from(row.children).sort((a, b) => 
+				            parseInt(a.dataset.originalIndex, 10) - parseInt(b.dataset.originalIndex, 10)
+				        );
+				        row.replaceChildren(...cells);
+				    });
+				
+				    this.#updateMoveButtonsState();
+				    this.#updateResetButtonVisibility();
+				}
+				
 
 		    	resetTableHighlights(tbody) {
 		    	    if (this.highlightedSpans && this.highlightedSpans.length > 0) {
@@ -6108,21 +6098,15 @@
 					const visibleOnScreen = Math.ceil(window.innerHeight / this.rowHeight);
 					const maxVisibleRows = 20 + visibleOnScreen + 20;
 
-					
 					let startIndex = (forceStartAtZero || totalVisible <= maxVisibleRows) ? 0 : (Math.floor(offsetTop / this.rowHeight) - this.bufferSize);
 					startIndex = Math.max(0, startIndex);
 					startIndex = Math.min(startIndex, Math.max(0, totalVisible - maxVisibleRows));
             					let endIndex = startIndex + maxVisibleRows;
 					endIndex = Math.min(totalVisible, endIndex);
 
-
-
-					
 				    const topSpacerHeight = startIndex * this.rowHeight;
 				    const bottomSpacerHeight = (totalVisible - endIndex) * this.rowHeight;
-				    
 				    const visibleSlice = this.visibleVirtualRows.slice(startIndex, endIndex);
-				    
 				    const fragment = document.createDocumentFragment();
 				    
 				    if (topSpacerHeight > 0) {
@@ -6143,10 +6127,8 @@
 				        bottomSpacer.innerHTML = `<td colspan="${colCount}" style="height: ${bottomSpacerHeight}px;"></td>`;
 				        fragment.appendChild(bottomSpacer);
 				    }
-				    
 				    tbody.replaceChildren(fragment);
 				}
-
             }
 
             class View {
@@ -6428,4 +6410,3 @@ License: MIT
 
 </body>
 </html>
-
